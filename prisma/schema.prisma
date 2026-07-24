@@ -1,0 +1,244 @@
+// Prisma schema for AI Laundry Basket
+// Connection string lives in prisma.config.ts (Prisma 7 no longer reads `url` here).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum CustomerType {
+  RESIDENTIAL
+  COMMERCIAL
+}
+
+enum ContactMethod {
+  EMAIL
+  PHONE
+  TEXT
+}
+
+enum Urgency {
+  STANDARD
+  RUSH
+  SAME_DAY
+}
+
+enum RecurringFrequency {
+  ONE_TIME
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  CLOSED
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  REPLIED
+  SPAM
+}
+
+// The full booking workflow, in order.
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PICKUP_SCHEDULED
+  PICKED_UP
+  CLEANING
+  QUALITY_CHECK
+  READY_FOR_DELIVERY
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+enum AdminRole {
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ---------------------------------------------------------------------------
+// Models
+// ---------------------------------------------------------------------------
+
+model Customer {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pickupAddresses PickupAddress[]
+  quoteRequests   QuoteRequest[]
+  orders          LaundryOrder[]
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model PickupAddress {
+  id         String   @id @default(uuid()) @db.Uuid
+  customerId String   @db.Uuid
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  line1     String
+  line2     String?
+  city      String
+  state     String?
+  zip       String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders LaundryOrder[]
+
+  @@index([customerId])
+}
+
+model Service {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  basePrice   Decimal? @db.Decimal(10, 2)
+  unit        String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active])
+}
+
+model QuoteRequest {
+  id         String    @id @default(uuid()) @db.Uuid
+  requestId  String    @unique
+  customerId String?   @db.Uuid
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  name                String
+  email               String
+  phone               String
+  address             String
+  city                String
+  zip                 String
+  customerType        CustomerType        @default(RESIDENTIAL)
+  serviceType         String
+  estimatedWeight     String
+  recurring           RecurringFrequency  @default(ONE_TIME)
+  pickupDate          DateTime
+  pickupTime          String
+  deliveryDate        DateTime?
+  urgency             Urgency             @default(STANDARD)
+  specialInstructions String?
+  contactMethod       ContactMethod       @default(EMAIL)
+  attachmentUrl       String?
+  attachmentName       String?
+  status              QuoteStatus         @default(NEW)
+  ipAddress           String?
+
+  order     LaundryOrder?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+model LaundryOrder {
+  id             String        @id @default(uuid()) @db.Uuid
+  orderId        String        @unique
+  quoteRequestId String?       @unique @db.Uuid
+  quoteRequest   QuoteRequest? @relation(fields: [quoteRequestId], references: [id], onDelete: SetNull)
+
+  customerId String   @db.Uuid
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  pickupAddressId String?        @db.Uuid
+  pickupAddress   PickupAddress? @relation(fields: [pickupAddressId], references: [id], onDelete: SetNull)
+
+  serviceType  String
+  status       OrderStatus @default(PENDING)
+  quotedPrice  Decimal?    @db.Decimal(10, 2)
+  finalPrice   Decimal?    @db.Decimal(10, 2)
+  pickupDate   DateTime?
+  pickupTime   String?
+  deliveryDate DateTime?
+  notes        String?
+
+  statusHistory OrderStatusHistory[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  @@index([status])
+  @@index([customerId])
+  @@index([createdAt])
+}
+
+model OrderStatusHistory {
+  id      String       @id @default(uuid()) @db.Uuid
+  orderId String       @db.Uuid
+  order   LaundryOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  status    OrderStatus
+  note      String?
+  changedBy String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId])
+  @@index([createdAt])
+}
+
+model ContactMessage {
+  id            String        @id @default(uuid()) @db.Uuid
+  requestId     String        @unique
+  name          String
+  email         String
+  phone         String?
+  location      String?
+  contactMethod ContactMethod @default(EMAIL)
+  message       String
+  status        ContactStatus @default(NEW)
+  ipAddress     String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+model AdminUser {
+  id           String    @id @default(uuid()) @db.Uuid
+  email        String    @unique
+  passwordHash String
+  name         String?
+  role         AdminRole @default(ADMIN)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+// Fixed-window rate limiting backed by Postgres instead of an external cache.
+model RateLimitHit {
+  id        String   @id @default(uuid()) @db.Uuid
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+}
