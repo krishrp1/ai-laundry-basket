@@ -8,6 +8,8 @@ import { Separator } from "@/components/ui/separator";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  // Accounts aren't live yet — don't render dead "#" links.
+  const configuredSocialLinks = socialLinks.filter((social) => social.href !== "#");
 
   return (
     <footer className="w-full border-t border-border/60 bg-muted/30">
@@ -46,20 +48,22 @@ export function Footer() {
               </Link>
             </div>
 
-            <div className="mt-5 flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.platform}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
-                >
-                  <SocialIcon platform={social.platform} />
-                </a>
-              ))}
-            </div>
+            {configuredSocialLinks.length > 0 && (
+              <div className="mt-5 flex items-center gap-3">
+                {configuredSocialLinks.map((social) => (
+                  <a
+                    key={social.platform}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+                  >
+                    <SocialIcon platform={social.platform} />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {footerNav.map((group) => (

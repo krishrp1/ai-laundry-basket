@@ -17,6 +17,7 @@ import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { quoteStatusLabels } from "@/lib/order-status-labels";
 import { updateQuoteStatusAction, deleteQuoteRequestAction } from "@/lib/actions/admin/quotes";
 import { formatDateIN } from "@/lib/format";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Quote Requests" };
 
@@ -31,7 +32,11 @@ export default async function AdminQuotesPage({
   searchParams: Promise<RawSearchParams>;
 }) {
   const params = parseListParams(await searchParams);
-  const { items, meta } = await listQuoteRequests(params);
+  const [{ items, meta }, admin] = await Promise.all([
+    listQuoteRequests(params),
+    getCurrentAdmin(),
+  ]);
+  const canDelete = admin.role === "SUPER_ADMIN";
 
   return (
     <div className="flex flex-col gap-6">
@@ -94,16 +99,18 @@ export default async function AdminQuotesPage({
                   {formatDateIN(quote.createdAt)}
                 </TableCell>
                 <TableCell className="text-right">
-                  <form action={deleteQuoteRequestAction.bind(null, quote.id)} className="inline">
-                    <ConfirmSubmitButton
-                      variant="ghost"
-                      size="sm"
-                      confirmMessage="Delete this quote request? This cannot be undone."
-                      className="text-destructive"
-                    >
-                      Delete
-                    </ConfirmSubmitButton>
-                  </form>
+                  {canDelete && (
+                    <form action={deleteQuoteRequestAction.bind(null, quote.id)} className="inline">
+                      <ConfirmSubmitButton
+                        variant="ghost"
+                        size="sm"
+                        confirmMessage="Delete this quote request? This cannot be undone."
+                        className="text-destructive"
+                      >
+                        Delete
+                      </ConfirmSubmitButton>
+                    </form>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

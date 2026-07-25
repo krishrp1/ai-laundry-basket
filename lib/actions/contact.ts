@@ -53,8 +53,18 @@ export async function submitContactMessage(
       data.message,
     ]);
     if (duplicate) {
-      // Likely a double-click; treat as success without creating a duplicate row.
-      return { status: "success", requestId: generateRequestId("CM") };
+      // Likely a double-click or a retry after the first attempt's email
+      // failed to send — don't create a duplicate row, but do resend the
+      // acknowledgement so a transient Resend outage doesn't lose it.
+      const requestId = generateRequestId("CM");
+      await sendContactAcknowledgement({
+        to: data.email,
+        name: data.name,
+        requestId,
+        phone: data.phone || null,
+        message: data.message,
+      });
+      return { status: "success", requestId };
     }
 
     const requestId = generateRequestId("CM");

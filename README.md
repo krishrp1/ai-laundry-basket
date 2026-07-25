@@ -45,7 +45,6 @@ where each one comes from):
 | `RESEND_API_KEY` | Recommended | Enables transactional email. Without it, forms still save to the database — emails are skipped with a console warning instead of failing the request |
 | `EMAIL_FROM` | Recommended | Verified sender, e.g. `A&I Laundry Basket <no-reply@yourdomain.com>` |
 | `BUSINESS_NOTIFICATION_EMAIL` | Recommended | Inbox that receives new-quote/booking/contact alerts |
-| `BLOB_READ_WRITE_TOKEN` | Optional | Enables quote-photo uploads via Vercel Blob. Without it, uploads are skipped (the rest of the quote request still saves) |
 | `NEXT_PUBLIC_SITE_URL` | Optional | Canonical origin for non-production deploys |
 
 ## Local development
@@ -77,16 +76,13 @@ npm run db:migrate   # applies prisma/migrations, creates tables
 npm run db:seed       # creates the admin user + default services from .env
 ```
 
-### 4. Configure Resend and Vercel Blob (optional but recommended)
+### 4. Configure Resend (optional but recommended)
 
-- [Resend](https://resend.com): create an API key, verify a sending domain, set
-  `RESEND_API_KEY` and `EMAIL_FROM`.
-- [Vercel Blob](https://vercel.com/docs/storage/vercel-blob): create a Blob
-  store on your Vercel project, copy its read/write token into
-  `BLOB_READ_WRITE_TOKEN`.
+[Resend](https://resend.com): create an API key, verify a sending domain, set
+`RESEND_API_KEY` and `EMAIL_FROM`.
 
-Both are optional for local development — the app degrades gracefully (logs a
-warning, keeps the DB write) if either is missing.
+Optional for local development — the app degrades gracefully (logs a warning,
+keeps the DB write) if it's missing.
 
 ### 5. Run the dev server
 
@@ -122,6 +118,12 @@ Visit `http://localhost:3000` for the marketing site and
    npm run db:deploy
    npm run db:seed
    ```
+4. Row-Level Security is intentionally left off/irrelevant here: the app connects
+   with Prisma directly over `DATABASE_URL`/`DIRECT_URL` as a normal Postgres
+   role, bypassing PostgREST entirely, so Supabase's RLS policies never enter
+   the picture. All authorization happens in `lib/auth/dal.ts` and the Server
+   Actions instead. Don't "fix" the RLS warning in the Supabase dashboard by
+   enabling it — an RLS policy here would only block Prisma's own queries.
 
 ### Frontend — Vercel
 
@@ -130,8 +132,6 @@ Visit `http://localhost:3000` for the marketing site and
    Environment Variables**.
 3. Deploy. `postinstall` regenerates the Prisma Client automatically as part of
    the build.
-4. Add the Vercel Blob integration/store to the project if you want quote-photo
-   uploads to work in production.
 
 ### Email — Resend
 
@@ -143,7 +143,9 @@ set `RESEND_API_KEY` and `BUSINESS_NOTIFICATION_EMAIL` in Vercel.
 - Admin auth is a custom JWT-in-httpOnly-cookie session (`lib/session.ts`), not a
   third-party provider — there's exactly one role hierarchy (`ADMIN` /
   `SUPER_ADMIN`) and no public sign-up route. Create additional admins via
-  Prisma Studio or a script that hashes a password with `bcryptjs`.
+  Prisma Studio or a script that hashes a password with `bcryptjs`. Deletes
+  (quotes, messages) require `SUPER_ADMIN`, enforced by `requireSuperAdmin()`
+  in `lib/auth/dal.ts` — a plain `ADMIN` can manage records but not remove them.
 - `proxy.ts` does a cheap, cookie-only redirect for unauthenticated `/admin/*`
   requests; the real authorization check happens in `lib/auth/dal.ts` and inside
   every admin Server Action, per Next.js's guidance that Proxy/Middleware is not

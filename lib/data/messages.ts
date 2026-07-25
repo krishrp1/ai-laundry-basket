@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "@/lib/prisma";
 import { ContactStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
+import { isValidUuid } from "@/lib/uuid";
 
 function isContactStatus(value: string): value is ContactStatus {
   return (Object.values(ContactStatus) as string[]).includes(value);
@@ -34,5 +35,6 @@ export async function listContactMessages({ search, status, sort, page }: ListPa
 }
 
 export async function getContactMessageById(id: string) {
+  if (!isValidUuid(id)) return null;
   return db.contactMessage.findUnique({ where: { id } });
 }

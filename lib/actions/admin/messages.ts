@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
-import { verifySession } from "@/lib/auth/dal";
+import { verifySession, requireSuperAdmin } from "@/lib/auth/dal";
 import { ContactStatus } from "@/generated/prisma/client";
 import { isRecordNotFoundError } from "@/lib/prisma-errors";
 
@@ -33,7 +33,7 @@ export async function updateMessageStatusAction(id: string, formData: FormData) 
 }
 
 export async function deleteMessageAction(id: string) {
-  await verifySession();
+  await requireSuperAdmin();
 
   await db.contactMessage.delete({ where: { id } }).catch(() => null);
 
