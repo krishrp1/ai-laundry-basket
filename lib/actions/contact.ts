@@ -47,37 +47,49 @@ export async function submitContactMessage(
 
   const data = parsed.data;
 
-  const duplicate = await isDuplicateSubmission("contactMessage", [
-    data.email,
-    data.message,
-  ]);
-  if (duplicate) {
-    // Likely a double-click; treat as success without creating a duplicate row.
-    return { status: "success", requestId: generateRequestId("CM") };
-  }
+  try {
+    const duplicate = await isDuplicateSubmission("contactMessage", [
+      data.email,
+      data.message,
+    ]);
+    if (duplicate) {
+      // Likely a double-click; treat as success without creating a duplicate row.
+      return { status: "success", requestId: generateRequestId("CM") };
+    }
 
-  const requestId = generateRequestId("CM");
+    const requestId = generateRequestId("CM");
 
-  await db.contactMessage.create({
-    data: {
-      requestId,
+    await db.contactMessage.create({
+      data: {
+        requestId,
+        name: data.name,
+        email: data.email,
+        phone: data.phone || null,
+        location: data.location || null,
+        contactMethod: contactMethodMap[data.contactMethod],
+        message: data.message,
+        ipAddress: ip,
+      },
+    });
+
+    await sendContactAcknowledgement({
+      to: data.email,
       name: data.name,
-      email: data.email,
+      requestId,
       phone: data.phone || null,
-      location: data.location || null,
-      contactMethod: contactMethodMap[data.contactMethod],
       message: data.message,
-      ipAddress: ip,
-    },
-  });
+    });
 
-  await sendContactAcknowledgement({
-    to: data.email,
-    name: data.name,
-    requestId,
-    phone: data.phone || null,
-    message: data.message,
-  });
-
-  return { status: "success", requestId };
+    return { status: "success", requestId };
+  } catch (error) {
+    // An unexpected DB error (e.g. connection pool exhaustion under a
+    // traffic spike) should surface as a normal retryable form error, not
+    // crash to the generic error boundary.
+    console.error("[contact] submission failed:", error);
+    return {
+      status: "error",
+      errors: {},
+      formError: "Something went wrong on our end. Please try again in a moment.",
+    };
+  }
 }

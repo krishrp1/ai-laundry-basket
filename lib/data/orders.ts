@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "@/lib/prisma";
 import { OrderStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
+import { isValidUuid } from "@/lib/uuid";
 
 export const ORDER_STATUS_SEQUENCE: OrderStatus[] = [
   "PENDING",
@@ -38,7 +39,14 @@ export async function listOrders({ search, status, sort, page }: ListParams) {
     db.laundryOrder.findMany({
       where,
       orderBy: { createdAt: sort },
-      include: { customer: true },
+      select: {
+        id: true,
+        orderId: true,
+        serviceType: true,
+        status: true,
+        createdAt: true,
+        customer: { select: { name: true, email: true } },
+      },
       ...skipTake(page),
     }),
   ]);
@@ -47,13 +55,14 @@ export async function listOrders({ search, status, sort, page }: ListParams) {
 }
 
 export async function getOrderById(id: string) {
+  if (!isValidUuid(id)) return null;
   return db.laundryOrder.findUnique({
     where: { id },
     include: {
       customer: true,
       pickupAddress: true,
       quoteRequest: true,
-      statusHistory: { orderBy: { createdAt: "desc" } },
+      statusHistory: { orderBy: { createdAt: "desc" }, take: 100 },
     },
   });
 }

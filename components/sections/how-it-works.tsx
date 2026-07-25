@@ -1,28 +1,31 @@
-import { CheckCircle2, Smartphone, Sparkles } from "lucide-react";
+import { CalendarCheck, PackageCheck, Sparkles, Truck } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 
 const steps = [
   {
-    icon: Smartphone,
+    icon: CalendarCheck,
     step: "Step 01",
-    title: "Add your laundry",
-    description:
-      "Snap a photo or add items manually. AI Laundry Basket identifies fabric type, color, and care needs instantly.",
+    title: "Book Pickup",
+    description: "Choose a time that works for you, in under a minute.",
+  },
+  {
+    icon: PackageCheck,
+    step: "Step 02",
+    title: "We Collect",
+    description: "Our team picks up your laundry from your doorstep.",
   },
   {
     icon: Sparkles,
-    step: "Step 02",
-    title: "Get your plan",
-    description:
-      "Receive a smart wash plan: settings, load groupings, and the best time to start, tailored to your routine.",
+    step: "Step 03",
+    title: "Professional Cleaning",
+    description: "Every item gets the fabric-safe care it needs.",
   },
   {
-    icon: CheckCircle2,
-    step: "Step 03",
-    title: "Wash with confidence",
-    description:
-      "Follow real-time reminders and tips, and let AI Laundry Basket learn your preferences with every load.",
+    icon: Truck,
+    step: "Step 04",
+    title: "Delivered to Your Door",
+    description: "Fresh, folded laundry back at your home, on time.",
   },
 ];
 
@@ -36,18 +39,18 @@ export function HowItWorks() {
         <span className="text-sm font-semibold text-primary">
           How it works
         </span>
-        <h2 className="mt-3">Three steps to effortless laundry</h2>
+        <h2 className="mt-3">Four steps to effortless laundry</h2>
       </Reveal>
 
-      <div className="relative mt-16 grid gap-10 sm:grid-cols-3">
+      <div className="relative mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 top-6 hidden h-px bg-border sm:block"
+          className="absolute inset-x-0 top-6 hidden h-px bg-border lg:block"
         />
         {steps.map((step, i) => (
           <Reveal
             key={step.title}
-            delay={i * 0.1}
+            delay={i * 0.08}
             className="relative text-center"
           >
             <div className="relative z-10 mx-auto flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">

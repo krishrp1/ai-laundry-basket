@@ -1,56 +1,25 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal } from "@/components/motion/reveal";
+import { siteConfig } from "@/config/site";
 
-type TeamMember = {
-  name: string;
-  role: string;
-  bio: string;
-  initials: string;
-};
+function initialsOf(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("");
+}
 
-const team: TeamMember[] = [
+const team = [
   {
-    name: "Maya Chen",
-    role: "Co-Founder & CEO",
-    bio: "Sets the product direction and spends more time than she would like reading fabric care labels.",
-    initials: "MC",
+    name: siteConfig.business.ownerName,
+    role: siteConfig.business.ownerRole,
+    bio: "Founded A&I Laundry Basket to bring convenient, reliable laundry service to Bengaluru.",
   },
   {
-    name: "David Okonkwo",
-    role: "Co-Founder & CTO",
-    bio: "Leads engineering for the sorting and scheduling systems that power every order.",
-    initials: "DO",
-  },
-  {
-    name: "Renee Castillo",
-    role: "Operations Manager",
-    bio: "Keeps every market running on schedule, from driver routes to facility throughput.",
-    initials: "RC",
-  },
-  {
-    name: "Jordan Blake",
-    role: "Customer Support Lead",
-    bio: "Leads the support team that answers questions and resolves order issues day to day.",
-    initials: "JB",
-  },
-  {
-    name: "Priya Suresh",
-    role: "Logistics Coordinator",
-    bio: "Plans pickup and delivery routes to keep windows accurate as new areas come online.",
-    initials: "PS",
-  },
-  {
-    name: "Ana Torres",
-    role: "Laundry Care Specialist",
-    bio: "Handles delicate and specialty fabrics that need a trained hand instead of a standard cycle.",
-    initials: "AT",
-  },
-  {
-    name: "Marcus Webb",
-    role: "Laundry Care Specialist",
-    bio: "Focuses on stain treatment and pre-wash inspection for every incoming order.",
-    initials: "MW",
+    name: siteConfig.business.opsName,
+    role: siteConfig.business.opsRole,
+    bio: "Manages day-to-day operations and customer support, so every order gets a prompt response.",
   },
 ];
 
@@ -60,23 +29,19 @@ export function Team() {
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-semibold text-primary">
-            Meet the team
+            Leadership
           </span>
-          <h2 className="mt-3">The people behind every order</h2>
-          <p className="mt-4 text-muted-foreground">
-            AI Laundry Basket is built by a small, hands-on team across
-            product, operations, and laundry care.
-          </p>
+          <h2 className="mt-3">The people behind A&I Laundry Basket</h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 mx-auto grid max-w-2xl gap-5 sm:grid-cols-2">
           {team.map((member, i) => (
-            <Reveal key={member.name} delay={(i % 4) * 0.06}>
+            <Reveal key={member.name} delay={i * 0.08}>
               <Card className="h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:ring-primary/30">
                 <CardContent className="flex h-full flex-col items-center gap-3 text-center">
                   <Avatar size="lg">
                     <AvatarFallback className="bg-primary/10 font-heading text-base text-primary">
-                      {member.initials}
+                      {initialsOf(member.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div>

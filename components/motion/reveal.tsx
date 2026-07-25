@@ -1,20 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 
 const variants: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0 },
 };
 
-type RevealProps = React.ComponentProps<typeof motion.div> & {
+type RevealProps = React.ComponentProps<typeof m.div> & {
   delay?: number;
 };
 
 export function Reveal({ delay = 0, children, ...props }: RevealProps) {
   return (
-    <motion.div
+    <m.div
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
@@ -23,6 +23,6 @@ export function Reveal({ delay = 0, children, ...props }: RevealProps) {
       {...props}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

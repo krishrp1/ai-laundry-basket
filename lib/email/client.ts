@@ -14,5 +14,5 @@ export function getResendClient(): Resend | null {
   return resendClient;
 }
 
-export const EMAIL_FROM = env.EMAIL_FROM ?? "AI Laundry Basket <no-reply@ailaundrybasket.com>";
+export const EMAIL_FROM = env.EMAIL_FROM ?? "A&I Laundry Basket <no-reply@ailaundrybasket.com>";
 export const BUSINESS_NOTIFICATION_EMAIL = env.BUSINESS_NOTIFICATION_EMAIL;

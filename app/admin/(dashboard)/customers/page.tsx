@@ -12,6 +12,7 @@ import { AdminFiltersBar } from "@/components/admin/filters-bar";
 import { AdminPagination } from "@/components/admin/pagination";
 import { listCustomers } from "@/lib/data/customers";
 import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
+import { formatDateIN } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Customers" };
 
@@ -69,7 +70,7 @@ export default async function AdminCustomersPage({
                 <TableCell>{customer._count.quoteRequests}</TableCell>
                 <TableCell>{customer._count.orders}</TableCell>
                 <TableCell className="text-muted-foreground">
-                  {customer.createdAt.toISOString().split("T")[0]}
+                  {formatDateIN(customer.createdAt)}
                 </TableCell>
               </TableRow>
             ))}

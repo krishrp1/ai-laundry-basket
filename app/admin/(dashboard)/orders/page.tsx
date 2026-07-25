@@ -15,6 +15,7 @@ import { listOrders } from "@/lib/data/orders";
 import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { orderStatusLabels } from "@/lib/order-status-labels";
 import { updateOrderStatusAction } from "@/lib/actions/admin/orders";
+import { formatDateIN } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Orders" };
 
@@ -80,10 +81,11 @@ export default async function AdminOrdersPage({
                     action={updateOrderStatusAction.bind(null, order.id)}
                     currentStatus={order.status}
                     options={statusOptions}
+                    label={`Status for ${order.orderId}`}
                   />
                 </TableCell>
                 <TableCell className="text-muted-foreground">
-                  {order.createdAt.toISOString().split("T")[0]}
+                  {formatDateIN(order.createdAt)}
                 </TableCell>
               </TableRow>
             ))}

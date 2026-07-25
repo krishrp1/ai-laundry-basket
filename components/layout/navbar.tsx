@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, WashingMachine } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -59,7 +59,7 @@ export function Navbar() {
                   {item.title}
                 </span>
                 {isActive && (
-                  <motion.span
+                  <m.span
                     layoutId="navbar-active-underline"
                     className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-primary"
                     transition={{ type: "spring", stiffness: 350, damping: 30 }}
@@ -104,7 +104,7 @@ export function Navbar() {
               <Separator />
               <AnimatePresence>
                 {mobileOpen && (
-                  <motion.ul
+                  <m.ul
                     className="flex flex-col gap-1 px-4"
                     initial="hidden"
                     animate="show"
@@ -122,7 +122,7 @@ export function Navbar() {
                           ? pathname === "/"
                           : pathname?.startsWith(item.href);
                       return (
-                        <motion.li
+                        <m.li
                           key={item.href}
                           variants={{
                             hidden: { opacity: 0, x: 16 },
@@ -141,10 +141,10 @@ export function Navbar() {
                           >
                             {item.title}
                           </Link>
-                        </motion.li>
+                        </m.li>
                       );
                     })}
-                  </motion.ul>
+                  </m.ul>
                 )}
               </AnimatePresence>
               <div className="mt-auto flex flex-col gap-2 p-4">

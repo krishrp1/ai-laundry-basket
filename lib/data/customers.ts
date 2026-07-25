@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
+import { isValidUuid } from "@/lib/uuid";
 
 export async function listCustomers({ search, sort, page }: Omit<ListParams, "status">) {
   const where: Prisma.CustomerWhereInput = search
@@ -30,12 +31,13 @@ export async function listCustomers({ search, sort, page }: Omit<ListParams, "st
 }
 
 export async function getCustomerById(id: string) {
+  if (!isValidUuid(id)) return null;
   return db.customer.findUnique({
     where: { id },
     include: {
       pickupAddresses: true,
-      quoteRequests: { orderBy: { createdAt: "desc" } },
-      orders: { orderBy: { createdAt: "desc" } },
+      quoteRequests: { orderBy: { createdAt: "desc" }, take: 50 },
+      orders: { orderBy: { createdAt: "desc" }, take: 50 },
     },
   });
 }

@@ -8,11 +8,13 @@ export function StatusSelectForm({
   currentStatus,
   options,
   className,
+  label = "Status",
 }: {
   action: (formData: FormData) => void | Promise<void>;
   currentStatus: string;
   options: { value: string; label: string }[];
   className?: string;
+  label?: string;
 }) {
   const formRef = React.useRef<HTMLFormElement>(null);
   const [isPending, startTransition] = React.useTransition();
@@ -21,6 +23,7 @@ export function StatusSelectForm({
     <form ref={formRef} action={action}>
       <select
         name="status"
+        aria-label={label}
         defaultValue={currentStatus}
         disabled={isPending}
         onChange={() => {

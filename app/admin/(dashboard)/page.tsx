@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { FileText, Package, MessageSquare, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { LinkListItem } from "@/components/admin/link-list-item";
 import { getDashboardStats } from "@/lib/data/dashboard";
 import { quoteStatusLabels, orderStatusLabels } from "@/lib/order-status-labels";
 
@@ -59,18 +60,13 @@ export default async function AdminDashboardPage() {
                 <li className="text-sm text-muted-foreground">No quote requests yet.</li>
               )}
               {stats.recentQuotes.map((quote) => (
-                <li key={quote.id}>
-                  <Link
-                    href={`/admin/quotes/${quote.id}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border p-3 text-sm hover:bg-muted/50"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">{quote.name}</p>
-                      <p className="truncate text-muted-foreground">{quote.serviceType}</p>
-                    </div>
-                    <StatusBadge status={quote.status} label={quoteStatusLabels[quote.status]} />
-                  </Link>
-                </li>
+                <LinkListItem
+                  key={quote.id}
+                  href={`/admin/quotes/${quote.id}`}
+                  title={quote.name}
+                  subtitle={quote.serviceType}
+                  badge={<StatusBadge status={quote.status} label={quoteStatusLabels[quote.status]} />}
+                />
               ))}
             </ul>
           </CardContent>
@@ -89,18 +85,13 @@ export default async function AdminDashboardPage() {
                 <li className="text-sm text-muted-foreground">No orders yet.</li>
               )}
               {stats.recentOrders.map((order) => (
-                <li key={order.id}>
-                  <Link
-                    href={`/admin/orders/${order.id}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border p-3 text-sm hover:bg-muted/50"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">{order.customer.name}</p>
-                      <p className="truncate text-muted-foreground">{order.orderId}</p>
-                    </div>
-                    <StatusBadge status={order.status} label={orderStatusLabels[order.status]} />
-                  </Link>
-                </li>
+                <LinkListItem
+                  key={order.id}
+                  href={`/admin/orders/${order.id}`}
+                  title={order.customer.name}
+                  subtitle={order.orderId}
+                  badge={<StatusBadge status={order.status} label={orderStatusLabels[order.status]} />}
+                />
               ))}
             </ul>
           </CardContent>

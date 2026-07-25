@@ -11,7 +11,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-const BRAND_COLOR = "#2563EB";
+const BRAND_COLOR = "#1E88E5";
 
 export function EmailLayout({
   previewText,
@@ -37,7 +37,7 @@ export function EmailLayout({
           }}
         >
           <Text style={{ fontSize: "14px", fontWeight: 700, color: BRAND_COLOR, margin: 0 }}>
-            AI Laundry Basket
+            A&I Laundry Basket
           </Text>
           <Heading style={{ fontSize: "20px", marginTop: "16px", marginBottom: "16px" }}>
             {heading}
@@ -45,7 +45,7 @@ export function EmailLayout({
           {children}
           <Hr style={{ margin: "32px 0", borderColor: "#e4e4e7" }} />
           <Text style={{ fontSize: "12px", color: "#71717a" }}>
-            AI Laundry Basket &middot; This is an automated message, please don&apos;t reply
+            A&I Laundry Basket &middot; This is an automated message, please don&apos;t reply
             directly to this email.
           </Text>
         </Container>

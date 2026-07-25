@@ -13,10 +13,32 @@ type SendArgs = {
   react: React.ReactElement;
 };
 
+const EMAIL_SEND_TIMEOUT_MS = 8000;
+
+/** Bounds how long a stalled/hanging external call can block the caller. */
+function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+    promise.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      }
+    );
+  });
+}
+
 /**
  * Every email send is best-effort: failures are logged, never thrown, so a
  * Resend outage can't roll back or fail a form submission that already
- * persisted to the database.
+ * persisted to the database. Also time-boxed: the Resend SDK has no built-in
+ * request timeout, so a hung connection during an outage would otherwise
+ * block the calling server action (and the customer's HTTP response)
+ * indefinitely instead of just failing this one email.
  */
 async function sendEmail({ to, subject, react }: SendArgs) {
   const client = getResendClient();
@@ -27,12 +49,11 @@ async function sendEmail({ to, subject, react }: SendArgs) {
 
   try {
     const html = await render(react);
-    const { error } = await client.emails.send({
-      from: EMAIL_FROM,
-      to,
-      subject,
-      html,
-    });
+    const { error } = await withTimeout(
+      client.emails.send({ from: EMAIL_FROM, to, subject, html }),
+      EMAIL_SEND_TIMEOUT_MS,
+      "Resend send"
+    );
     if (error) {
       console.error(`[email] Resend error sending "${subject}" to ${to}:`, error);
     }

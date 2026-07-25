@@ -1,21 +1,10 @@
 import Link from "next/link";
-import {
-  Camera,
-  Code2,
-  Mail,
-  MessageCircle,
-  Phone,
-  WashingMachine,
-} from "lucide-react";
+import { Mail, Phone, WashingMachine } from "lucide-react";
 
 import { footerNav, siteConfig } from "@/config/site";
+import { socialLinks } from "@/config/social";
+import { SocialIcon } from "@/components/icons/social-icon";
 import { Separator } from "@/components/ui/separator";
-
-const socials = [
-  { label: "Twitter", href: siteConfig.links.twitter, icon: MessageCircle },
-  { label: "GitHub", href: siteConfig.links.github, icon: Code2 },
-  { label: "Instagram", href: siteConfig.links.instagram, icon: Camera },
-];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -36,6 +25,9 @@ export function Footer() {
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               {siteConfig.description}
             </p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Founded by {siteConfig.business.ownerName}.
+            </p>
 
             <div className="mt-5 flex flex-col gap-2 text-sm">
               <Link
@@ -55,16 +47,16 @@ export function Footer() {
             </div>
 
             <div className="mt-5 flex items-center gap-3">
-              {socials.map((social) => (
+              {socialLinks.map((social) => (
                 <a
-                  key={social.label}
+                  key={social.platform}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
                   className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
                 >
-                  <social.icon className="size-4" />
+                  <SocialIcon platform={social.platform} />
                 </a>
               ))}
             </div>

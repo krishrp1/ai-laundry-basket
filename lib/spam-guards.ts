@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { HONEYPOT_FIELD, FORM_TIMESTAMP_FIELD } from "@/lib/spam-guard-constants";
 
 const MIN_FILL_TIME_MS = 1200;
+const MAX_FILL_TIME_MS = 6 * 60 * 60 * 1000;
 
 export type SpamCheckResult = { isSpam: true; reason: string } | { isSpam: false };
 
@@ -17,13 +18,23 @@ export function checkFormSpamSignals(formData: FormData): SpamCheckResult {
     return { isSpam: true, reason: "honeypot" };
   }
 
+  // The real form component always sets this on mount, so it's only ever
+  // missing/malformed when something is POSTing to the action directly
+  // (bypassing the client component) — fail closed rather than skipping the
+  // check in that case, instead of treating an absent timestamp as human.
   const renderedAtRaw = formData.get(FORM_TIMESTAMP_FIELD);
   const renderedAt = typeof renderedAtRaw === "string" ? Number(renderedAtRaw) : NaN;
-  if (Number.isFinite(renderedAt)) {
-    const elapsed = Date.now() - renderedAt;
-    if (elapsed < MIN_FILL_TIME_MS) {
-      return { isSpam: true, reason: "too-fast" };
-    }
+  if (!Number.isFinite(renderedAt)) {
+    return { isSpam: true, reason: "missing-timestamp" };
+  }
+  const elapsed = Date.now() - renderedAt;
+  if (elapsed < MIN_FILL_TIME_MS) {
+    return { isSpam: true, reason: "too-fast" };
+  }
+  // A forged, implausibly-old timestamp (a bot trying to dodge the "too
+  // fast" check above) will never fall within a real fill duration either.
+  if (elapsed < 0 || elapsed > MAX_FILL_TIME_MS) {
+    return { isSpam: true, reason: "implausible-timestamp" };
   }
 
   return { isSpam: false };

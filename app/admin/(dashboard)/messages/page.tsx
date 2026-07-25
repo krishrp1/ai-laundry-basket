@@ -15,6 +15,7 @@ import { listContactMessages } from "@/lib/data/messages";
 import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { contactStatusLabels } from "@/lib/order-status-labels";
 import { updateMessageStatusAction, deleteMessageAction } from "@/lib/actions/admin/messages";
+import { formatDateIN } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Contact Messages" };
 
@@ -77,10 +78,11 @@ export default async function AdminMessagesPage({
                     action={updateMessageStatusAction.bind(null, message.id)}
                     currentStatus={message.status}
                     options={statusOptions}
+                    label={`Status for ${message.requestId}`}
                   />
                 </TableCell>
                 <TableCell className="text-muted-foreground">
-                  {message.createdAt.toISOString().split("T")[0]}
+                  {formatDateIN(message.createdAt)}
                 </TableCell>
                 <TableCell className="text-right">
                   <form action={deleteMessageAction.bind(null, message.id)} className="inline">

@@ -1,6 +1,6 @@
-# AI Laundry Basket
+# A&I Laundry Basket
 
-Production MVP for AI Laundry Basket: a marketing site plus the backend needed to
+Production MVP for A&I Laundry Basket: a marketing site plus the backend needed to
 actually run the business — quote requests, bookings, an order workflow, a
 password-protected admin dashboard, and transactional email.
 
@@ -43,7 +43,7 @@ where each one comes from):
 | `SESSION_SECRET` | Yes | 32+ byte random secret signing the admin session JWT. Generate with `openssl rand -base64 32` |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` | Yes (for seeding) | Bootstraps the first admin user via `npm run db:seed`. Not read at runtime after that — change the password from the database afterward if desired |
 | `RESEND_API_KEY` | Recommended | Enables transactional email. Without it, forms still save to the database — emails are skipped with a console warning instead of failing the request |
-| `EMAIL_FROM` | Recommended | Verified sender, e.g. `AI Laundry Basket <no-reply@yourdomain.com>` |
+| `EMAIL_FROM` | Recommended | Verified sender, e.g. `A&I Laundry Basket <no-reply@yourdomain.com>` |
 | `BUSINESS_NOTIFICATION_EMAIL` | Recommended | Inbox that receives new-quote/booking/contact alerts |
 | `BLOB_READ_WRITE_TOKEN` | Optional | Enables quote-photo uploads via Vercel Blob. Without it, uploads are skipped (the rest of the quote request still saves) |
 | `NEXT_PUBLIC_SITE_URL` | Optional | Canonical origin for non-production deploys |

@@ -17,7 +17,7 @@ export default function OpengraphImage() {
           alignItems: "center",
           justifyContent: "center",
           gap: 32,
-          background: "linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%)",
+          background: "linear-gradient(135deg, #1E88E5 0%, #123A5C 100%)",
           fontFamily: "sans-serif",
         }}
       >
@@ -58,7 +58,7 @@ export default function OpengraphImage() {
             color: "rgba(250,250,250,0.85)",
           }}
         >
-          Laundry day, solved by AI.
+          {siteConfig.tagline}
         </div>
       </div>
     ),

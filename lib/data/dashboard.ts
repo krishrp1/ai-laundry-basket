@@ -16,11 +16,20 @@ export async function getDashboardStats() {
     }),
     db.contactMessage.count({ where: { status: "NEW" } }),
     db.customer.count(),
-    db.quoteRequest.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
+    db.quoteRequest.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: { id: true, name: true, serviceType: true, status: true },
+    }),
     db.laundryOrder.findMany({
       orderBy: { createdAt: "desc" },
       take: 5,
-      include: { customer: true },
+      select: {
+        id: true,
+        orderId: true,
+        status: true,
+        customer: { select: { name: true } },
+      },
     }),
   ]);
 

@@ -18,6 +18,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/motion/reveal";
+import { siteConfig } from "@/config/site";
+
+const areaPreview = siteConfig.contact.serviceAreas.slice(0, 5).join(", ");
 
 export type FaqItem = {
   question: string;
@@ -38,14 +41,14 @@ export const faqCategories: FaqCategory[] = [
     icon: CreditCard,
     items: [
       {
-        question: "How does pricing work for AI Laundry Basket?",
+        question: "How does pricing work for A&I Laundry Basket?",
         answer:
-          "Pricing is based on the service you choose (Wash & Fold, Dry Cleaning, or a Commercial plan) and the volume you send in. Wash & Fold is typically priced per pound, Dry Cleaning is priced per garment, and Commercial accounts get a custom rate based on expected volume. You always see an estimate before confirming an order.",
+          "Pricing is based on the service you choose (Wash & Fold, Dry Cleaning, or a Commercial plan) and the volume you send in. Wash & Fold is typically priced per kg, Dry Cleaning is priced per garment, and Commercial accounts get a custom rate based on expected volume. You always see an estimate before confirming an order.",
       },
       {
         question: "What payment methods do you accept?",
         answer:
-          "We accept all major credit and debit cards, as well as Apple Pay and Google Pay. Commercial accounts can also be set up with monthly invoicing. Payment is processed automatically after each completed order, and receipts are emailed to you and available in your account.",
+          "We accept UPI, all major credit and debit cards, and net banking, with cash on delivery available in select areas. Commercial accounts can also be set up with monthly invoicing. A GST invoice is available for every order.",
       },
       {
         question: "Are there any hidden fees?",
@@ -62,17 +65,16 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "How does pickup and delivery work?",
         answer:
-          "Schedule a pickup window through the app, leave your bag out (or hand it to your driver), and AI Laundry Basket handles the rest. Once your order is processed, we schedule delivery back to you and send a notification when it is on its way.",
+          "Schedule a pickup window through the app, leave your bag out (or hand it to your driver), and A&I Laundry Basket handles the rest. Once your order is processed, we schedule delivery back to you and send a notification when it is on its way.",
       },
       {
         question: "What areas do you currently serve?",
-        answer:
-          "We currently serve most major metro areas and are expanding into new cities regularly. Enter your zip code on the Get Started page to check availability in your neighborhood.",
+        answer: `We currently serve ${areaPreview}, and other neighborhoods across South Bengaluru, with more areas added regularly. Enter your PIN code on the quote page to check availability in your area.`,
       },
       {
         question: "Can I schedule a specific pickup window?",
         answer:
-          "Yes. You can choose from available morning, afternoon, or evening windows when booking, and AI Laundry Basket will suggest the best time based on driver availability in your area.",
+          "Yes. You can choose from available morning, afternoon, or evening windows when booking, and A&I Laundry Basket will suggest the best time based on driver availability in your area.",
       },
     ],
   },
@@ -106,7 +108,7 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "What is included in the Wash & Fold service?",
         answer:
-          "Everyday clothing, bedding, and towels are washed, dried, and neatly folded according to the settings AI Laundry Basket recommends for each fabric type, then packed and ready for delivery.",
+          "Everyday clothing, bedding, and towels are washed, dried, and neatly folded according to the settings A&I Laundry Basket recommends for each fabric type, then packed and ready for delivery.",
       },
       {
         question: "Can I set preferences for detergent or folding style?",
@@ -127,7 +129,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         question:
-          "How does AI Laundry Basket decide the right care instructions for my garment?",
+          "How does A&I Laundry Basket decide the right care instructions for my garment?",
         answer:
           "Our sorting technology reads fabric type, color, and care labels to recommend the safest cleaning method for each item. Anything flagged as high-risk or unclear is reviewed before cleaning to avoid damage.",
       },
