@@ -31,6 +31,7 @@ export async function updateQuoteStatusAction(id: string, formData: FormData) {
       revalidatePath("/admin/quotes");
       redirect("/admin/quotes");
     }
+    console.error(`[admin/quotes] updateQuoteStatusAction failed for ${id}:`, error);
     throw error;
   }
 
@@ -61,30 +62,36 @@ export async function convertQuoteToOrderAction(id: string) {
 
   const orderId = generateRequestId("ORD");
 
-  const order = await db.$transaction(async (tx) => {
-    const created = await tx.laundryOrder.create({
-      data: {
-        orderId,
-        quoteRequestId: quote.id,
-        customerId,
-        serviceType: quote.serviceType,
-        pickupDate: quote.pickupDate,
-        pickupTime: quote.pickupTime,
-        deliveryDate: quote.deliveryDate,
-        status: "PENDING",
-        statusHistory: {
-          create: { status: "PENDING", changedBy: session.email },
+  let order;
+  try {
+    order = await db.$transaction(async (tx) => {
+      const created = await tx.laundryOrder.create({
+        data: {
+          orderId,
+          quoteRequestId: quote.id,
+          customerId,
+          serviceType: quote.serviceType,
+          pickupDate: quote.pickupDate,
+          pickupTime: quote.pickupTime,
+          deliveryDate: quote.deliveryDate,
+          status: "PENDING",
+          statusHistory: {
+            create: { status: "PENDING", changedBy: session.email },
+          },
         },
-      },
-    });
+      });
 
-    await tx.quoteRequest.update({
-      where: { id: quote.id },
-      data: { status: "CONVERTED" },
-    });
+      await tx.quoteRequest.update({
+        where: { id: quote.id },
+        data: { status: "CONVERTED" },
+      });
 
-    return created;
-  });
+      return created;
+    });
+  } catch (error) {
+    console.error(`[admin/quotes] convertQuoteToOrderAction failed for ${id}:`, error);
+    throw error;
+  }
 
   await sendBookingConfirmation({
     to: quote.email,
