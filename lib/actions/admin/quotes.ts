@@ -7,6 +7,7 @@ import { verifySession } from "@/lib/auth/dal";
 import { QuoteStatus } from "@/generated/prisma/client";
 import { generateRequestId } from "@/lib/ids";
 import { sendBookingConfirmation } from "@/lib/email/send";
+import { isRecordNotFoundError } from "@/lib/prisma-errors";
 
 function isQuoteStatus(value: string): value is QuoteStatus {
   return (Object.values(QuoteStatus) as string[]).includes(value);
@@ -20,7 +21,18 @@ export async function updateQuoteStatusAction(id: string, formData: FormData) {
     throw new Error("Invalid status");
   }
 
-  await db.quoteRequest.update({ where: { id }, data: { status } });
+  try {
+    await db.quoteRequest.update({ where: { id }, data: { status } });
+  } catch (error) {
+    // Someone else already deleted this quote (e.g. another admin tab) —
+    // there's nothing left to update, so just fall back to the list instead
+    // of crashing to the generic error boundary.
+    if (isRecordNotFoundError(error)) {
+      revalidatePath("/admin/quotes");
+      redirect("/admin/quotes");
+    }
+    throw error;
+  }
 
   revalidatePath("/admin/quotes");
   revalidatePath(`/admin/quotes/${id}`);

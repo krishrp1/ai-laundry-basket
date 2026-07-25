@@ -16,6 +16,7 @@ import { listQuoteRequests } from "@/lib/data/quotes";
 import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { quoteStatusLabels } from "@/lib/order-status-labels";
 import { updateQuoteStatusAction, deleteQuoteRequestAction } from "@/lib/actions/admin/quotes";
+import { formatDateIN } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Quote Requests" };
 
@@ -79,17 +80,18 @@ export default async function AdminQuotesPage({
                 </TableCell>
                 <TableCell>{quote.serviceType}</TableCell>
                 <TableCell>
-                  {quote.pickupDate.toISOString().split("T")[0]} &middot; {quote.pickupTime}
+                  {formatDateIN(quote.pickupDate)} &middot; {quote.pickupTime}
                 </TableCell>
                 <TableCell>
                   <StatusSelectForm
                     action={updateQuoteStatusAction.bind(null, quote.id)}
                     currentStatus={quote.status}
                     options={statusOptions}
+                    label={`Status for ${quote.requestId}`}
                   />
                 </TableCell>
                 <TableCell className="text-muted-foreground">
-                  {quote.createdAt.toISOString().split("T")[0]}
+                  {formatDateIN(quote.createdAt)}
                 </TableCell>
                 <TableCell className="text-right">
                   <form action={deleteQuoteRequestAction.bind(null, quote.id)} className="inline">

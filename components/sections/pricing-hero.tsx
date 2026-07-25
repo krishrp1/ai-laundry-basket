@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/reveal";
 
 const trustPoints = [
   { icon: ShieldCheck, label: "No hidden fees" },
-  { icon: Sparkles, label: "AI-optimized scheduling" },
+  { icon: Sparkles, label: "A&I-optimized scheduling" },
   { icon: Receipt, label: "Clear pricing before you book" },
 ];
 
@@ -23,12 +23,10 @@ export function PricingHero() {
         <Reveal>
           <Badge variant="secondary">Pricing</Badge>
           <h1 className="mt-5 text-4xl sm:text-5xl">
-            Transparent pricing, powered by AI
+            Simple, transparent pricing
           </h1>
           <p className="mt-5 text-lg text-muted-foreground">
-            See exactly what you will pay before you book. AI Laundry Basket
-            uses smart sorting and routing to keep costs predictable, whether
-            you need a single order or a plan for your whole household.
+            See exactly what you will pay before you book. No hidden fees.
           </p>
         </Reveal>
 

@@ -1,18 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Building2,
   CheckCircle2,
   Clock,
-  FileText,
   House,
   Loader2,
   Send,
   Siren,
-  Upload,
-  X,
   Zap,
 } from "lucide-react";
 
@@ -35,12 +32,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Reveal } from "@/components/motion/reveal";
 import { submitQuoteRequest } from "@/lib/actions/quote";
 import { HONEYPOT_FIELD, FORM_TIMESTAMP_FIELD } from "@/lib/spam-guard-constants";
+import { services, weightTiers, pickupWindows } from "@/config/pricing";
 
 type CustomerType = "residential" | "commercial";
 type ContactMethod = "email" | "phone" | "text";
 type Urgency = "standard" | "rush" | "same-day";
 
-type QuoteFormValues = {
+export type QuoteFormValues = {
   name: string;
   email: string;
   phone: string;
@@ -62,7 +60,7 @@ type QuoteFormValues = {
 
 type FormErrors = Partial<Record<keyof QuoteFormValues, string>>;
 
-const initialValues: QuoteFormValues = {
+const defaultFormValues: QuoteFormValues = {
   name: "",
   email: "",
   phone: "",
@@ -83,30 +81,11 @@ const initialValues: QuoteFormValues = {
 };
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const zipPattern = /^\d{5}(-\d{4})?$/;
-const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+const zipPattern = /^\d{6}$/;
 
-const serviceTypes = [
-  "Wash & Fold",
-  "Dry Cleaning",
-  "Pickup & Delivery",
-  "Commercial Laundry",
-  "Ironing & Pressing",
-  "Stain Treatment",
-];
+const serviceTypes = services.map((service) => service.label);
 
-const weightTiers = [
-  "Under 10 lbs (1-2 small bags)",
-  "10-25 lbs (about 1 hamper)",
-  "25-50 lbs (2-3 hampers)",
-  "50+ lbs (large household or commercial)",
-];
-
-const pickupTimes = [
-  "Morning (7am - 11am)",
-  "Afternoon (11am - 3pm)",
-  "Evening (3pm - 8pm)",
-];
+const pickupTimes = pickupWindows.map((window) => window.label);
 
 const recurringOptions = [
   { value: "one-time", label: "One-time pickup" },
@@ -136,13 +115,6 @@ const urgencyOptions = [
   },
 ];
 
-function formatFileSize(bytes: number) {
-  if (bytes < 1024 * 1024) {
-    return `${Math.round(bytes / 1024)} KB`;
-  }
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
 function validate(values: QuoteFormValues, minDate: string): FormErrors {
   const errors: FormErrors = {};
 
@@ -161,9 +133,9 @@ function validate(values: QuoteFormValues, minDate: string): FormErrors {
   if (!values.city.trim()) errors.city = "Please enter your city.";
 
   if (!values.zip.trim()) {
-    errors.zip = "Please enter your ZIP code.";
+    errors.zip = "Please enter your PIN code.";
   } else if (!zipPattern.test(values.zip.trim())) {
-    errors.zip = "Please enter a valid ZIP code.";
+    errors.zip = "Please enter a valid 6-digit PIN code.";
   }
 
   if (!values.serviceType) errors.serviceType = "Please choose a service.";
@@ -195,8 +167,15 @@ function validate(values: QuoteFormValues, minDate: string): FormErrors {
   return errors;
 }
 
-export function QuoteForm() {
-  const [values, setValues] = React.useState<QuoteFormValues>(initialValues);
+export function QuoteForm({
+  initialValues,
+}: {
+  initialValues?: Partial<QuoteFormValues>;
+} = {}) {
+  const [values, setValues] = React.useState<QuoteFormValues>(() => ({
+    ...defaultFormValues,
+    ...initialValues,
+  }));
   const [errors, setErrors] = React.useState<FormErrors>({});
   const [status, setStatus] = React.useState<
     "idle" | "submitting" | "success"
@@ -204,9 +183,6 @@ export function QuoteForm() {
   const [formError, setFormError] = React.useState<string | null>(null);
   const [requestId, setRequestId] = React.useState<string | null>(null);
   const [isPending, startTransition] = React.useTransition();
-  const [image, setImage] = React.useState<File | null>(null);
-  const [imageError, setImageError] = React.useState<string | null>(null);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const renderedAtRef = React.useRef(0);
 
   React.useEffect(() => {
@@ -224,38 +200,6 @@ export function QuoteForm() {
     value: QuoteFormValues[K]
   ) {
     setValues((prev) => ({ ...prev, [field]: value }));
-  }
-
-  function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) {
-      setImage(null);
-      setImageError(null);
-      return;
-    }
-
-    if (!file.type.startsWith("image/")) {
-      setImage(null);
-      setImageError("Please upload an image file.");
-      return;
-    }
-
-    if (file.size > MAX_IMAGE_BYTES) {
-      setImage(null);
-      setImageError("Image must be smaller than 10 MB.");
-      return;
-    }
-
-    setImageError(null);
-    setImage(file);
-  }
-
-  function removeImage() {
-    setImage(null);
-    setImageError(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -289,9 +233,6 @@ export function QuoteForm() {
     formData.set("specialInstructions", values.specialInstructions);
     formData.set("contactMethod", values.contactMethod);
     formData.set("consent", values.consent ? "on" : "");
-    if (image) {
-      formData.set("image", image);
-    }
     formData.set(HONEYPOT_FIELD, "");
     formData.set(FORM_TIMESTAMP_FIELD, String(renderedAtRef.current));
 
@@ -319,17 +260,12 @@ export function QuoteForm() {
   }
 
   function handleReset() {
-    setValues(initialValues);
+    setValues(defaultFormValues);
     setErrors({});
     setFormError(null);
     setRequestId(null);
-    setImage(null);
-    setImageError(null);
     setStatus("idle");
     renderedAtRef.current = Date.now();
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   }
 
   if (status === "success") {
@@ -337,7 +273,7 @@ export function QuoteForm() {
       <Reveal>
         <Card>
           <CardContent>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -363,7 +299,7 @@ export function QuoteForm() {
               <Button variant="outline" onClick={handleReset}>
                 Submit another request
               </Button>
-            </motion.div>
+            </m.div>
           </CardContent>
         </Card>
       </Reveal>
@@ -407,6 +343,7 @@ export function QuoteForm() {
                   id="quote-phone"
                   type="tel"
                   autoComplete="tel"
+                  placeholder="+91 90199 61091"
                   value={values.phone}
                   onChange={(e) => updateField("phone", e.target.value)}
                   aria-invalid={Boolean(errors.phone)}
@@ -414,10 +351,10 @@ export function QuoteForm() {
                 />
               </Field>
 
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="quote-contact-method-email">
+              <fieldset className="flex flex-col gap-1.5">
+                <legend className="text-sm leading-none font-medium">
                   Preferred contact method
-                </Label>
+                </legend>
                 <RadioGroup
                   value={values.contactMethod}
                   onValueChange={(value) =>
@@ -445,7 +382,7 @@ export function QuoteForm() {
                     </Label>
                   ))}
                 </RadioGroup>
-              </div>
+              </fieldset>
             </div>
           </CardContent>
         </Card>
@@ -457,10 +394,16 @@ export function QuoteForm() {
           <CardContent className="flex flex-col gap-5">
             <SectionHeading index={2} title="Service location" />
 
-            <Field label="Street address" htmlFor="quote-address" error={errors.address} required>
+            <Field
+              label="Address (Flat / Apartment, Street, Area)"
+              htmlFor="quote-address"
+              error={errors.address}
+              required
+            >
               <Input
                 id="quote-address"
                 autoComplete="street-address"
+                placeholder="e.g. Flat 204, Prestige Tower, 100 Feet Road"
                 value={values.address}
                 onChange={(e) => updateField("address", e.target.value)}
                 aria-invalid={Boolean(errors.address)}
@@ -473,6 +416,7 @@ export function QuoteForm() {
                 <Input
                   id="quote-city"
                   autoComplete="address-level2"
+                  placeholder="e.g. Bengaluru"
                   value={values.city}
                   onChange={(e) => updateField("city", e.target.value)}
                   aria-invalid={Boolean(errors.city)}
@@ -480,11 +424,13 @@ export function QuoteForm() {
                 />
               </Field>
 
-              <Field label="ZIP code" htmlFor="quote-zip" error={errors.zip} required>
+              <Field label="PIN Code" htmlFor="quote-zip" error={errors.zip} required>
                 <Input
                   id="quote-zip"
                   inputMode="numeric"
                   autoComplete="postal-code"
+                  placeholder="e.g. 560070"
+                  maxLength={6}
                   value={values.zip}
                   onChange={(e) => updateField("zip", e.target.value)}
                   aria-invalid={Boolean(errors.zip)}
@@ -493,10 +439,10 @@ export function QuoteForm() {
               </Field>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="quote-customer-type-residential">
+            <fieldset className="flex flex-col gap-1.5">
+              <legend className="text-sm leading-none font-medium">
                 Residential or commercial
-              </Label>
+              </legend>
               <RadioGroup
                 value={values.customerType}
                 onValueChange={(value) =>
@@ -524,7 +470,7 @@ export function QuoteForm() {
                   </Label>
                 ))}
               </RadioGroup>
-            </div>
+            </fieldset>
           </CardContent>
         </Card>
       </Reveal>
@@ -702,8 +648,8 @@ export function QuoteForm() {
               </Field>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label>Urgency level</Label>
+            <fieldset className="flex flex-col gap-2">
+              <legend className="text-sm leading-none font-medium">Urgency level</legend>
               <RadioGroup
                 value={values.urgency}
                 onValueChange={(value) => updateField("urgency", value as Urgency)}
@@ -729,7 +675,7 @@ export function QuoteForm() {
                   </Label>
                 ))}
               </RadioGroup>
-            </div>
+            </fieldset>
           </CardContent>
         </Card>
       </Reveal>
@@ -751,55 +697,6 @@ export function QuoteForm() {
                 }
               />
             </Field>
-
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="quote-image">Photo (optional)</Label>
-              <input
-                ref={fileInputRef}
-                id="quote-image"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="sr-only"
-                aria-describedby={imageError ? "quote-image-error" : undefined}
-              />
-              {image ? (
-                <div className="flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2.5">
-                  <div className="flex items-center gap-2.5 overflow-hidden">
-                    <FileText className="size-4 shrink-0 text-primary" />
-                    <span className="truncate text-sm">{image.name}</span>
-                    <span className="shrink-0 text-xs text-muted-foreground">
-                      {formatFileSize(image.size)}
-                    </span>
-                  </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon-sm"
-                    aria-label="Remove image"
-                    onClick={removeImage}
-                  >
-                    <X className="size-4" />
-                  </Button>
-                </div>
-              ) : (
-                <Label
-                  htmlFor="quote-image"
-                  className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border border-dashed border-border px-4 py-6 text-center font-normal text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                >
-                  <Upload className="size-5" />
-                  <span className="text-sm">
-                    Click to upload a photo of your laundry or a stain
-                  </span>
-                  <span className="text-xs">PNG or JPG, up to 10 MB</span>
-                </Label>
-              )}
-              {imageError && (
-                <p id="quote-image-error" className="text-xs text-destructive">
-                  {imageError}
-                </p>
-              )}
-            </div>
           </CardContent>
         </Card>
       </Reveal>
@@ -864,7 +761,7 @@ export function QuoteForm() {
                 ) : (
                   <>
                     <Send className="size-4" />
-                    Submit request
+                    Get Instant Quote
                   </>
                 )}
               </Button>

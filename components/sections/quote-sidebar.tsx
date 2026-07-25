@@ -21,7 +21,8 @@ const steps = [
   {
     icon: Truck,
     title: "Pickup is scheduled",
-    description: "A driver arrives during your selected pickup window.",
+    description:
+      "A driver arrives during your pickup window and weighs your laundry on the spot — you only pay for actual weight.",
   },
   {
     icon: ClipboardCheck,

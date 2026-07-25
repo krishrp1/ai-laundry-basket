@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { LinkListItem } from "@/components/admin/link-list-item";
 import { getCustomerById } from "@/lib/data/customers";
 import { quoteStatusLabels, orderStatusLabels } from "@/lib/order-status-labels";
 
@@ -44,15 +45,12 @@ export default async function AdminCustomerDetailPage({
                 <li className="text-sm text-muted-foreground">No quote requests.</li>
               )}
               {customer.quoteRequests.map((quote) => (
-                <li key={quote.id}>
-                  <Link
-                    href={`/admin/quotes/${quote.id}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border p-3 text-sm hover:bg-muted/50"
-                  >
-                    <span>{quote.requestId}</span>
-                    <StatusBadge status={quote.status} label={quoteStatusLabels[quote.status]} />
-                  </Link>
-                </li>
+                <LinkListItem
+                  key={quote.id}
+                  href={`/admin/quotes/${quote.id}`}
+                  title={quote.requestId}
+                  badge={<StatusBadge status={quote.status} label={quoteStatusLabels[quote.status]} />}
+                />
               ))}
             </ul>
           </CardContent>
@@ -66,15 +64,12 @@ export default async function AdminCustomerDetailPage({
                 <li className="text-sm text-muted-foreground">No orders.</li>
               )}
               {customer.orders.map((order) => (
-                <li key={order.id}>
-                  <Link
-                    href={`/admin/orders/${order.id}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border p-3 text-sm hover:bg-muted/50"
-                  >
-                    <span>{order.orderId}</span>
-                    <StatusBadge status={order.status} label={orderStatusLabels[order.status]} />
-                  </Link>
-                </li>
+                <LinkListItem
+                  key={order.id}
+                  href={`/admin/orders/${order.id}`}
+                  title={order.orderId}
+                  badge={<StatusBadge status={order.status} label={orderStatusLabels[order.status]} />}
+                />
               ))}
             </ul>
           </CardContent>

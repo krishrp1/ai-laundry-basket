@@ -1,11 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth/dal";
 import { OrderStatus } from "@/generated/prisma/client";
 import { orderStatusLabels } from "@/lib/order-status-labels";
 import { sendOrderStatusUpdate } from "@/lib/email/send";
+import { isRecordNotFoundError } from "@/lib/prisma-errors";
 
 function isOrderStatus(value: string): value is OrderStatus {
   return (Object.values(OrderStatus) as string[]).includes(value);
@@ -22,16 +24,25 @@ export async function updateOrderStatusAction(id: string, formData: FormData) {
     throw new Error("Invalid status");
   }
 
-  const order = await db.laundryOrder.update({
-    where: { id },
-    data: {
-      status,
-      statusHistory: {
-        create: { status, note, changedBy: session.email },
+  let order;
+  try {
+    order = await db.laundryOrder.update({
+      where: { id },
+      data: {
+        status,
+        statusHistory: {
+          create: { status, note, changedBy: session.email },
+        },
       },
-    },
-    include: { customer: true },
-  });
+      include: { customer: true },
+    });
+  } catch (error) {
+    if (isRecordNotFoundError(error)) {
+      revalidatePath("/admin/orders");
+      redirect("/admin/orders");
+    }
+    throw error;
+  }
 
   await sendOrderStatusUpdate({
     to: order.customer.email,

@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "@/lib/prisma";
 import { QuoteStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
+import { isValidUuid } from "@/lib/uuid";
 
 function isQuoteStatus(value: string): value is QuoteStatus {
   return (Object.values(QuoteStatus) as string[]).includes(value);
@@ -27,6 +28,17 @@ export async function listQuoteRequests({ search, status, sort, page }: ListPara
     db.quoteRequest.findMany({
       where,
       orderBy: { createdAt: sort },
+      select: {
+        id: true,
+        requestId: true,
+        name: true,
+        email: true,
+        serviceType: true,
+        pickupDate: true,
+        pickupTime: true,
+        status: true,
+        createdAt: true,
+      },
       ...skipTake(page),
     }),
   ]);
@@ -35,6 +47,7 @@ export async function listQuoteRequests({ search, status, sort, page }: ListPara
 }
 
 export async function getQuoteRequestById(id: string) {
+  if (!isValidUuid(id)) return null;
   return db.quoteRequest.findUnique({
     where: { id },
     include: { customer: true, order: true },

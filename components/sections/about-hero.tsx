@@ -20,23 +20,21 @@ export function AboutHero() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 -top-32 -z-10 flex justify-center"
       >
-        <div className="size-[30rem] animate-blob-float rounded-full bg-primary/20 blur-3xl" />
+        <div className="size-[30rem] rounded-full bg-primary/20 blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-4xl px-4 py-24 text-center sm:px-6 lg:px-8 lg:py-32">
         <Reveal>
           <Badge variant="secondary" className="gap-1.5">
             <Sparkles className="size-3" />
-            About AI Laundry Basket
+            About A&I Laundry Basket
           </Badge>
           <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl">
-            Laundry, run by intelligence instead of guesswork
+            Bengaluru&apos;s smarter laundry service
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            AI Laundry Basket pairs computer vision and smart scheduling with
-            a real operations team, so every load, from a single hamper to a
-            hotel&apos;s daily linens, gets sorted, cleaned, and delivered
-            with the right care and on time.
+            We pair smart technology with a real local team, so every order
+            is sorted, cleaned, and delivered with care.
           </p>
         </Reveal>
 

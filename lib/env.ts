@@ -18,8 +18,6 @@ const envSchema = z.object({
   EMAIL_FROM: z.string().optional(),
   BUSINESS_NOTIFICATION_EMAIL: z.email().optional(),
 
-  BLOB_READ_WRITE_TOKEN: z.string().optional(),
-
   NEXT_PUBLIC_SITE_URL: z.url().optional(),
 });
 

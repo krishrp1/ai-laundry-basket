@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -157,7 +157,7 @@ export function ContactForm() {
           <CardContent>
             <AnimatePresence mode="wait">
               {status === "success" ? (
-                <motion.div
+                <m.div
                   key="success"
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -184,9 +184,9 @@ export function ContactForm() {
                   <Button variant="outline" onClick={handleReset}>
                     Send another message
                   </Button>
-                </motion.div>
+                </m.div>
               ) : (
-                <motion.form
+                <m.form
                   key="form"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -259,6 +259,7 @@ export function ContactForm() {
                         name="phone"
                         type="tel"
                         autoComplete="tel"
+                        placeholder="+91 90199 61091"
                         value={values.phone}
                         onChange={(event) =>
                           updateField("phone", event.target.value)
@@ -267,11 +268,11 @@ export function ContactForm() {
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <Label htmlFor="contact-location">Location</Label>
+                      <Label htmlFor="contact-location">Area</Label>
                       <Input
                         id="contact-location"
                         name="location"
-                        placeholder="City, State"
+                        placeholder="e.g. Jayanagar, Bengaluru"
                         autoComplete="address-level2"
                         value={values.location}
                         onChange={(event) =>
@@ -379,7 +380,7 @@ export function ContactForm() {
                       )}
                     </Button>
                   </div>
-                </motion.form>
+                </m.form>
               )}
             </AnimatePresence>
           </CardContent>

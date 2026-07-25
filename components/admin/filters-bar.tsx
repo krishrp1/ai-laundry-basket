@@ -51,11 +51,15 @@ export function AdminFiltersBar({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       <div className="relative flex-1">
-        <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Search
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
+        />
         <Input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           placeholder={searchPlaceholder}
+          aria-label={searchPlaceholder}
           className="pl-8"
         />
       </div>
@@ -67,7 +71,7 @@ export function AdminFiltersBar({
             updateParams({ status: value === "all" ? undefined : (value ?? undefined) })
           }
         >
-          <SelectTrigger className="w-full sm:w-48">
+          <SelectTrigger className="w-full sm:w-48" aria-label="Filter by status">
             <SelectValue placeholder="All statuses" />
           </SelectTrigger>
           <SelectContent>
@@ -87,7 +91,7 @@ export function AdminFiltersBar({
           updateParams({ sort: value === "desc" ? undefined : (value ?? undefined) })
         }
       >
-        <SelectTrigger className="w-full sm:w-40">
+        <SelectTrigger className="w-full sm:w-40" aria-label="Sort order">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

@@ -21,7 +21,7 @@ export function AdminLoginForm() {
         <div className="text-center">
           <h1 className="text-xl font-semibold">Admin sign in</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            AI Laundry Basket operations dashboard
+            A&I Laundry Basket operations dashboard
           </p>
         </div>
 

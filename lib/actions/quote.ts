@@ -12,7 +12,6 @@ import { generateRequestId } from "@/lib/ids";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 import { checkFormSpamSignals, isDuplicateSubmission } from "@/lib/spam-guards";
 import { getClientIp } from "@/lib/request-ip";
-import { uploadQuoteAttachment } from "@/lib/blob";
 import { sendQuoteConfirmation } from "@/lib/email/send";
 
 export async function submitQuoteRequest(
@@ -63,78 +62,69 @@ export async function submitQuoteRequest(
 
   const data = parsed.data;
 
-  const duplicate = await isDuplicateSubmission("quoteRequest", [
-    data.email,
-    data.serviceType,
-    data.pickupDate,
-  ]);
-  if (duplicate) {
-    return { status: "success", requestId: generateRequestId("QR") };
-  }
-
-  let attachmentUrl: string | null = null;
-  let attachmentName: string | null = null;
-  const image = formData.get("image");
-  if (image instanceof File && image.size > 0) {
-    try {
-      const uploaded = await uploadQuoteAttachment(image);
-      if (uploaded) {
-        attachmentUrl = uploaded.url;
-        attachmentName = uploaded.name;
-      }
-    } catch (error) {
-      return {
-        status: "error",
-        errors: {},
-        formError: error instanceof Error ? error.message : "Could not upload photo.",
-      };
+  try {
+    const duplicate = await isDuplicateSubmission("quoteRequest", [
+      data.email,
+      data.serviceType,
+      data.pickupDate,
+    ]);
+    if (duplicate) {
+      return { status: "success", requestId: generateRequestId("QR") };
     }
-  }
 
-  const requestId = generateRequestId("QR");
+    const requestId = generateRequestId("QR");
 
-  const customer = await db.customer.upsert({
-    where: { email: data.email },
-    update: { name: data.name, phone: data.phone },
-    create: { name: data.name, email: data.email, phone: data.phone },
-  });
+    const customer = await db.customer.upsert({
+      where: { email: data.email },
+      update: { name: data.name, phone: data.phone },
+      create: { name: data.name, email: data.email, phone: data.phone },
+    });
 
-  await db.quoteRequest.create({
-    data: {
-      requestId,
-      customerId: customer.id,
+    await db.quoteRequest.create({
+      data: {
+        requestId,
+        customerId: customer.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        city: data.city,
+        zip: data.zip,
+        customerType: customerTypeMap[data.customerType],
+        serviceType: data.serviceType,
+        estimatedWeight: data.estimatedWeight,
+        recurring: recurringMap[data.recurring],
+        pickupDate: new Date(`${data.pickupDate}T00:00:00Z`),
+        pickupTime: data.pickupTime,
+        deliveryDate: data.deliveryDate
+          ? new Date(`${data.deliveryDate}T00:00:00Z`)
+          : null,
+        urgency: urgencyMap[data.urgency],
+        specialInstructions: data.specialInstructions || null,
+        contactMethod: contactMethodMap[data.contactMethod],
+        ipAddress: ip,
+      },
+    });
+
+    await sendQuoteConfirmation({
+      to: data.email,
       name: data.name,
-      email: data.email,
-      phone: data.phone,
-      address: data.address,
-      city: data.city,
-      zip: data.zip,
-      customerType: customerTypeMap[data.customerType],
+      requestId,
       serviceType: data.serviceType,
-      estimatedWeight: data.estimatedWeight,
-      recurring: recurringMap[data.recurring],
-      pickupDate: new Date(`${data.pickupDate}T00:00:00Z`),
+      pickupDate: data.pickupDate,
       pickupTime: data.pickupTime,
-      deliveryDate: data.deliveryDate
-        ? new Date(`${data.deliveryDate}T00:00:00Z`)
-        : null,
-      urgency: urgencyMap[data.urgency],
-      specialInstructions: data.specialInstructions || null,
-      contactMethod: contactMethodMap[data.contactMethod],
-      attachmentUrl,
-      attachmentName,
-      ipAddress: ip,
-    },
-  });
+    });
 
-  await sendQuoteConfirmation({
-    to: data.email,
-    name: data.name,
-    requestId,
-    serviceType: data.serviceType,
-    pickupDate: data.pickupDate,
-    pickupTime: data.pickupTime,
-  });
-
-  return { status: "success", requestId };
+    return { status: "success", requestId };
+  } catch (error) {
+    // An unexpected DB error (e.g. connection pool exhaustion under a
+    // traffic spike) should surface as a normal retryable form error, not
+    // crash to the generic error boundary.
+    console.error("[quote] submission failed:", error);
+    return {
+      status: "error",
+      errors: {},
+      formError: "Something went wrong on our end. Please try again in a moment.",
+    };
+  }
 }
