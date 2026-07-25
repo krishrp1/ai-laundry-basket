@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth/dal";
 import { ContactStatus } from "@/generated/prisma/client";
+import { isRecordNotFoundError } from "@/lib/prisma-errors";
 
 function isContactStatus(value: string): value is ContactStatus {
   return (Object.values(ContactStatus) as string[]).includes(value);
@@ -18,7 +19,15 @@ export async function updateMessageStatusAction(id: string, formData: FormData) 
     throw new Error("Invalid status");
   }
 
-  await db.contactMessage.update({ where: { id }, data: { status } });
+  try {
+    await db.contactMessage.update({ where: { id }, data: { status } });
+  } catch (error) {
+    if (isRecordNotFoundError(error)) {
+      revalidatePath("/admin/messages");
+      redirect("/admin/messages");
+    }
+    throw error;
+  }
 
   revalidatePath("/admin/messages");
 }

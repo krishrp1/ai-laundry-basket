@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Reveal } from "@/components/motion/reveal";
+import { siteConfig } from "@/config/site";
 
 const stats = [
   { icon: ScanEye, label: "Fabric types recognized", value: "50+" },
@@ -24,39 +25,17 @@ export function AboutStory() {
             Our story
           </span>
           <h2 className="text-2xl sm:text-3xl">
-            From a ruined sweater to a smarter way to wash
+            Built in Bengaluru, for busy households
           </h2>
           <p>
-            AI Laundry Basket started with a laundry disaster. Our founders
-            were running a small tech consultancy together when a client
-            meeting outfit came out of the dryer three sizes smaller than it
-            went in. The care label had been right there the whole time. It
-            just was not read.
+            A&I Laundry Basket was founded by {siteConfig.business.ownerName}{" "}
+            with the vision of making professional laundry services more
+            convenient, reliable, and accessible across Bengaluru.
           </p>
           <p>
-            That small, avoidable mistake turned into a bigger question:
-            laundry is one of the few household and business tasks that has
-            barely changed in decades, while almost everything around it has
-            gotten smarter. Machines got more efficient, but the decisions
-            before the wash, what to separate, what temperature, what needs
-            special care, were still left entirely to guesswork.
-          </p>
-          <p>
-            So we built the thing we wished existed: a system that looks at
-            what is actually in the load, cross-references fabric and care
-            information, and turns that into a plan, not just a suggestion.
-            From there, it was a short step to asking the same question
-            about the rest of laundry day: when to wash, how to schedule
-            pickups, how to keep a hotel&apos;s linens or a gym&apos;s
-            towels moving without anyone thinking about it. AI Laundry
-            Basket grew into a full service built around that one idea, let
-            the software handle the guesswork, and let people handle the
-            parts that actually need a human touch.
-          </p>
-          <p>
-            Today that means real drivers, real wash specialists, and real
-            support staff, backed by sorting and scheduling technology that
-            gets a little sharper with every order.
+            Day-to-day operations and customer relations are managed by{" "}
+            {siteConfig.business.opsName}, ensuring every customer receives
+            prompt support and high-quality service.
           </p>
 
           <Card className="mt-2 flex-row items-start gap-4 p-5">
@@ -66,20 +45,21 @@ export function AboutStory() {
             />
             <div>
               <p className="text-sm text-foreground/90 italic">
-                We did not set out to build a laundry company. We set out to
-                fix one bad habit, guessing, and it turned out that fixing it
-                properly meant building the company around it.
+                We wanted laundry day to feel like it&apos;s already taken
+                care of, not another thing on your list.
               </p>
               <div className="mt-3 flex items-center gap-3">
                 <Avatar size="sm">
                   <AvatarFallback className="bg-primary/10 font-heading text-primary">
-                    MC
+                    RP
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-medium">Maya Chen</p>
+                  <p className="text-sm font-medium">
+                    {siteConfig.business.ownerName}
+                  </p>
                   <p className="text-xs text-muted-foreground">
-                    Co-Founder & CEO, AI Laundry Basket
+                    {siteConfig.business.ownerRole}, A&I Laundry Basket
                   </p>
                 </div>
               </div>

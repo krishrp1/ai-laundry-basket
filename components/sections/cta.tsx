@@ -14,7 +14,7 @@ type CtaProps = {
 
 export function Cta({
   title = "Ready to make laundry day effortless?",
-  description = "Join AI Laundry Basket and let smart technology handle the sorting, scheduling, and care, so you do not have to.",
+  description = "Join A&I Laundry Basket and let smart technology handle the sorting, scheduling, and care, so you do not have to.",
   buttonLabel = "Request a Quote",
   buttonHref = "/quote",
   note = "No obligation, quick response.",
@@ -28,7 +28,11 @@ export function Cta({
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.15),transparent_60%)]"
           />
           <h2 className="relative text-primary-foreground">{title}</h2>
-          <p className="relative mx-auto mt-4 max-w-xl text-primary-foreground/80">
+          {/* Full-opacity, not /80 — the new darker primary only reaches
+              4.76:1 with solid white, so any further dimming drops below the
+              4.5:1 WCAG AA minimum for normal text. Hierarchy comes from
+              size/weight instead of color here. */}
+          <p className="relative mx-auto mt-4 max-w-xl text-primary-foreground">
             {description}
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -43,7 +47,7 @@ export function Cta({
             </Button>
           </div>
           {note && (
-            <p className="relative mt-4 text-xs text-primary-foreground/70">
+            <p className="relative mt-4 text-xs text-primary-foreground">
               {note}
             </p>
           )}

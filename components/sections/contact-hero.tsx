@@ -13,14 +13,15 @@ const quickActions = [
     href: siteConfig.contact.phoneHref,
   },
   {
+    icon: MessageCircle,
+    label: "WhatsApp us",
+    href: siteConfig.contact.whatsappHref,
+    external: true,
+  },
+  {
     icon: Mail,
     label: siteConfig.contact.email,
     href: `mailto:${siteConfig.contact.email}`,
-  },
-  {
-    icon: MessageCircle,
-    label: "Message us below",
-    href: "#contact-form",
   },
 ];
 
@@ -55,7 +56,13 @@ export function ContactHero() {
             <Button
               key={action.label}
               variant="outline"
-              render={<Link href={action.href} />}
+              render={
+                action.external ? (
+                  <Link href={action.href} target="_blank" rel="noopener noreferrer" />
+                ) : (
+                  <Link href={action.href} />
+                )
+              }
               className="gap-1.5"
             >
               <action.icon className="size-4" />

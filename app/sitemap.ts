@@ -4,12 +4,10 @@ import { siteConfig } from "@/config/site";
 
 const routes = [
   { path: "", changeFrequency: "weekly" as const, priority: 1 },
-  { path: "/features", changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/services", changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/pricing", changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/quote", changeFrequency: "monthly" as const, priority: 0.8 },
   { path: "/about", changeFrequency: "monthly" as const, priority: 0.6 },
-  { path: "/testimonials", changeFrequency: "monthly" as const, priority: 0.6 },
   { path: "/faq", changeFrequency: "monthly" as const, priority: 0.6 },
   { path: "/contact", changeFrequency: "monthly" as const, priority: 0.5 },
 ];

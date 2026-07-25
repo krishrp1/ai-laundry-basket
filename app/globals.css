@@ -31,6 +31,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -50,65 +51,63 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --animate-blob-float: blob-float 10s ease-in-out infinite;
-  --animate-blob-float-slow: blob-float 14s ease-in-out infinite reverse;
-}
-
-@keyframes blob-float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(20px, -30px) scale(1.05);
-  }
-  66% {
-    transform: translate(-15px, 15px) scale(0.95);
-  }
 }
 
 :root {
-  /* Brand palette: primary blue-600, secondary sky-500, accent green-500,
-     background slate-50, text slate-900/slate-600 (oklch values pulled
-     directly from Tailwind's canonical palette for accuracy). */
-  --background: oklch(0.984 0.003 247.858);
-  --foreground: oklch(0.208 0.042 265.755);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.208 0.042 265.755);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.208 0.042 265.755);
-  --primary: oklch(0.546 0.245 262.881);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.951 0.026 236.824);
-  --secondary-foreground: oklch(0.32 0.09 237);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.446 0.043 257.281);
-  --accent: oklch(0.932 0.032 255.585);
-  --accent-foreground: oklch(0.32 0.1 262);
+  /* Brand palette: primary blue #1E88E5, secondary blue #4FC3F7, accent teal
+     #26A69A, background #F8FBFD, cards #FFFFFF, text #1F2937/#6B7280,
+     success #22C55E. Plain hex values (not oklch) — valid CSS custom
+     properties, consumed the same way by the Tailwind utilities below. */
+  --background: #f8fbfd;
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  /* #1775C8: a slightly deeper shade of the requested #1E88E5 brand blue —
+     the original only reaches 3.68:1 contrast with white text (fails the
+     4.5:1 WCAG AA minimum for normal text) on every primary button/badge
+     site-wide; this shade verifies at 4.76:1. */
+  --primary: #1775c8;
+  --primary-foreground: #ffffff;
+  --secondary: #e3f6fd;
+  --secondary-foreground: #0b4c6b;
+  /* Lightened from #EEF4F8 so the (user-specified) #6B7280 secondary-text
+     color clears 4.5:1 against it (was 4.36:1) without changing that text
+     color, which already passes against --background/--card elsewhere. */
+  --muted: #f4f8fb;
+  --muted-foreground: #6b7280;
+  --accent: #e2f5f3;
+  --accent-foreground: #0f5c52;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.546 0.245 262.881 / 50%);
-  --chart-1: oklch(0.546 0.245 262.881);
-  --chart-2: oklch(0.685 0.169 237.323);
-  --chart-3: oklch(0.723 0.219 149.579);
+  --destructive-foreground: #ffffff;
+  /* Darkened from #E2E8F0 (was ~1.2:1 against background/card) for better
+     non-text/UI-boundary contrast on inputs and card edges. Full WCAG 1.4.11
+     compliance (3:1) would need a noticeably darker/bluer border than this —
+     kept moderate to preserve the site's light, airy look; see audit notes. */
+  --border: #bccadc;
+  --input: #bccadc;
+  --ring: color-mix(in oklch, #1775c8 50%, transparent);
+  --chart-1: #1775c8;
+  --chart-2: #4fc3f7;
+  --chart-3: #26a69a;
   --chart-4: oklch(0.769 0.188 70.08);
-  --chart-5: oklch(0.527 0.154 150.069);
+  --chart-5: #22c55e;
   --radius: 0.75rem;
-  --sidebar: oklch(0.985 0.005 247.858);
-  --sidebar-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-primary: oklch(0.546 0.245 262.881);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.932 0.032 255.585);
-  --sidebar-accent-foreground: oklch(0.32 0.1 262);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.546 0.245 262.881 / 50%);
-  /* Vivid green-500, used deliberately (checkmarks, trust badges, success
+  --sidebar: #f8fbfd;
+  --sidebar-foreground: #1f2937;
+  --sidebar-primary: #1775c8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e2f5f3;
+  --sidebar-accent-foreground: #0f5c52;
+  --sidebar-border: #bccadc;
+  --sidebar-ring: color-mix(in oklch, #1775c8 50%, transparent);
+  /* Success green, used deliberately (checkmarks, trust badges, success
      accents) rather than as a pervasive UI hover color. */
-  --brand-accent: oklch(0.723 0.219 149.579);
-  --brand-accent-foreground: oklch(0.985 0 0);
-  --brand-accent-strong: oklch(0.527 0.154 150.069);
-  --chart-2-strong: oklch(0.5 0.134 242.749);
+  --brand-accent: #22c55e;
+  --brand-accent-foreground: #ffffff;
+  --brand-accent-strong: #16a34a;
+  --chart-2-strong: #0288d1;
 }
 
 .dark {
@@ -118,35 +117,39 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.707 0.165 254.624);
-  --primary-foreground: oklch(0.129 0.042 264.695);
+  /* Lighter tint of the brand blue for contrast against a dark background. */
+  --primary: #4fc3f7;
+  --primary-foreground: #0b3c5d;
   --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.85 0.06 237);
+  --secondary-foreground: #bde9fb;
   --muted: oklch(0.279 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.32 0.08 262);
-  --accent-foreground: oklch(0.9 0.03 262);
+  --accent: #0f3d38;
+  --accent-foreground: #7fd9cc;
   --destructive: oklch(0.704 0.191 22.216);
+  /* Dark mode's destructive is a lighter/more pastel red than light mode's —
+     white text on it is only 2.77:1, so this needs a dark foreground instead. */
+  --destructive-foreground: #1a0a0a;
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.707 0.165 254.624 / 50%);
-  --chart-1: oklch(0.707 0.165 254.624);
-  --chart-2: oklch(0.746 0.16 232.661);
-  --chart-3: oklch(0.792 0.209 151.711);
+  --ring: color-mix(in oklch, #4fc3f7 50%, transparent);
+  --chart-1: #4fc3f7;
+  --chart-2: #1e88e5;
+  --chart-3: #26a69a;
   --chart-4: oklch(0.769 0.188 70.08);
-  --chart-5: oklch(0.6 0.18 150);
+  --chart-5: #22c55e;
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.707 0.165 254.624);
-  --sidebar-primary-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-accent: oklch(0.32 0.08 262);
-  --sidebar-accent-foreground: oklch(0.9 0.03 262);
+  --sidebar-primary: #4fc3f7;
+  --sidebar-primary-foreground: #0b3c5d;
+  --sidebar-accent: #0f3d38;
+  --sidebar-accent-foreground: #7fd9cc;
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.707 0.165 254.624 / 50%);
-  --brand-accent: oklch(0.792 0.209 151.711);
-  --brand-accent-foreground: oklch(0.129 0.042 264.695);
-  --brand-accent-strong: oklch(0.75 0.17 152);
-  --chart-2-strong: oklch(0.85 0.09 235);
+  --sidebar-ring: color-mix(in oklch, #4fc3f7 50%, transparent);
+  --brand-accent: #22c55e;
+  --brand-accent-foreground: #0b3c1f;
+  --brand-accent-strong: #4ade80;
+  --chart-2-strong: #7fd4f7;
 }
 
 @layer base {

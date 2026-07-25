@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 
 import { Cta } from "@/components/sections/cta";
-import { PricingCalculator } from "@/components/sections/pricing-calculator";
-import { PricingComparison } from "@/components/sections/pricing-comparison";
-import { PricingFaq } from "@/components/sections/pricing-faq";
-import { PricingForBusiness } from "@/components/sections/pricing-for-business";
 import { PricingHero } from "@/components/sections/pricing-hero";
 import { PricingPlans } from "@/components/sections/pricing-plans";
-import { PricingTransparency } from "@/components/sections/pricing-transparency";
+import { PriceEstimator } from "@/components/sections/price-estimator";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Transparent, AI-powered pricing for AI Laundry Basket. Compare Essential, Premium, Family, and Business plans, estimate your cost, and see pricing for hotels, restaurants, healthcare, and more.",
+    "Simple, transparent pricing for laundry and dry cleaning across South Bengaluru. Pay per kg or per item, no hidden fees.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -21,15 +17,11 @@ export default function PricingPage() {
     <>
       <PricingHero />
       <PricingPlans />
-      <PricingCalculator />
-      <PricingComparison />
-      <PricingTransparency />
-      <PricingForBusiness />
-      <PricingFaq />
+      <PriceEstimator />
       <Cta
         title="Ready for pricing built around you?"
-        description="Get a personalized quote based on your exact laundry needs, no guesswork, no hidden fees."
-        buttonLabel="Request a Quote"
+        description="Get a personalized quote based on your exact laundry needs, no hidden fees."
+        buttonLabel="Get Instant Quote"
         buttonHref="/quote"
         note="Free, no-obligation quote."
       />

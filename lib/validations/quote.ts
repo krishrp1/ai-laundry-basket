@@ -21,6 +21,11 @@ const isoDate = z
   .trim()
   .regex(/^\d{4}-\d{2}-\d{2}$/, { error: "Use a valid date." });
 
+/** Today's date as YYYY-MM-DD in IST, independent of the server process's own timezone. */
+function todayIST(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
+}
+
 export const quoteFormSchema = z
   .object({
     name: trimmed(120, 1),
@@ -31,7 +36,7 @@ export const quoteFormSchema = z
     zip: z
       .string()
       .trim()
-      .regex(/^\d{5}(-\d{4})?$/, { error: "Enter a valid ZIP code." }),
+      .regex(/^\d{6}$/, { error: "Enter a valid 6-digit PIN code." }),
     customerType: z.enum(customerTypeValues),
     serviceType: trimmed(100, 1),
     estimatedWeight: trimmed(100, 1),
@@ -47,6 +52,10 @@ export const quoteFormSchema = z
       .refine((value) => value === "on" || value === "true", {
         error: "Please agree before submitting your request.",
       }),
+  })
+  .refine((data) => data.pickupDate >= todayIST(), {
+    error: "Pickup date cannot be in the past.",
+    path: ["pickupDate"],
   })
   .refine(
     (data) => !data.deliveryDate || data.deliveryDate >= data.pickupDate,

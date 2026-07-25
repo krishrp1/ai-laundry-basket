@@ -1,15 +1,13 @@
-import Link from "next/link";
-import { MapPin, Navigation } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
-import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 
+// TODO: Once a permanent business address is finalized, restore a "Get
+// directions" link/embedded map here (and add a real PostalAddress to
+// components/seo/organization-json-ld.tsx). Until then this is a doorstep-only
+// service with no fixed location to point to.
 export function ContactMap() {
-  const directionsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    siteConfig.contact.address
-  )}`;
-
   return (
     <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
       <Reveal>
@@ -23,26 +21,12 @@ export function ContactMap() {
               <MapPin className="size-6" />
             </span>
             <div>
-              <p className="font-medium">{siteConfig.contact.address}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Map preview placeholder, a live map will go here once this
-                site is connected to a mapping provider.
+              <p className="font-medium">{siteConfig.contact.addressLine}</p>
+              <p className="mt-1 max-w-md text-sm text-muted-foreground">
+                We don&apos;t have a fixed storefront — our team picks up and
+                delivers directly to your doorstep across South Bengaluru.
               </p>
             </div>
-            <Button
-              variant="secondary"
-              render={
-                <Link
-                  href={directionsHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              }
-              className="gap-1.5"
-            >
-              <Navigation className="size-4" />
-              Get directions
-            </Button>
           </div>
         </div>
       </Reveal>

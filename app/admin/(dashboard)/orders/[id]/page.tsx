@@ -5,9 +5,11 @@ import { ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { OrderStatusForm } from "@/components/admin/order-status-form";
+import { DetailField as Field } from "@/components/admin/detail-field";
 import { getOrderById } from "@/lib/data/orders";
 import { orderStatusLabels } from "@/lib/order-status-labels";
 import { updateOrderStatusAction } from "@/lib/actions/admin/orders";
+import { formatDateIN, formatDateTimeIN, formatINR } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Order" };
 
@@ -53,13 +55,13 @@ export default async function AdminOrderDetailPage({
                 label="Pickup"
                 value={
                   order.pickupDate
-                    ? `${order.pickupDate.toISOString().split("T")[0]}${order.pickupTime ? ` · ${order.pickupTime}` : ""}`
+                    ? `${formatDateIN(order.pickupDate)}${order.pickupTime ? ` · ${order.pickupTime}` : ""}`
                     : "—"
                 }
               />
               <Field
                 label="Delivery"
-                value={order.deliveryDate ? order.deliveryDate.toISOString().split("T")[0] : "—"}
+                value={order.deliveryDate ? formatDateIN(order.deliveryDate) : "—"}
               />
               <Field
                 label="Address"
@@ -69,8 +71,8 @@ export default async function AdminOrderDetailPage({
                     : "—"
                 }
               />
-              <Field label="Quoted price" value={order.quotedPrice ? `$${order.quotedPrice}` : "—"} />
-              <Field label="Final price" value={order.finalPrice ? `$${order.finalPrice}` : "—"} />
+              <Field label="Quoted price" value={order.quotedPrice ? formatINR(order.quotedPrice.toString()) : "—"} />
+              <Field label="Final price" value={order.finalPrice ? formatINR(order.finalPrice.toString()) : "—"} />
             </dl>
             {order.quoteRequest && (
               <Link
@@ -104,7 +106,7 @@ export default async function AdminOrderDetailPage({
                   <div className="flex items-center gap-2">
                     <StatusBadge status={entry.status} label={orderStatusLabels[entry.status]} />
                     <span className="text-xs text-muted-foreground">
-                      {entry.createdAt.toISOString().replace("T", " ").slice(0, 19)}
+                      {formatDateTimeIN(entry.createdAt)}
                     </span>
                   </div>
                   {entry.note && <p className="mt-1 text-sm">{entry.note}</p>}
@@ -117,15 +119,6 @@ export default async function AdminOrderDetailPage({
           </ol>
         </CardContent>
       </Card>
-    </div>
-  );
-}
-
-function Field({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-xs font-medium text-muted-foreground">{label}</dt>
-      <dd className="mt-0.5">{value}</dd>
     </div>
   );
 }

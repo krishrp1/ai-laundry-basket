@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, Mail, MapPin, Phone, Siren } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
@@ -46,12 +46,20 @@ export function ContactInfo() {
                 For questions, quotes, or account help. We reply within one
                 business day.
               </p>
-              <Link
-                href={`mailto:${siteConfig.contact.email}`}
-                className="mt-auto text-sm font-medium text-primary hover:underline"
-              >
-                {siteConfig.contact.email}
-              </Link>
+              <div className="mt-auto flex flex-col gap-0.5">
+                <Link
+                  href={`mailto:${siteConfig.contact.email}`}
+                  className="text-sm font-medium text-primary hover:underline"
+                >
+                  {siteConfig.contact.email}
+                </Link>
+                <Link
+                  href={`mailto:${siteConfig.contact.supportEmail}`}
+                  className="text-xs text-muted-foreground hover:underline"
+                >
+                  Support: {siteConfig.contact.supportEmail}
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </Reveal>
@@ -62,12 +70,13 @@ export function ContactInfo() {
               <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <MapPin className="size-5" />
               </span>
-              <p className="font-medium">Visit or write to us</p>
+              <p className="font-medium">Where we operate</p>
               <p className="text-sm text-muted-foreground">
-                Our operations hub handles routing for all service areas.
+                We don&apos;t have a public storefront yet — every order is
+                picked up and delivered directly to your door.
               </p>
               <p className="mt-auto text-sm font-medium">
-                {siteConfig.contact.address}
+                {siteConfig.contact.addressLine}
               </p>
             </CardContent>
           </Card>
@@ -119,19 +128,20 @@ export function ContactInfo() {
           <Card className="h-full border-primary/30 bg-primary/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
             <CardContent className="flex h-full flex-col gap-3">
               <span className="flex size-10 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                <Siren className="size-5" />
+                <MessageCircle className="size-5" />
               </span>
-              <p className="font-medium">Priority order support</p>
+              <p className="font-medium">Chat on WhatsApp</p>
               <p className="text-sm text-muted-foreground">
-                For urgent issues with an active order, such as a missed
-                pickup or delivery, call our priority line, available daily
-                from 7 AM to 11 PM.
+                Prefer messaging? Reach us on WhatsApp for quick questions or
+                an order update.
               </p>
               <Link
-                href={siteConfig.contact.priorityPhoneHref}
+                href={siteConfig.contact.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-auto text-sm font-medium text-primary hover:underline"
               >
-                {siteConfig.contact.priorityPhone}
+                {siteConfig.contact.whatsapp}
               </Link>
             </CardContent>
           </Card>

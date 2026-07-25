@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusSelectForm } from "@/components/admin/status-select-form";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
+import { DetailField as Field } from "@/components/admin/detail-field";
 import { getQuoteRequestById } from "@/lib/data/quotes";
 import { quoteStatusLabels } from "@/lib/order-status-labels";
 import {
@@ -13,6 +14,7 @@ import {
   deleteQuoteRequestAction,
   convertQuoteToOrderAction,
 } from "@/lib/actions/admin/quotes";
+import { formatDateIN, formatDateTimeIN } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Quote Request" };
 
@@ -47,6 +49,7 @@ export default async function AdminQuoteDetailPage({
           action={updateQuoteStatusAction.bind(null, quote.id)}
           currentStatus={quote.status}
           options={statusOptions}
+          label={`Update status for ${quote.requestId}`}
         />
       </div>
 
@@ -65,11 +68,11 @@ export default async function AdminQuoteDetailPage({
               <Field label="Recurring" value={quote.recurring} />
               <Field
                 label="Pickup"
-                value={`${quote.pickupDate.toISOString().split("T")[0]} · ${quote.pickupTime}`}
+                value={`${formatDateIN(quote.pickupDate)} · ${quote.pickupTime}`}
               />
               <Field
                 label="Delivery"
-                value={quote.deliveryDate ? quote.deliveryDate.toISOString().split("T")[0] : "—"}
+                value={quote.deliveryDate ? formatDateIN(quote.deliveryDate) : "—"}
               />
               <Field label="Urgency" value={quote.urgency} />
               <Field label="Address" value={`${quote.address}, ${quote.city} ${quote.zip}`} />
@@ -125,21 +128,12 @@ export default async function AdminQuoteDetailPage({
           <Card>
             <CardContent className="flex flex-col gap-2 text-sm">
               <h2 className="font-semibold">Metadata</h2>
-              <Field label="Received" value={quote.createdAt.toISOString()} />
+              <Field label="Received" value={formatDateTimeIN(quote.createdAt)} />
               <Field label="IP address" value={quote.ipAddress ?? "—"} />
             </CardContent>
           </Card>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Field({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-xs font-medium text-muted-foreground">{label}</dt>
-      <dd className="mt-0.5">{value}</dd>
     </div>
   );
 }

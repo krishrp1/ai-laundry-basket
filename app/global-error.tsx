@@ -48,7 +48,7 @@ export default function GlobalError({
           !
         </div>
         <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0 }}>
-          AI Laundry Basket hit a snag
+          A&I Laundry Basket hit a snag
         </h1>
         <p style={{ maxWidth: 420, color: "#555555", margin: 0 }}>
           Something went wrong loading the application. Please try again in
@@ -61,7 +61,7 @@ export default function GlobalError({
             padding: "10px 20px",
             borderRadius: 8,
             border: "none",
-            background: "#2563EB",
+            background: "#1E88E5",
             color: "#fafafa",
             fontSize: 14,
             fontWeight: 500,

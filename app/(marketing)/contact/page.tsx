@@ -9,7 +9,7 @@ import { Cta } from "@/components/sections/cta";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with AI Laundry Basket. Call, email, or send a message about pricing, an existing order, or a commercial account.",
+    "Get in touch with A&I Laundry Basket. Call, email, or send a message about pricing, an existing order, or a commercial account.",
   alternates: { canonical: "/contact" },
 };
 

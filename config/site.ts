@@ -1,40 +1,68 @@
 export const siteConfig = {
-  name: "AI Laundry Basket",
+  name: "A&I Laundry Basket",
   shortName: "Laundry Basket",
+  tagline: "Professional Laundry & Dry Cleaning, Delivered to Your Doorstep.",
   description:
-    "AI Laundry Basket helps you plan, sort, and schedule laundry with smart, automated recommendations.",
+    "A&I Laundry Basket is a modern laundry and dry cleaning service that offers convenient doorstep pickup, expert garment care, transparent pricing, and reliable delivery—making laundry effortless for homes and professionals across Bengaluru.",
+  // The homepage-level browser tab title and search-result title.
+  seoTitle: "A&I Laundry Basket | Laundry & Dry Cleaning Services in Bengaluru",
+  // Shorter, search/social-optimized description (distinct from the longer
+  // `description` above, which is used for general on-page/footer copy).
+  metaDescription:
+    "A&I Laundry Basket provides premium laundry, dry cleaning, ironing, and doorstep pickup & delivery across South Bengaluru with transparent pricing and reliable service.",
   url: "https://ailaundrybasket.com",
   keywords: [
-    "AI laundry",
-    "laundry scheduler",
-    "laundry app",
-    "smart laundry basket",
-    "laundry care assistant",
+    "laundry service Bengaluru",
+    "laundry service South Bengaluru",
+    "dry cleaning Jayanagar",
+    "doorstep laundry pickup Bengaluru",
+    "wash and fold Banashankari",
+    "A&I Laundry Basket",
   ],
-  links: {
-    twitter: "https://twitter.com/ailaundrybasket",
-    github: "https://github.com/ailaundrybasket",
-    instagram: "https://instagram.com/ailaundrybasket",
+  // Real people behind the business. Centralized here so the About page,
+  // Contact page, footer, and structured data (JSON-LD) all pull from one
+  // place instead of repeating names. Mention sparingly in the UI.
+  business: {
+    ownerName: "Ramesh Pareet",
+    ownerRole: "Founder",
+    opsName: "Krish Pareet",
+    opsRole: "Operations & Customer Relations",
   },
   contact: {
-    phone: "+1 (555) 010-0123",
-    phoneHref: "tel:+15550100123",
-    priorityPhone: "+1 (555) 010-0199",
-    priorityPhoneHref: "tel:+15550100199",
-    email: "support@ailaundrybasket.com",
-    address: "123 Main Street, Suite 200, Austin, TX 78701",
+    phone: "+91 90199 61091",
+    phoneHref: "tel:+919019961091",
+    whatsapp: "+91 90199 61091",
+    whatsappHref: "https://wa.me/919019961091",
+    email: "laundrybasketai@gmail.com",
+    supportEmail: "supportlaundrybasketai@gmail.com",
+    // No permanent storefront/office yet — do not invent a street address.
+    addressLine: "Serving customers across South Bengaluru.",
+    // TODO: Replace with a real street address once finalized, and update
+    // components/sections/contact-map.tsx + components/seo/organization-json-ld.tsx
+    // to add a proper PostalAddress / embedded map at that time.
     hours: [
-      { day: "Monday - Friday", time: "7:00 AM - 8:00 PM" },
-      { day: "Saturday", time: "8:00 AM - 6:00 PM" },
-      { day: "Sunday", time: "9:00 AM - 4:00 PM" },
+      { day: "Monday - Friday", time: "9:00 AM - 9:00 PM" },
+      { day: "Saturday - Sunday", time: "9:00 AM - 1:00 PM" },
     ],
     serviceAreas: [
-      "Austin, TX",
-      "Chicago, IL",
-      "Seattle, WA",
-      "Denver, CO",
-      "Miami, FL",
-      "Nashville, TN",
+      "Banashankari",
+      "Jayanagar",
+      "JP Nagar",
+      "Basavanagudi",
+      "BTM Layout",
+      "Kumaraswamy Layout",
+      "Padmanabhanagar",
+      "Uttarahalli",
+      "Kanakapura Road",
+      "Girinagar",
+      "Rajarajeshwari Nagar",
+      "ISRO Layout",
+      "Konanakunte",
+      "Yelachenahalli",
+      "Talaghattapura",
+      "Anjanapura",
+      "Bannerghatta Road",
+      "Vasanthapura",
     ],
   },
 } as const;
@@ -46,11 +74,9 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
   { title: "Home", href: "/" },
-  { title: "Features", href: "/features" },
   { title: "Services", href: "/services" },
   { title: "Pricing", href: "/pricing" },
   { title: "About", href: "/about" },
-  { title: "Testimonials", href: "/testimonials" },
   { title: "Contact", href: "/contact" },
 ];
 
@@ -58,10 +84,9 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
   {
     title: "Product",
     items: [
-      { title: "Features", href: "/features" },
       { title: "Services", href: "/services" },
       { title: "Pricing", href: "/pricing" },
-      { title: "How it works", href: "/how-it-works" },
+      { title: "How it works", href: "/#how-it-works" },
       { title: "Request a Quote", href: "/quote" },
     ],
   },
@@ -69,7 +94,6 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     title: "Company",
     items: [
       { title: "About", href: "/about" },
-      { title: "Testimonials", href: "/testimonials" },
       { title: "FAQ", href: "/faq" },
       { title: "Contact", href: "/contact" },
       { title: "Careers", href: "/careers" },

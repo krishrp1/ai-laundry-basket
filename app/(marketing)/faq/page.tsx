@@ -8,7 +8,7 @@ import { FaqJsonLd } from "@/components/seo/faq-json-ld";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Answers to common questions about AI Laundry Basket, covering pricing, pickup and delivery, dry cleaning, wash & fold, commercial plans, subscriptions, and more.",
+    "Answers to common questions about A&I Laundry Basket, covering pricing, pickup and delivery, dry cleaning, wash & fold, commercial plans, subscriptions, and more.",
   alternates: { canonical: "/faq" },
 };
 
