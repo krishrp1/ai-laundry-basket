@@ -41,6 +41,7 @@ export async function updateOrderStatusAction(id: string, formData: FormData) {
       revalidatePath("/admin/orders");
       redirect("/admin/orders");
     }
+    console.error(`[admin/orders] updateOrderStatusAction failed for ${id}:`, error);
     throw error;
   }
 

@@ -26,6 +26,7 @@ export async function updateMessageStatusAction(id: string, formData: FormData) 
       revalidatePath("/admin/messages");
       redirect("/admin/messages");
     }
+    console.error(`[admin/messages] updateMessageStatusAction failed for ${id}:`, error);
     throw error;
   }
 
