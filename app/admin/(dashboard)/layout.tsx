@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getCurrentAdmin } from "@/lib/auth/dal";
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminSidebar, AdminMobileNav } from "@/components/admin/admin-sidebar";
 
 // This whole segment reads cookies() and hits the database on every request;
 // never attempt to statically prerender it at build time.
@@ -21,10 +21,15 @@ export default async function AdminLayout({
 }) {
   const admin = await getCurrentAdmin();
 
+  const adminName = admin.name ?? admin.email;
+
   return (
     <div className="flex min-h-screen flex-1 flex-col sm:flex-row">
-      <AdminSidebar adminName={admin.name ?? admin.email} />
-      <div className="flex-1 overflow-x-hidden p-4 sm:p-8">{children}</div>
+      <AdminSidebar adminName={adminName} />
+      <div className="flex flex-1 flex-col overflow-x-hidden">
+        <AdminMobileNav adminName={adminName} />
+        <div className="flex-1 p-4 sm:p-8">{children}</div>
+      </div>
     </div>
   );
 }

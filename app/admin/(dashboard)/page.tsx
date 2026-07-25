@@ -50,7 +50,7 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-semibold">Recent quote requests</h2>
+              <h2 className="text-base font-semibold">Recent quote requests</h2>
               <Link href="/admin/quotes" className="text-sm text-primary hover:underline">
                 View all
               </Link>
@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-semibold">Recent orders</h2>
+              <h2 className="text-base font-semibold">Recent orders</h2>
               <Link href="/admin/orders" className="text-sm text-primary hover:underline">
                 View all
               </Link>
