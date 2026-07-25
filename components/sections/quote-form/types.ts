@@ -44,7 +44,7 @@ export const defaultFormValues: QuoteFormValues = {
   deliveryDate: "",
   urgency: "standard",
   specialInstructions: "",
-  contactMethod: "email",
+  contactMethod: "phone",
   consent: false,
 };
 
