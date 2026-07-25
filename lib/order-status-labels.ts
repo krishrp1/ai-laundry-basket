@@ -1,4 +1,12 @@
-import type { OrderStatus, QuoteStatus, ContactStatus } from "@/generated/prisma/client";
+import type {
+  OrderStatus,
+  QuoteStatus,
+  ContactStatus,
+  CustomerType,
+  ContactMethod,
+  Urgency,
+  RecurringFrequency,
+} from "@/generated/prisma/client";
 
 export const orderStatusLabels: Record<OrderStatus, string> = {
   PENDING: "Pending",
@@ -25,4 +33,28 @@ export const contactStatusLabels: Record<ContactStatus, string> = {
   READ: "Read",
   REPLIED: "Replied",
   SPAM: "Spam",
+};
+
+export const customerTypeLabels: Record<CustomerType, string> = {
+  RESIDENTIAL: "Residential",
+  COMMERCIAL: "Commercial",
+};
+
+export const contactMethodLabels: Record<ContactMethod, string> = {
+  EMAIL: "Email",
+  PHONE: "Phone",
+  TEXT: "Text",
+};
+
+export const urgencyLabels: Record<Urgency, string> = {
+  STANDARD: "Standard",
+  RUSH: "Rush",
+  SAME_DAY: "Same-day",
+};
+
+export const recurringLabels: Record<RecurringFrequency, string> = {
+  ONE_TIME: "One-time",
+  WEEKLY: "Weekly",
+  BIWEEKLY: "Every two weeks",
+  MONTHLY: "Monthly",
 };
