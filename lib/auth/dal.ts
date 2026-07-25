@@ -46,11 +46,16 @@ export const getCurrentAdmin = cache(async (): Promise<CurrentAdmin> => {
  * Gate for destructive/irreversible actions (deletes). Regular ADMINs can
  * manage day-to-day quotes/orders/messages; only SUPER_ADMIN can delete
  * records outright.
+ *
+ * Redirects to a dedicated 403 page rather than throwing — an uncaught throw
+ * here would fall through to the generic error.tsx boundary (a "something
+ * went wrong" page), which is the wrong message for "you're not allowed to
+ * do this" and doesn't tell the admin what actually happened.
  */
 export async function requireSuperAdmin(): Promise<CurrentAdmin> {
   const admin = await getCurrentAdmin();
   if (admin.role !== "SUPER_ADMIN") {
-    throw new Error("Only a super admin can perform this action.");
+    redirect("/admin/forbidden");
   }
   return admin;
 }
