@@ -73,6 +73,12 @@ enum AdminRole {
 
 // ---------------------------------------------------------------------------
 // Models
+//
+// Note: the pg_trgm GIN indexes backing the admin search views (Customer,
+// LaundryOrder, QuoteRequest, ContactMessage name/email/phone/message
+// columns) are applied via a raw-SQL migration and intentionally not
+// modeled here — Prisma's schema format has no trigram/GIN index syntax in
+// this version. Don't be surprised if `prisma migrate dev` doesn't see them.
 // ---------------------------------------------------------------------------
 
 model Customer {
@@ -146,8 +152,6 @@ model QuoteRequest {
   urgency             Urgency             @default(STANDARD)
   specialInstructions String?
   contactMethod       ContactMethod       @default(EMAIL)
-  attachmentUrl       String?
-  attachmentName       String?
   status              QuoteStatus         @default(NEW)
   ipAddress           String?
 

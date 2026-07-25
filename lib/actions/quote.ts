@@ -69,7 +69,19 @@ export async function submitQuoteRequest(
       data.pickupDate,
     ]);
     if (duplicate) {
-      return { status: "success", requestId: generateRequestId("QR") };
+      // The row from the first attempt already exists — but that attempt may
+      // have failed to email the customer (e.g. a transient Resend outage),
+      // so resend the confirmation on retry instead of silently no-oping.
+      const requestId = generateRequestId("QR");
+      await sendQuoteConfirmation({
+        to: data.email,
+        name: data.name,
+        requestId,
+        serviceType: data.serviceType,
+        pickupDate: data.pickupDate,
+        pickupTime: data.pickupTime,
+      });
+      return { status: "success", requestId };
     }
 
     const requestId = generateRequestId("QR");

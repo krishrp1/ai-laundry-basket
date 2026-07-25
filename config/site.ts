@@ -10,7 +10,10 @@ export const siteConfig = {
   // `description` above, which is used for general on-page/footer copy).
   metaDescription:
     "A&I Laundry Basket provides premium laundry, dry cleaning, ironing, and doorstep pickup & delivery across South Bengaluru with transparent pricing and reliable service.",
-  url: "https://ailaundrybasket.com",
+  // Canonical/OG/sitemap base URL. Defaults to production so preview
+  // deployments still emit prod-facing metadata (the usual SEO-correct
+  // choice); set NEXT_PUBLIC_SITE_URL to override per-environment.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://ailaundrybasket.com",
   keywords: [
     "laundry service Bengaluru",
     "laundry service South Bengaluru",
@@ -96,7 +99,6 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { title: "About", href: "/about" },
       { title: "FAQ", href: "/faq" },
       { title: "Contact", href: "/contact" },
-      { title: "Careers", href: "/careers" },
     ],
   },
   {

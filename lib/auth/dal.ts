@@ -41,3 +41,16 @@ export const getCurrentAdmin = cache(async (): Promise<CurrentAdmin> => {
 
   return admin;
 });
+
+/**
+ * Gate for destructive/irreversible actions (deletes). Regular ADMINs can
+ * manage day-to-day quotes/orders/messages; only SUPER_ADMIN can delete
+ * records outright.
+ */
+export async function requireSuperAdmin(): Promise<CurrentAdmin> {
+  const admin = await getCurrentAdmin();
+  if (admin.role !== "SUPER_ADMIN") {
+    throw new Error("Only a super admin can perform this action.");
+  }
+  return admin;
+}

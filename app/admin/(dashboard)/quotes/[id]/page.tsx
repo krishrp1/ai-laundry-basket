@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowLeft, Paperclip, RefreshCw } from "lucide-react";
+import { ArrowLeft, RefreshCw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusSelectForm } from "@/components/admin/status-select-form";
@@ -15,6 +15,7 @@ import {
   convertQuoteToOrderAction,
 } from "@/lib/actions/admin/quotes";
 import { formatDateIN, formatDateTimeIN } from "@/lib/format";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Quote Request" };
 
@@ -29,8 +30,9 @@ export default async function AdminQuoteDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const quote = await getQuoteRequestById(id);
+  const [quote, admin] = await Promise.all([getQuoteRequestById(id), getCurrentAdmin()]);
   if (!quote) notFound();
+  const canDelete = admin.role === "SUPER_ADMIN";
 
   return (
     <div className="flex flex-col gap-6">
@@ -83,17 +85,6 @@ export default async function AdminQuoteDetailPage({
                 <p className="mt-1 text-sm whitespace-pre-wrap">{quote.specialInstructions}</p>
               </div>
             )}
-            {quote.attachmentUrl && (
-              <a
-                href={quote.attachmentUrl}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="inline-flex w-fit items-center gap-1.5 text-sm text-primary hover:underline"
-              >
-                <Paperclip className="size-4" />
-                {quote.attachmentName ?? "View attachment"}
-              </a>
-            )}
           </CardContent>
         </Card>
 
@@ -113,15 +104,17 @@ export default async function AdminQuoteDetailPage({
                   </Button>
                 </form>
               )}
-              <form action={deleteQuoteRequestAction.bind(null, quote.id)}>
-                <ConfirmSubmitButton
-                  variant="destructive"
-                  confirmMessage="Delete this quote request? This cannot be undone."
-                  className="w-full"
-                >
-                  Delete as spam
-                </ConfirmSubmitButton>
-              </form>
+              {canDelete && (
+                <form action={deleteQuoteRequestAction.bind(null, quote.id)}>
+                  <ConfirmSubmitButton
+                    variant="destructive"
+                    confirmMessage="Delete this quote request? This cannot be undone."
+                    className="w-full"
+                  >
+                    Delete as spam
+                  </ConfirmSubmitButton>
+                </form>
+              )}
             </CardContent>
           </Card>
 
