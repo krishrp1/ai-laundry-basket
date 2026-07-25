@@ -16,6 +16,7 @@ import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { contactStatusLabels } from "@/lib/order-status-labels";
 import { updateMessageStatusAction, deleteMessageAction } from "@/lib/actions/admin/messages";
 import { formatDateIN } from "@/lib/format";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Contact Messages" };
 
@@ -30,7 +31,11 @@ export default async function AdminMessagesPage({
   searchParams: Promise<RawSearchParams>;
 }) {
   const params = parseListParams(await searchParams);
-  const { items, meta } = await listContactMessages(params);
+  const [{ items, meta }, admin] = await Promise.all([
+    listContactMessages(params),
+    getCurrentAdmin(),
+  ]);
+  const canDelete = admin.role === "SUPER_ADMIN";
 
   return (
     <div className="flex flex-col gap-6">
@@ -85,16 +90,18 @@ export default async function AdminMessagesPage({
                   {formatDateIN(message.createdAt)}
                 </TableCell>
                 <TableCell className="text-right">
-                  <form action={deleteMessageAction.bind(null, message.id)} className="inline">
-                    <ConfirmSubmitButton
-                      variant="ghost"
-                      size="sm"
-                      confirmMessage="Delete this message? This cannot be undone."
-                      className="text-destructive"
-                    >
-                      Delete
-                    </ConfirmSubmitButton>
-                  </form>
+                  {canDelete && (
+                    <form action={deleteMessageAction.bind(null, message.id)} className="inline">
+                      <ConfirmSubmitButton
+                        variant="ghost"
+                        size="sm"
+                        confirmMessage="Delete this message? This cannot be undone."
+                        className="text-destructive"
+                      >
+                        Delete
+                      </ConfirmSubmitButton>
+                    </form>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

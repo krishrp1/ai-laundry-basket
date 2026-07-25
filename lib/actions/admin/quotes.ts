@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
-import { verifySession } from "@/lib/auth/dal";
+import { verifySession, requireSuperAdmin } from "@/lib/auth/dal";
 import { QuoteStatus } from "@/generated/prisma/client";
 import { generateRequestId } from "@/lib/ids";
 import { sendBookingConfirmation } from "@/lib/email/send";
@@ -39,7 +39,7 @@ export async function updateQuoteStatusAction(id: string, formData: FormData) {
 }
 
 export async function deleteQuoteRequestAction(id: string) {
-  await verifySession();
+  await requireSuperAdmin();
 
   await db.quoteRequest.delete({ where: { id } }).catch(() => null);
 
@@ -54,31 +54,36 @@ export async function convertQuoteToOrderAction(id: string) {
   if (!quote) {
     throw new Error("Quote request not found");
   }
-  if (!quote.customerId) {
+  const customerId = quote.customerId;
+  if (!customerId) {
     throw new Error("Quote request has no linked customer");
   }
 
   const orderId = generateRequestId("ORD");
 
-  const order = await db.laundryOrder.create({
-    data: {
-      orderId,
-      quoteRequestId: quote.id,
-      customerId: quote.customerId,
-      serviceType: quote.serviceType,
-      pickupDate: quote.pickupDate,
-      pickupTime: quote.pickupTime,
-      deliveryDate: quote.deliveryDate,
-      status: "PENDING",
-      statusHistory: {
-        create: { status: "PENDING", changedBy: session.email },
+  const order = await db.$transaction(async (tx) => {
+    const created = await tx.laundryOrder.create({
+      data: {
+        orderId,
+        quoteRequestId: quote.id,
+        customerId,
+        serviceType: quote.serviceType,
+        pickupDate: quote.pickupDate,
+        pickupTime: quote.pickupTime,
+        deliveryDate: quote.deliveryDate,
+        status: "PENDING",
+        statusHistory: {
+          create: { status: "PENDING", changedBy: session.email },
+        },
       },
-    },
-  });
+    });
 
-  await db.quoteRequest.update({
-    where: { id: quote.id },
-    data: { status: "CONVERTED" },
+    await tx.quoteRequest.update({
+      where: { id: quote.id },
+      data: { status: "CONVERTED" },
+    });
+
+    return created;
   });
 
   await sendBookingConfirmation({
