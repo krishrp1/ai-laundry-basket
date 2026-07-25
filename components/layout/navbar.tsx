@@ -36,7 +36,7 @@ export function Navbar() {
           <span>{siteConfig.name}</span>
         </Link>
 
-        <nav className="hidden md:flex md:items-center md:gap-1">
+        <nav className="hidden lg:flex lg:items-center lg:gap-1">
           {mainNav.map((item) => {
             const isActive =
               item.href === "/"
@@ -74,7 +74,7 @@ export function Navbar() {
           <ModeToggle />
           <Button
             render={<Link href="/quote" />}
-            className="hidden md:inline-flex"
+            className="hidden lg:inline-flex"
           >
             Request a Quote
           </Button>
@@ -85,7 +85,7 @@ export function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-11 md:hidden"
+                  className="size-11 lg:hidden"
                   aria-label="Open menu"
                 />
               }

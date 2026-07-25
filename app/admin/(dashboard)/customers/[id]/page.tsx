@@ -39,7 +39,7 @@ export default async function AdminCustomerDetailPage({
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardContent>
-            <h2 className="mb-4 font-semibold">Quote requests</h2>
+            <h2 className="mb-4 text-base font-semibold">Quote requests</h2>
             <ul className="flex flex-col gap-3">
               {customer.quoteRequests.length === 0 && (
                 <li className="text-sm text-muted-foreground">No quote requests.</li>
@@ -58,7 +58,7 @@ export default async function AdminCustomerDetailPage({
 
         <Card>
           <CardContent>
-            <h2 className="mb-4 font-semibold">Orders</h2>
+            <h2 className="mb-4 text-base font-semibold">Orders</h2>
             <ul className="flex flex-col gap-3">
               {customer.orders.length === 0 && (
                 <li className="text-sm text-muted-foreground">No orders.</li>

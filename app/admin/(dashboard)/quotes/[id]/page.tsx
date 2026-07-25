@@ -8,7 +8,13 @@ import { StatusSelectForm } from "@/components/admin/status-select-form";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { DetailField as Field } from "@/components/admin/detail-field";
 import { getQuoteRequestById } from "@/lib/data/quotes";
-import { quoteStatusLabels } from "@/lib/order-status-labels";
+import {
+  quoteStatusLabels,
+  customerTypeLabels,
+  contactMethodLabels,
+  urgencyLabels,
+  recurringLabels,
+} from "@/lib/order-status-labels";
 import {
   updateQuoteStatusAction,
   deleteQuoteRequestAction,
@@ -58,16 +64,16 @@ export default async function AdminQuoteDetailPage({
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardContent className="flex flex-col gap-4">
-            <h2 className="font-semibold">Request details</h2>
+            <h2 className="text-base font-semibold">Request details</h2>
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <Field label="Customer" value={quote.name} />
               <Field label="Email" value={quote.email} />
               <Field label="Phone" value={quote.phone} />
-              <Field label="Preferred contact" value={quote.contactMethod} />
-              <Field label="Customer type" value={quote.customerType} />
+              <Field label="Preferred contact" value={contactMethodLabels[quote.contactMethod]} />
+              <Field label="Customer type" value={customerTypeLabels[quote.customerType]} />
               <Field label="Service" value={quote.serviceType} />
               <Field label="Estimated weight" value={quote.estimatedWeight} />
-              <Field label="Recurring" value={quote.recurring} />
+              <Field label="Recurring" value={recurringLabels[quote.recurring]} />
               <Field
                 label="Pickup"
                 value={`${formatDateIN(quote.pickupDate)} · ${quote.pickupTime}`}
@@ -76,7 +82,7 @@ export default async function AdminQuoteDetailPage({
                 label="Delivery"
                 value={quote.deliveryDate ? formatDateIN(quote.deliveryDate) : "—"}
               />
-              <Field label="Urgency" value={quote.urgency} />
+              <Field label="Urgency" value={urgencyLabels[quote.urgency]} />
               <Field label="Address" value={`${quote.address}, ${quote.city} ${quote.zip}`} />
             </dl>
             {quote.specialInstructions && (
@@ -91,7 +97,7 @@ export default async function AdminQuoteDetailPage({
         <div className="flex flex-col gap-4">
           <Card>
             <CardContent className="flex flex-col gap-3">
-              <h2 className="font-semibold">Actions</h2>
+              <h2 className="text-base font-semibold">Actions</h2>
               {quote.order ? (
                 <Button variant="outline" render={<Link href={`/admin/orders/${quote.order.id}`} />}>
                   View linked order
@@ -120,7 +126,7 @@ export default async function AdminQuoteDetailPage({
 
           <Card>
             <CardContent className="flex flex-col gap-2 text-sm">
-              <h2 className="font-semibold">Metadata</h2>
+              <h2 className="text-base font-semibold">Metadata</h2>
               <Field label="Received" value={formatDateTimeIN(quote.createdAt)} />
               <Field label="IP address" value={quote.ipAddress ?? "—"} />
             </CardContent>
