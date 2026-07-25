@@ -33,15 +33,15 @@ const steps = [
 
 export function QuoteSidebar() {
   return (
-    <div className="flex flex-col gap-5 lg:sticky lg:top-24">
+    <div className="flex flex-col gap-5">
       <Reveal>
         <Card>
           <CardContent className="flex flex-col gap-5">
             <div>
-              <p className="font-heading text-lg font-semibold">
+              <p className="font-heading text-xl font-semibold">
                 How it works
               </p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 text-base text-muted-foreground">
                 Here is what happens after you submit this form.
               </p>
             </div>
@@ -53,8 +53,8 @@ export function QuoteSidebar() {
                     {i + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-medium">{step.title}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-base font-medium">{step.title}</p>
+                    <p className="text-sm text-muted-foreground">
                       {step.description}
                     </p>
                   </div>
@@ -68,25 +68,25 @@ export function QuoteSidebar() {
       <Reveal delay={0.08}>
         <Card>
           <CardContent className="flex flex-col gap-4">
-            <p className="font-medium">Prefer to talk it through?</p>
-            <div className="flex flex-col gap-3 text-sm">
+            <p className="text-lg font-medium">Prefer to talk it through?</p>
+            <div className="flex flex-col gap-3 text-base">
               <Link
                 href={siteConfig.contact.phoneHref}
                 className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground"
               >
-                <Phone className="size-4 text-primary" />
+                <Phone className="size-5 text-primary" />
                 {siteConfig.contact.phone}
               </Link>
               <Link
                 href={`mailto:${siteConfig.contact.email}`}
                 className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground"
               >
-                <Mail className="size-4 text-primary" />
+                <Mail className="size-5 text-primary" />
                 {siteConfig.contact.email}
               </Link>
             </div>
             <Separator />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Submitting this form does not book a pickup. We will follow up
               to confirm details before anything is scheduled or charged.
             </p>
