@@ -85,7 +85,7 @@ export function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="md:hidden"
+                  className="size-11 md:hidden"
                   aria-label="Open menu"
                 />
               }
