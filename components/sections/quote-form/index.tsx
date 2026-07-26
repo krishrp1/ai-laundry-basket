@@ -221,31 +221,33 @@ export function QuoteForm({
               </div>
             </fieldset>
 
-            <Field label="Your name" htmlFor="quote-name" error={errors.name} required>
-              <Input
-                id="quote-name"
-                autoComplete="name"
-                className={inputClass}
-                value={values.name}
-                onChange={(e) => updateField("name", e.target.value)}
-                aria-invalid={Boolean(errors.name)}
-                aria-describedby={errors.name ? "quote-name-error" : undefined}
-              />
-            </Field>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="Your name" htmlFor="quote-name" error={errors.name} required>
+                <Input
+                  id="quote-name"
+                  autoComplete="name"
+                  className={inputClass}
+                  value={values.name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  aria-invalid={Boolean(errors.name)}
+                  aria-describedby={errors.name ? "quote-name-error" : undefined}
+                />
+              </Field>
 
-            <Field label="Phone number" htmlFor="quote-phone" error={errors.phone} required>
-              <Input
-                id="quote-phone"
-                type="tel"
-                autoComplete="tel"
-                placeholder="+91 90199 61091"
-                className={inputClass}
-                value={values.phone}
-                onChange={(e) => updateField("phone", e.target.value)}
-                aria-invalid={Boolean(errors.phone)}
-                aria-describedby={errors.phone ? "quote-phone-error" : undefined}
-              />
-            </Field>
+              <Field label="Phone number" htmlFor="quote-phone" error={errors.phone} required>
+                <Input
+                  id="quote-phone"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder="+91 90199 61091"
+                  className={inputClass}
+                  value={values.phone}
+                  onChange={(e) => updateField("phone", e.target.value)}
+                  aria-invalid={Boolean(errors.phone)}
+                  aria-describedby={errors.phone ? "quote-phone-error" : undefined}
+                />
+              </Field>
+            </div>
 
             <Field label="Email" htmlFor="quote-email" error={errors.email} required>
               <Input
@@ -264,7 +266,6 @@ export function QuoteForm({
               label="Address"
               htmlFor="quote-address"
               error={errors.address}
-              hint="Flat / Apartment, Street, Area"
               required
             >
               <Input
@@ -279,143 +280,149 @@ export function QuoteForm({
               />
             </Field>
 
-            <Field label="City" htmlFor="quote-city" error={errors.city} required>
-              <Input
-                id="quote-city"
-                autoComplete="address-level2"
-                placeholder="e.g. Bengaluru"
-                className={inputClass}
-                value={values.city}
-                onChange={(e) => updateField("city", e.target.value)}
-                aria-invalid={Boolean(errors.city)}
-                aria-describedby={errors.city ? "quote-city-error" : undefined}
-              />
-            </Field>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="City" htmlFor="quote-city" error={errors.city} required>
+                <Input
+                  id="quote-city"
+                  autoComplete="address-level2"
+                  placeholder="e.g. Bengaluru"
+                  className={inputClass}
+                  value={values.city}
+                  onChange={(e) => updateField("city", e.target.value)}
+                  aria-invalid={Boolean(errors.city)}
+                  aria-describedby={errors.city ? "quote-city-error" : undefined}
+                />
+              </Field>
 
-            <Field label="PIN code" htmlFor="quote-zip" error={errors.zip} required>
-              <Input
-                id="quote-zip"
-                inputMode="numeric"
-                autoComplete="postal-code"
-                placeholder="e.g. 560070"
-                maxLength={6}
-                className={inputClass}
-                value={values.zip}
-                onChange={(e) => updateField("zip", e.target.value)}
-                aria-invalid={Boolean(errors.zip)}
-                aria-describedby={errors.zip ? "quote-zip-error" : undefined}
-              />
-            </Field>
+              <Field label="PIN code" htmlFor="quote-zip" error={errors.zip} required>
+                <Input
+                  id="quote-zip"
+                  inputMode="numeric"
+                  autoComplete="postal-code"
+                  placeholder="e.g. 560070"
+                  maxLength={6}
+                  className={inputClass}
+                  value={values.zip}
+                  onChange={(e) => updateField("zip", e.target.value)}
+                  aria-invalid={Boolean(errors.zip)}
+                  aria-describedby={errors.zip ? "quote-zip-error" : undefined}
+                />
+              </Field>
+            </div>
 
-            <Field
-              label="What do you need cleaned?"
-              htmlFor="quote-service-type"
-              error={errors.serviceType}
-              required
-            >
-              <Select
-                value={values.serviceType}
-                onValueChange={(value) => updateField("serviceType", value as string)}
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field
+                label="Service"
+                htmlFor="quote-service-type"
+                error={errors.serviceType}
+                required
               >
-                <SelectTrigger
-                  id="quote-service-type"
-                  className={selectTriggerClass}
-                  aria-invalid={Boolean(errors.serviceType)}
-                  aria-describedby={
-                    errors.serviceType ? "quote-service-type-error" : undefined
-                  }
+                <Select
+                  value={values.serviceType}
+                  onValueChange={(value) => updateField("serviceType", value as string)}
                 >
-                  <SelectValue placeholder="Choose a service" />
-                </SelectTrigger>
-                <SelectContent>
-                  {serviceTypes.map((service) => (
-                    <SelectItem key={service} value={service} className="py-2.5 text-base">
-                      {service}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
+                  <SelectTrigger
+                    id="quote-service-type"
+                    className={selectTriggerClass}
+                    aria-invalid={Boolean(errors.serviceType)}
+                    aria-describedby={
+                      errors.serviceType ? "quote-service-type-error" : undefined
+                    }
+                  >
+                    <SelectValue placeholder="Choose a service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {serviceTypes.map((service) => (
+                      <SelectItem key={service} value={service} className="py-2.5 text-base">
+                        {service}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
 
-            <Field
-              label="About how much laundry?"
-              htmlFor="quote-weight"
-              error={errors.estimatedWeight}
-              required
-            >
-              <Select
-                value={values.estimatedWeight}
-                onValueChange={(value) => updateField("estimatedWeight", value as string)}
+              <Field
+                label="Load size"
+                htmlFor="quote-weight"
+                error={errors.estimatedWeight}
+                required
               >
-                <SelectTrigger
-                  id="quote-weight"
-                  className={selectTriggerClass}
-                  aria-invalid={Boolean(errors.estimatedWeight)}
-                  aria-describedby={
-                    errors.estimatedWeight ? "quote-weight-error" : undefined
-                  }
+                <Select
+                  value={values.estimatedWeight}
+                  onValueChange={(value) => updateField("estimatedWeight", value as string)}
                 >
-                  <SelectValue placeholder="Choose an estimate" />
-                </SelectTrigger>
-                <SelectContent>
-                  {weightTiers.map((tier) => (
-                    <SelectItem key={tier} value={tier} className="py-2.5 text-base">
-                      {tier}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
+                  <SelectTrigger
+                    id="quote-weight"
+                    className={selectTriggerClass}
+                    aria-invalid={Boolean(errors.estimatedWeight)}
+                    aria-describedby={
+                      errors.estimatedWeight ? "quote-weight-error" : undefined
+                    }
+                  >
+                    <SelectValue placeholder="Choose an estimate" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {weightTiers.map((tier) => (
+                      <SelectItem key={tier} value={tier} className="py-2.5 text-base">
+                        {tier}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+            </div>
 
-            <Field
-              label="Pickup date"
-              htmlFor="quote-pickup-date"
-              error={errors.pickupDate}
-              required
-            >
-              <Input
-                id="quote-pickup-date"
-                type="date"
-                min={minDate || undefined}
-                className={inputClass}
-                value={values.pickupDate}
-                onChange={(e) => updateField("pickupDate", e.target.value)}
-                aria-invalid={Boolean(errors.pickupDate)}
-                aria-describedby={
-                  errors.pickupDate ? "quote-pickup-date-error" : undefined
-                }
-              />
-            </Field>
-
-            <Field
-              label="Preferred pickup time"
-              htmlFor="quote-pickup-time"
-              error={errors.pickupTime}
-              required
-            >
-              <Select
-                value={values.pickupTime}
-                onValueChange={(value) => updateField("pickupTime", value as string)}
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field
+                label="Pickup date"
+                htmlFor="quote-pickup-date"
+                error={errors.pickupDate}
+                required
               >
-                <SelectTrigger
-                  id="quote-pickup-time"
-                  className={selectTriggerClass}
-                  aria-invalid={Boolean(errors.pickupTime)}
+                <Input
+                  id="quote-pickup-date"
+                  type="date"
+                  min={minDate || undefined}
+                  className={inputClass}
+                  value={values.pickupDate}
+                  onChange={(e) => updateField("pickupDate", e.target.value)}
+                  aria-invalid={Boolean(errors.pickupDate)}
                   aria-describedby={
-                    errors.pickupTime ? "quote-pickup-time-error" : undefined
+                    errors.pickupDate ? "quote-pickup-date-error" : undefined
                   }
+                />
+              </Field>
+
+              <Field
+                label="Pickup time"
+                htmlFor="quote-pickup-time"
+                error={errors.pickupTime}
+                required
+              >
+                <Select
+                  value={values.pickupTime}
+                  onValueChange={(value) => updateField("pickupTime", value as string)}
                 >
-                  <SelectValue placeholder="Choose a window" />
-                </SelectTrigger>
-                <SelectContent>
-                  {pickupTimes.map((time) => (
-                    <SelectItem key={time} value={time} className="py-2.5 text-base">
-                      {time}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
+                  <SelectTrigger
+                    id="quote-pickup-time"
+                    className={selectTriggerClass}
+                    aria-invalid={Boolean(errors.pickupTime)}
+                    aria-describedby={
+                      errors.pickupTime ? "quote-pickup-time-error" : undefined
+                    }
+                  >
+                    <SelectValue placeholder="Choose a window" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {pickupTimes.map((time) => (
+                      <SelectItem key={time} value={time} className="py-2.5 text-base">
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+            </div>
 
             <div className="flex items-start gap-3">
               <Checkbox
