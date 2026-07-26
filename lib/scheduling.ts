@@ -3,13 +3,13 @@ import { formatDateIN } from "@/lib/format";
 
 /** Business hours per day-of-week (0 = Sunday .. 6 = Saturday), matching siteConfig.contact.hours. */
 const BUSINESS_HOURS: Record<number, { open: number; close: number }> = {
-  0: { open: 9, close: 16 }, // Sunday
-  1: { open: 7, close: 20 }, // Monday
-  2: { open: 7, close: 20 },
-  3: { open: 7, close: 20 },
-  4: { open: 7, close: 20 },
-  5: { open: 7, close: 20 },
-  6: { open: 8, close: 18 }, // Saturday
+  0: { open: 9, close: 21 }, // Sunday
+  1: { open: 9, close: 21 }, // Monday
+  2: { open: 9, close: 21 },
+  3: { open: 9, close: 21 },
+  4: { open: 9, close: 21 },
+  5: { open: 9, close: 21 },
+  6: { open: 9, close: 21 }, // Saturday
 };
 
 const STANDARD_TURNAROUND_HOURS = 24;
