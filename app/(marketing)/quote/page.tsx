@@ -91,7 +91,7 @@ export default async function QuotePage({
     <>
       <QuoteHero />
 
-      <section className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-16 sm:px-6 lg:px-8">
+      <section className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-16 sm:px-6 lg:px-8">
         <QuoteForm initialValues={initialValues} />
         <QuoteSidebar />
       </section>
