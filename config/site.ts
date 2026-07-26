@@ -48,8 +48,7 @@ export const siteConfig = {
     // components/sections/contact-map.tsx + components/seo/organization-json-ld.tsx
     // to add a proper PostalAddress / embedded map at that time.
     hours: [
-      { day: "Monday - Friday", time: "9:00 AM - 9:00 PM" },
-      { day: "Saturday - Sunday", time: "9:00 AM - 1:00 PM" },
+      { day: "Monday - Sunday", time: "9:00 AM - 9:00 PM" },
     ],
     serviceAreas: [
       "Banashankari",
