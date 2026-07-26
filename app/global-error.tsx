@@ -1,18 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
-
+// Next.js already logs the full error server-side (with a matching `digest`)
+// whenever it crosses this boundary — logging `error` again here would only
+// print to the visitor's own browser console, not anywhere we can see it.
 export default function GlobalError({
-  error,
   unstable_retry,
 }: {
   error: Error & { digest?: string };
   unstable_retry: () => void;
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
   return (
     <html lang="en">
       <body

@@ -1,23 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, TriangleAlert } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+// Next.js already logs the full error server-side (with a matching `digest`)
+// whenever it crosses this boundary — logging `error` again here would only
+// print to the visitor's own browser console, not anywhere we can see it.
 export default function Error({
-  error,
   unstable_retry,
 }: {
   error: Error & { digest?: string };
   unstable_retry: () => void;
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
   return (
     <section className="mx-auto flex max-w-2xl flex-1 flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8">
       <span className="flex size-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
