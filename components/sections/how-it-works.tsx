@@ -53,8 +53,8 @@ export function HowItWorks() {
             delay={i * 0.08}
             className="relative text-center"
           >
-            <div className="relative z-10 mx-auto flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">
-              <step.icon className="size-5" />
+            <div className="relative z-10 mx-auto flex size-14 items-center justify-center rounded-full border border-border bg-card text-primary shadow-md">
+              <step.icon className="size-6" />
             </div>
             <span className="mt-4 block text-xs font-semibold tracking-wide text-muted-foreground uppercase">
               {step.step}

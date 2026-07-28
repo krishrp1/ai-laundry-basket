@@ -66,7 +66,7 @@ export function Testimonials() {
           <span className="text-sm font-semibold text-primary">
             Customer feedback
           </span>
-          <h2 className="mt-3">Loved by people who hate laundry day</h2>
+          <h2 className="mt-3">Trusted across South Bengaluru</h2>
         </Reveal>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
