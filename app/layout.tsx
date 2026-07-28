@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Sora } from "next/font/google";
+import { Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
-const fontSans = Geist({
+const fontSans = Outfit({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -15,9 +15,10 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const fontHeading = Sora({
+const fontHeading = Outfit({
   variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -61,8 +62,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f9fd" },
+    { media: "(prefers-color-scheme: dark)", color: "#17181c" },
   ],
 };
 
@@ -86,8 +87,8 @@ export default function RootLayout({
         </a>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <main id="main-content" className="flex flex-1 flex-col">

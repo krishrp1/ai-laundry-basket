@@ -44,6 +44,7 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-amber: var(--amber);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -54,102 +55,100 @@
 }
 
 :root {
-  /* Brand palette: primary blue #1E88E5, secondary blue #4FC3F7, accent teal
-     #26A69A, background #F8FBFD, cards #FFFFFF, text #1F2937/#6B7280,
-     success #22C55E. Plain hex values (not oklch) — valid CSS custom
-     properties, consumed the same way by the Tailwind utilities below. */
-  --background: #f8fbfd;
-  --foreground: #1f2937;
+  /* Monochrome + sky-blue-accent palette (RinseFlow-inspired): near-white
+     page/cards, near-black text and buttons (one neutral CTA color
+     everywhere, no competing hue), soft sky blue reserved for tinted
+     backgrounds/illustration accents only — never a button fill. Contrast
+     hand-verified: black/white-bg huge margin, --amber(dusty blue text)/card
+     6.14:1, muted-foreground/muted ~5.4:1 (pattern-consistent). */
+  --background: #f4f9fd;
+  --foreground: #14151a;
   --card: #ffffff;
-  --card-foreground: #1f2937;
+  --card-foreground: #14151a;
   --popover: #ffffff;
-  --popover-foreground: #1f2937;
-  /* #1775C8: a slightly deeper shade of the requested #1E88E5 brand blue —
-     the original only reaches 3.68:1 contrast with white text (fails the
-     4.5:1 WCAG AA minimum for normal text) on every primary button/badge
-     site-wide; this shade verifies at 4.76:1. */
-  --primary: #1775c8;
+  --popover-foreground: #14151a;
+  --primary: #14151a;
   --primary-foreground: #ffffff;
-  --secondary: #e3f6fd;
-  --secondary-foreground: #0b4c6b;
-  /* Lightened from #EEF4F8 so the (user-specified) #6B7280 secondary-text
-     color clears 4.5:1 against it (was 4.36:1) without changing that text
-     color, which already passes against --background/--card elsewhere. */
-  --muted: #f4f8fb;
-  --muted-foreground: #6b7280;
-  --accent: #e2f5f3;
-  --accent-foreground: #0f5c52;
-  --destructive: oklch(0.577 0.245 27.325);
+  /* Same near-black as primary, by design — this direction uses one neutral
+     CTA color everywhere rather than a second accent hue on buttons. */
+  --secondary: #14151a;
+  --secondary-foreground: #ffffff;
+  --muted: #eff6fb;
+  --muted-foreground: #5c6672;
+  --accent: #eaf3fc;
+  --accent-foreground: #14151a;
+  --destructive: #b3261e;
   --destructive-foreground: #ffffff;
-  /* Darkened from #E2E8F0 (was ~1.2:1 against background/card) for better
-     non-text/UI-boundary contrast on inputs and card edges. Full WCAG 1.4.11
-     compliance (3:1) would need a noticeably darker/bluer border than this —
-     kept moderate to preserve the site's light, airy look; see audit notes. */
-  --border: #bccadc;
-  --input: #bccadc;
-  --ring: color-mix(in oklch, #1775c8 50%, transparent);
-  --chart-1: #1775c8;
-  --chart-2: #4fc3f7;
+  --border: #dbe6f0;
+  --input: #dbe6f0;
+  --ring: color-mix(in oklch, #14151a 50%, transparent);
+  --chart-1: #14151a;
+  --chart-2: #2e6690;
   --chart-3: #26a69a;
   --chart-4: oklch(0.769 0.188 70.08);
   --chart-5: #22c55e;
-  --radius: 0.75rem;
-  --sidebar: #f8fbfd;
-  --sidebar-foreground: #1f2937;
-  --sidebar-primary: #1775c8;
+  --radius: 0.7rem;
+  --sidebar: #f4f9fd;
+  --sidebar-foreground: #14151a;
+  --sidebar-primary: #14151a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e2f5f3;
-  --sidebar-accent-foreground: #0f5c52;
-  --sidebar-border: #bccadc;
-  --sidebar-ring: color-mix(in oklch, #1775c8 50%, transparent);
+  --sidebar-accent: #eaf3fc;
+  --sidebar-accent-foreground: #14151a;
+  --sidebar-border: #dbe6f0;
+  --sidebar-ring: color-mix(in oklch, #14151a 50%, transparent);
   /* Success green, used deliberately (checkmarks, trust badges, success
      accents) rather than as a pervasive UI hover color. */
   --brand-accent: #22c55e;
   --brand-accent-foreground: #ffffff;
   --brand-accent-strong: #16a34a;
-  --chart-2-strong: #0288d1;
+  --chart-2-strong: #2e6690;
+  /* Dusty sky-blue text accent for price highlights / illustration strokes —
+     the one hue in this palette, used sparingly and never as a button fill.
+     Kept as --amber for identifier stability across components. */
+  --amber: #2e6690;
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  /* Lighter tint of the brand blue for contrast against a dark background. */
-  --primary: #4fc3f7;
-  --primary-foreground: #0b3c5d;
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: #bde9fb;
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: #0f3d38;
-  --accent-foreground: #7fd9cc;
-  --destructive: oklch(0.704 0.191 22.216);
-  /* Dark mode's destructive is a lighter/more pastel red than light mode's —
-     white text on it is only 2.77:1, so this needs a dark foreground instead. */
-  --destructive-foreground: #1a0a0a;
+  /* Inverted monochrome: near-black surface, near-white text/buttons, deep
+     blue-tinted accent bg with light sky-blue foreground. Light-on-near-black
+     and dark-on-near-white pairs both carry large margins by construction. */
+  --background: #17181c;
+  --foreground: #f2f2f0;
+  --card: #1d1e22;
+  --card-foreground: #f2f2f0;
+  --popover: #1d1e22;
+  --popover-foreground: #f2f2f0;
+  --primary: #f2f2f0;
+  --primary-foreground: #14151a;
+  --secondary: #f2f2f0;
+  --secondary-foreground: #14151a;
+  --muted: #202124;
+  --muted-foreground: #a8aaae;
+  --accent: #16222e;
+  --accent-foreground: #8fc4f0;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #2a0a0a;
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: color-mix(in oklch, #4fc3f7 50%, transparent);
-  --chart-1: #4fc3f7;
-  --chart-2: #1e88e5;
+  --input: oklch(1 0 0 / 14%);
+  --ring: color-mix(in oklch, #f2f2f0 50%, transparent);
+  --chart-1: #f2f2f0;
+  --chart-2: #7fb3dd;
   --chart-3: #26a69a;
   --chart-4: oklch(0.769 0.188 70.08);
   --chart-5: #22c55e;
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: #4fc3f7;
-  --sidebar-primary-foreground: #0b3c5d;
-  --sidebar-accent: #0f3d38;
-  --sidebar-accent-foreground: #7fd9cc;
+  --sidebar: #17181c;
+  --sidebar-foreground: #f2f2f0;
+  --sidebar-primary: #f2f2f0;
+  --sidebar-primary-foreground: #14151a;
+  --sidebar-accent: #16222e;
+  --sidebar-accent-foreground: #8fc4f0;
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: color-mix(in oklch, #4fc3f7 50%, transparent);
+  --sidebar-ring: color-mix(in oklch, #f2f2f0 50%, transparent);
   --brand-accent: #22c55e;
   --brand-accent-foreground: #0b3c1f;
   --brand-accent-strong: #4ade80;
-  --chart-2-strong: #7fd4f7;
+  --chart-2-strong: #7fb3dd;
+  --amber: #7fb3dd;
 }
 
 @layer base {
