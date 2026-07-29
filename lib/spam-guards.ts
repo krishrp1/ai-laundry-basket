@@ -1,6 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
 import { db } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { HONEYPOT_FIELD, FORM_TIMESTAMP_FIELD } from "@/lib/spam-guard-constants";
 
 const MIN_FILL_TIME_MS = 1200;
@@ -48,6 +49,10 @@ function hashContent(parts: string[]) {
  * Guards against accidental double-submits (double-click, browser retry) by
  * rejecting an identical email+message combination submitted in the last
  * `windowSeconds`. Not a security control — just avoids duplicate rows.
+ *
+ * Count-then-insert runs in a Serializable transaction (same pattern as
+ * checkRateLimit) so two near-simultaneous double-clicks can't both read
+ * "no recent hit" and both slip through as non-duplicates.
  */
 export async function isDuplicateSubmission(
   table: "contactMessage" | "quoteRequest",
@@ -56,14 +61,23 @@ export async function isDuplicateSubmission(
 ): Promise<boolean> {
   const contentHash = hashContent(parts);
   const since = new Date(Date.now() - windowSeconds * 1000);
+  const key = `dupe:${table}:${contentHash}`;
 
-  const recentHits = await db.rateLimitHit.count({
-    where: { key: `dupe:${table}:${contentHash}`, createdAt: { gte: since } },
-  });
-
-  await db.rateLimitHit.create({
-    data: { key: `dupe:${table}:${contentHash}` },
-  });
-
-  return recentHits > 0;
+  try {
+    return await db.$transaction(
+      async (tx) => {
+        const recentHits = await tx.rateLimitHit.count({
+          where: { key, createdAt: { gte: since } },
+        });
+        await tx.rateLimitHit.create({ data: { key } });
+        return recentHits > 0;
+      },
+      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
+    );
+  } catch {
+    // A serialization conflict here means another request for the same
+    // content is racing this one right now — treat that as "duplicate"
+    // rather than letting a DB hiccup silently allow a double-submit through.
+    return true;
+  }
 }
