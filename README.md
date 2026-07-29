@@ -12,7 +12,6 @@ password-protected admin dashboard, and transactional email.
 - **PostgreSQL** (Supabase in production)
 - **Zod** for validation
 - **Resend** + **@react-email/components** for transactional email
-- **Vercel Blob** for quote-photo uploads
 - **jose** (JWT) + **bcryptjs** for a small custom admin-auth system (no third-party auth provider)
 
 ## How the booking flow works
