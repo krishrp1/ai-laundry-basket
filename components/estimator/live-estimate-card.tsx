@@ -14,7 +14,7 @@ import type { RecommendationTip } from "@/lib/pricing-engine";
 
 const trustPoints = [
   "Doorstep Pickup",
-  `Free Delivery over ${formatINR(FREE_DELIVERY_THRESHOLD)}`,
+  `Free Delivery at ${formatINR(FREE_DELIVERY_THRESHOLD)} or more`,
   "Folding",
 ];
 
