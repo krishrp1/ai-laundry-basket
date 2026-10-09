@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { consentSchema } from "./consent";
 import { contactMethodValues } from "./contact";
 
 export const customerTypeValues = ["residential", "commercial"] as const;
@@ -47,11 +48,7 @@ export const quoteFormSchema = z
     urgency: z.enum(urgencyValues),
     specialInstructions: z.string().trim().max(2000).optional().or(z.literal("")),
     contactMethod: z.enum(contactMethodValues),
-    consent: z
-      .string()
-      .refine((value) => value === "on" || value === "true", {
-        error: "Please agree before submitting your request.",
-      }),
+    consent: consentSchema,
   })
   .refine((data) => data.pickupDate >= todayIST(), {
     error: "Pickup date cannot be in the past.",

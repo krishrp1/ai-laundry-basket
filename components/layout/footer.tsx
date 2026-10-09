@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const { legal } = siteConfig;
   // Accounts aren't live yet — don't render dead "#" links.
   const configuredSocialLinks = socialLinks.filter((social) => social.href !== "#");
 
@@ -89,12 +90,15 @@ export function Footer() {
 
         <Separator className="my-8" />
 
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-muted-foreground">
-            &copy; {year} {siteConfig.name}. All rights reserved.
+        <div className="flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:items-start sm:justify-between">
+          <p>
+            &copy; {year} {legal.entityName ?? siteConfig.name}. All rights
+            reserved.
           </p>
-          <p className="text-sm text-muted-foreground">
-            Built with care for fresher, easier laundry days.
+          <p className="sm:max-w-md sm:text-right">
+            {legal.registeredAddress ? `${legal.registeredAddress}. ` : ""}
+            {legal.gstin ? `GSTIN: ${legal.gstin}. ` : ""}
+            {siteConfig.contact.addressLine}
           </p>
         </div>
       </div>

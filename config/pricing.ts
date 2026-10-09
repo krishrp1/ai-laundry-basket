@@ -57,7 +57,7 @@ export const services: ServiceDefinition[] = [
     model: "per_kg",
     perKgRate: { min: 55, max: 89, default: 72 },
     description: "Everyday laundry washed, dried, and neatly folded.",
-    recommendationTip: "Wash & Fold offers the best value for everyday clothes.",
+    recommendationTip: "Wash & Fold is usually the most economical option for everyday clothes.",
   },
   {
     key: "wash_iron",
@@ -79,8 +79,8 @@ export const services: ServiceDefinition[] = [
     key: "dry_cleaning",
     label: "Dry Cleaning",
     model: "per_piece",
-    description: "Expert dry cleaning, priced per garment.",
-    recommendationTip: "Dry Cleaning keeps delicate pieces like sarees and lehengas looking new.",
+    description: "Dry cleaning, priced per garment.",
+    recommendationTip: "Dry Cleaning suits delicate pieces like sarees and lehengas.",
   },
 ];
 
@@ -176,7 +176,7 @@ export const MINIMUM_ORDER_VALUE = 199;
 /** "adjust" tops the order up to the minimum; "block" rejects checkout with a validation error instead. */
 export const MINIMUM_ORDER_POLICY: "adjust" | "block" = "adjust";
 
-/** Tax is disabled by default (prices already read as GST-inclusive site-wide) — a taxRate of 0 means no tax line is shown. Enable per order via OrderInput.taxRate (percent). */
+/** Tax is disabled by default — a taxRate of 0 means no tax line is shown. The site makes no GST claim; only say "GST included" once the business is GST-registered and the rates really include it. Enable per order via OrderInput.taxRate (percent). */
 export const TAX_RATE_PERCENT = 0;
 
 /**

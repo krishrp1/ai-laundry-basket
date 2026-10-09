@@ -15,9 +15,7 @@ import type { RecommendationTip } from "@/lib/pricing-engine";
 const trustPoints = [
   "Doorstep Pickup",
   `Free Delivery over ${formatINR(FREE_DELIVERY_THRESHOLD)}`,
-  "Professional Cleaning",
   "Folding",
-  "GST Included",
 ];
 
 const springFast = { type: "spring", stiffness: 500, damping: 38 } as const;
@@ -201,7 +199,7 @@ export function LiveEstimateCard({
           render={bookDisabled ? undefined : <Link href={bookHref} />}
           className="w-full gap-1.5"
         >
-          Book Pickup
+          Request pickup
         </Button>
         {bookDisabled && (
           <p className="-mt-2 text-center text-xs text-muted-foreground">

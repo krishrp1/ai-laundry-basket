@@ -1,9 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
-import { verifySession } from "@/lib/auth/dal";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { OrderStatus } from "@/generated/prisma/client";
 import { orderStatusLabels } from "@/lib/order-status-labels";
 import { sendOrderStatusUpdate } from "@/lib/email/send";
@@ -14,7 +15,9 @@ function isOrderStatus(value: string): value is OrderStatus {
 }
 
 export async function updateOrderStatusAction(id: string, formData: FormData) {
-  const session = await verifySession();
+  // Re-reads the admin row (not just the JWT) so a removed admin loses
+  // access immediately instead of when their cookie expires.
+  const admin = await getCurrentAdmin();
 
   const status = formData.get("status");
   const noteRaw = formData.get("note");
@@ -31,7 +34,7 @@ export async function updateOrderStatusAction(id: string, formData: FormData) {
       data: {
         status,
         statusHistory: {
-          create: { status, note, changedBy: session.email },
+          create: { status, note, changedBy: admin.email },
         },
       },
       include: { customer: true },
@@ -45,13 +48,15 @@ export async function updateOrderStatusAction(id: string, formData: FormData) {
     throw error;
   }
 
-  await sendOrderStatusUpdate({
-    to: order.customer.email,
-    name: order.customer.name,
-    orderId: order.orderId,
-    statusLabel: orderStatusLabels[status],
-    note,
-  });
+  after(() =>
+    sendOrderStatusUpdate({
+      to: order.customer.email,
+      name: order.customer.name,
+      orderId: order.orderId,
+      statusLabel: orderStatusLabels[status],
+      note,
+    })
+  );
 
   revalidatePath("/admin/orders");
   revalidatePath(`/admin/orders/${id}`);

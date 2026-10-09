@@ -23,7 +23,7 @@ export function ServicesTeaser() {
 
       <Reveal delay={0.15} className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         <Button size="lg" render={<Link href="/quote" />} className="gap-1.5">
-          Get Instant Quote
+          Request a Quote
           <ArrowRight className="size-4" />
         </Button>
         <Button variant="outline" size="lg" render={<Link href="/services" />}>

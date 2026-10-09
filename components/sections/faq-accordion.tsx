@@ -18,7 +18,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/motion/reveal";
+import {
+  DELIVERY_FEE,
+  FREE_DELIVERY_THRESHOLD,
+  MINIMUM_ORDER_VALUE,
+} from "@/config/pricing";
 import { siteConfig } from "@/config/site";
+import { formatINR } from "@/lib/format";
 
 const areaPreview = siteConfig.contact.serviceAreas.slice(0, 5).join(", ");
 
@@ -41,19 +47,18 @@ export const faqCategories: FaqCategory[] = [
     icon: CreditCard,
     items: [
       {
-        question: "How does pricing work for A&I Laundry Basket?",
+        question: "How does pricing work?",
         answer:
-          "Pricing is based on the service you choose (Wash & Fold, Dry Cleaning, or a Commercial plan) and the volume you send in. Wash & Fold is typically priced per kg, Dry Cleaning is priced per garment, and Commercial accounts get a custom rate based on expected volume. You always see an estimate before confirming an order.",
+          "Wash & Fold and Wash & Iron are priced per kg and billed on the weight measured at pickup. Steam Iron and Dry Cleaning are priced per garment. The price estimator on the Pricing page gives you an estimate before you send a request, and we confirm the price with you before we start work.",
       },
       {
-        question: "What payment methods do you accept?",
-        answer:
-          "We accept UPI, all major credit and debit cards, and net banking, with cash on delivery available in select areas. Commercial accounts can also be set up with monthly invoicing. A GST invoice is available for every order.",
+        question: "Are there any extra charges?",
+        answer: `Yes, and they are shown in the estimate: delivery is free on orders of ${formatINR(FREE_DELIVERY_THRESHOLD)} or more and ${formatINR(DELIVERY_FEE)} below that, orders under ${formatINR(MINIMUM_ORDER_VALUE)} are topped up to that minimum, and express turnaround costs more. If anything else could apply, such as special stain treatment, we tell you before we do it.`,
       },
       {
-        question: "Are there any hidden fees?",
+        question: "How do I pay?",
         answer:
-          "No. Your quote includes service, pickup, and delivery. The only additional charges that can apply are optional add-ons you select yourself, such as rush turnaround or specialty stain treatment, and those are always shown before you confirm an order.",
+          "Payment is normally collected on delivery. We tell you which payment methods we accept when we confirm your booking.",
       },
     ],
   },
@@ -65,16 +70,16 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "How does pickup and delivery work?",
         answer:
-          "Schedule a pickup window through the app, leave your bag out (or hand it to your driver), and A&I Laundry Basket handles the rest. Once your order is processed, we schedule delivery back to you and send a notification when it is on its way.",
+          "Send a quote request with your address and a preferred pickup window. We contact you to confirm the price and time, collect your laundry from your doorstep, and deliver it back to you. We email you updates as your order moves along.",
       },
       {
         question: "What areas do you currently serve?",
-        answer: `We currently serve ${areaPreview}, and other neighborhoods across South Bengaluru, with more areas added regularly. Enter your PIN code on the quote page to check availability in your area.`,
+        answer: `We currently serve ${areaPreview}, and other neighbourhoods across South Bengaluru. If you are not sure we cover you, send a request or call us and we will tell you.`,
       },
       {
-        question: "Can I schedule a specific pickup window?",
+        question: "Can I choose a pickup window?",
         answer:
-          "Yes. You can choose from available morning, afternoon, or evening windows when booking, and A&I Laundry Basket will suggest the best time based on driver availability in your area.",
+          "Yes. You choose a preferred window when you send the request. We confirm it with you, or suggest another time if we cannot make it.",
       },
     ],
   },
@@ -86,17 +91,17 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "What is the standard turnaround time?",
         answer:
-          "Most Wash & Fold and Dry Cleaning orders are ready within 24 to 48 hours from pickup. Commercial accounts typically run on a recurring schedule agreed to during setup, rather than a per-order turnaround.",
+          "Standard orders are usually ready in 2 to 3 business days from pickup. We confirm the delivery date when we confirm your booking.",
       },
       {
-        question: "Do you offer same-day service?",
+        question: "Do you offer express or same-day service?",
         answer:
-          "Same-day service is available in select areas for orders placed before the daily cutoff time shown in the app. It carries a rush fee, which is displayed upfront before you confirm the order.",
+          "Express service (12 to 24 hours) costs more and is shown in the estimate. Same-day service is subject to availability and carries an additional fee. Choose it on the quote form and we will confirm whether we can do it.",
       },
       {
         question: "What happens if my order is running late?",
         answer:
-          "You will get a notification as soon as we know a delay is likely, along with an updated delivery estimate. If a delay is on our end, our support team will follow up to make it right.",
+          "We will contact you as soon as we know about a delay and give you a new delivery time. If the delay is our fault and you are not satisfied, contact us and we will discuss a fair remedy.",
       },
     ],
   },
@@ -106,14 +111,14 @@ export const faqCategories: FaqCategory[] = [
     icon: Shirt,
     items: [
       {
-        question: "What is included in the Wash & Fold service?",
+        question: "What is included in Wash & Fold?",
         answer:
-          "Everyday clothing, bedding, and towels are washed, dried, and neatly folded according to the settings A&I Laundry Basket recommends for each fabric type, then packed and ready for delivery.",
+          "Everyday clothing, bedding, and towels are washed, dried, and folded, then packed for delivery. Wash & Iron adds pressing.",
       },
       {
-        question: "Can I set preferences for detergent or folding style?",
+        question: "Can I tell you how I want my clothes handled?",
         answer:
-          "Yes. You can set a preferred detergent (including fragrance-free and hypoallergenic options), water temperature, and folding style in your account settings, and every order will follow those preferences automatically.",
+          "Yes. Write any instructions, such as a fragrance-free detergent request or items to wash separately, in the special instructions box on the quote form, or tell us when we collect. We will tell you if we cannot follow an instruction.",
       },
     ],
   },
@@ -125,57 +130,51 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "What items can I send for dry cleaning?",
         answer:
-          "Suits, dresses, blazers, silk garments, and other items labeled dry clean only are all supported, along with household items like curtains and comforters upon request.",
+          "Suits, sarees, lehengas, sherwanis, gowns, blazers, and other items labelled dry clean only, plus household items such as curtains and blankets. The Pricing page lists the garments we price.",
       },
       {
-        question:
-          "How does A&I Laundry Basket decide the right care instructions for my garment?",
+        question: "How do you decide how to clean my garment?",
         answer:
-          "Our sorting technology reads fabric type, color, and care labels to recommend the safest cleaning method for each item. Anything flagged as high-risk or unclear is reviewed before cleaning to avoid damage.",
+          "We follow the care label and the details you give us at pickup. If a label is missing or the fabric is delicate, tell us when we collect, and we will discuss the safest option before cleaning.",
       },
       {
-        question: "Do you handle delicate or specialty fabrics?",
+        question: "Can you guarantee no damage to delicate fabrics?",
         answer:
-          "Yes. Delicates like silk, wool, cashmere, and other specialty fabrics are cleaned using methods matched to that fabric type, and are handled separately from standard loads.",
+          "We take reasonable care, but some fabrics, dyes, and embellishments can be affected by cleaning. Please point out anything delicate at pickup. Our Refund & Cancellation Policy explains what we cover.",
       },
     ],
   },
   {
     id: "commercial",
-    title: "Commercial Services",
+    title: "Business Customers",
     icon: Building2,
     items: [
       {
-        question: "Do you offer plans for businesses?",
+        question: "Do you take orders from businesses?",
         answer:
-          "Yes. Our Commercial Laundry plan is built for hotels, gyms, salons, short-term rentals, and offices that need linens, towels, or uniforms turned around on a reliable, recurring schedule.",
+          "Yes. Choose \"Business\" on the quote form or contact us with your expected volume and schedule, and we will come back with a price. Availability depends on volume and location.",
       },
       {
-        question: "How does billing work for commercial accounts?",
+        question: "How does billing work for businesses?",
         answer:
-          "Commercial accounts are billed monthly based on your agreed volume and schedule, with a single consolidated invoice rather than per-order charges. Your account team can adjust volume as your needs change.",
+          "We agree billing terms with you when we confirm the arrangement. Contact us to discuss.",
       },
     ],
   },
   {
     id: "subscriptions-cancellation",
-    title: "Recurring Subscriptions & Cancellation",
+    title: "Repeat Pickups & Cancellation",
     icon: RefreshCw,
     items: [
       {
-        question: "How do recurring subscriptions work?",
+        question: "Can I get regular pickups?",
         answer:
-          "You can set up a recurring pickup schedule (weekly or biweekly, for example) so laundry day happens automatically without booking each time. You will always get a reminder before a scheduled pickup.",
+          "You can ask for weekly, fortnightly, or monthly pickups on the quote form. We confirm the schedule with you; there is no fixed contract.",
       },
       {
-        question: "Can I pause or cancel my subscription anytime?",
+        question: "How do I cancel or reschedule?",
         answer:
-          "Yes. You can pause, skip, or cancel a recurring subscription at any time from your account settings, with no long-term commitment required.",
-      },
-      {
-        question: "Is there a cancellation fee?",
-        answer:
-          "There is no fee to cancel a subscription. If you need to cancel a single order, do so before the assigned driver is dispatched to avoid a small dispatch fee.",
+          "Call, WhatsApp, or email us before we collect your items and we will cancel or reschedule free of charge. After collection, see our Refund & Cancellation Policy.",
       },
     ],
   },
@@ -187,34 +186,29 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "What happens if an item is damaged?",
         answer:
-          "Report the issue through the app within 48 hours of delivery. Our team will review what happened and, depending on the situation, repair, re-clean, or reimburse the item consistent with standard industry care policies.",
+          "Tell us within 48 hours of delivery with your order ID. If our handling caused the damage, we will repair it, replace it, or compensate you for its reasonable value. See the Refund & Cancellation Policy for details.",
       },
       {
-        question: "What if an item is lost?",
+        question: "What if an item is missing?",
         answer:
-          "Lost items are rare, but if one turns up missing we will investigate immediately and work with you on a fair resolution. We recommend noting any particularly high-value items at drop-off so they can be tracked closely.",
+          "Contact us straight away with your order ID. We will look into it and work with you on a fair resolution. Please tell us at pickup about any high-value items.",
       },
     ],
   },
   {
     id: "scheduling-account",
-    title: "Scheduling & Account Management",
+    title: "Changing Your Details",
     icon: UserCog,
     items: [
       {
-        question: "How do I schedule or reschedule a pickup?",
+        question: "Do I need an account?",
         answer:
-          "Open the app, choose a date and window, and confirm. To reschedule, go to your upcoming order and select a new time, provided it is before the cutoff for that pickup window.",
+          "No. You do not need to create an account. You send a request, and we use the details you provide to arrange your order.",
       },
       {
-        question: "How do I update my account information or payment method?",
+        question: "How do I correct or delete my details?",
         answer:
-          "Go to Account Settings to update your name, contact details, addresses, or payment method at any time. Changes apply to your next order automatically.",
-      },
-      {
-        question: "Can I manage multiple addresses on one account?",
-        answer:
-          "Yes. You can save multiple pickup and delivery addresses, which is useful for a home and office, and choose which one to use each time you schedule an order.",
+          "Email us and we will update or delete them. See our Privacy Policy for your rights.",
       },
     ],
   },

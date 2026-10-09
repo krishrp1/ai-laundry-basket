@@ -1,6 +1,7 @@
 import { m } from "framer-motion";
 import { Loader2, Send } from "lucide-react";
 
+import { ConsentField } from "@/components/forms/consent-field";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,6 +48,7 @@ export function ContactFormFields({
             autoComplete="name"
             value={values.name}
             onChange={(event) => updateField("name", event.target.value)}
+            aria-required="true"
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "contact-name-error" : undefined}
           />
@@ -68,6 +70,7 @@ export function ContactFormFields({
             autoComplete="email"
             value={values.email}
             onChange={(event) => updateField("email", event.target.value)}
+            aria-required="true"
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "contact-email-error" : undefined}
           />
@@ -140,6 +143,7 @@ export function ContactFormFields({
           rows={5}
           value={values.message}
           onChange={(event) => updateField("message", event.target.value)}
+          aria-required="true"
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "contact-message-error" : undefined}
         />
@@ -149,6 +153,13 @@ export function ContactFormFields({
           </p>
         )}
       </div>
+
+      <ConsentField
+        id="contact-consent"
+        checked={values.consent}
+        onCheckedChange={(checked) => updateField("consent", checked)}
+        error={errors.consent}
+      />
 
       {/* Honeypot: hidden from real users, bots tend to fill every field. */}
       <input

@@ -34,7 +34,7 @@ export default function ServicesPage() {
       <Cta
         title="Ready to book your first pickup?"
         description="Get an instant quote and schedule collection in minutes."
-        buttonLabel="Get Instant Quote"
+        buttonLabel="Request a Quote"
         buttonHref="/quote"
         note="No obligation, quick response."
       />

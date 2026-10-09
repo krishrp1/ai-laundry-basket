@@ -18,7 +18,13 @@ export function Field({
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor={htmlFor} className="text-base font-semibold">
-        {label} {required && <span aria-hidden="true">*</span>}
+        {label}{" "}
+        {required && (
+          <>
+            <span aria-hidden="true">*</span>
+            <span className="sr-only">(required)</span>
+          </>
+        )}
       </Label>
       {children}
       {hint && !error && <p className="text-sm text-muted-foreground">{hint}</p>}

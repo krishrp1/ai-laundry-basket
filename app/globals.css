@@ -80,7 +80,9 @@
   --destructive: #b3261e;
   --destructive-foreground: #ffffff;
   --border: #dbe6f0;
-  --input: #dbe6f0;
+  /* Form-control borders: #7a8796 is >=3.3:1 on white, page and muted surfaces
+     (WCAG 1.4.11 non-text contrast). Decorative --border stays subtle. */
+  --input: #7a8796;
   --ring: color-mix(in oklch, #14151a 50%, transparent);
   --chart-1: #14151a;
   --chart-2: #2e6690;
@@ -129,7 +131,7 @@
   --destructive: #ff6b6b;
   --destructive-foreground: #2a0a0a;
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
+  --input: #7b7d83;
   --ring: color-mix(in oklch, #f2f2f0 50%, transparent);
   --chart-1: #f2f2f0;
   --chart-2: #7fb3dd;

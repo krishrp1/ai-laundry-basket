@@ -1,17 +1,9 @@
-import { Layers, Quote, ScanEye, Sparkles, Timer } from "lucide-react";
+import { Quote } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Reveal } from "@/components/motion/reveal";
 import { siteConfig } from "@/config/site";
-
-const stats = [
-  { icon: ScanEye, label: "Fabric types recognized", value: "50+" },
-  { icon: Layers, label: "Wash programs supported", value: "200+" },
-  { icon: Timer, label: "Average setup time", value: "2 min" },
-  { icon: Sparkles, label: "Automatic scheduling", value: "24/7" },
-];
 
 export function AboutStory() {
   return (
@@ -19,7 +11,7 @@ export function AboutStory() {
       id="our-story"
       className="mx-auto max-w-7xl scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8"
     >
-      <div className="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+      <div className="mx-auto max-w-3xl">
         <Reveal className="flex flex-col gap-4 text-muted-foreground">
           <span className="text-sm font-semibold text-primary">
             Our story
@@ -67,34 +59,6 @@ export function AboutStory() {
           </Card>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <Card className="shadow-xl ring-1 ring-foreground/10">
-            <div className="px-(--card-spacing)">
-              <p className="text-sm font-medium">By the numbers</p>
-            </div>
-
-            <Separator />
-
-            <div className="grid grid-cols-2 gap-4 px-(--card-spacing)">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex flex-col gap-2 rounded-lg bg-muted/60 p-4"
-                >
-                  <span className="flex size-8 items-center justify-center rounded-md bg-background text-primary">
-                    <stat.icon className="size-4" />
-                  </span>
-                  <span className="font-heading text-xl font-semibold">
-                    {stat.value}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </Reveal>
       </div>
     </section>
   );

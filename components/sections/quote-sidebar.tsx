@@ -27,7 +27,7 @@ const steps = [
   {
     icon: ClipboardCheck,
     title: "Fresh laundry, delivered",
-    description: "Your items come back clean, cared for, and on time.",
+    description: "Your items come back to your door at the delivery time we agree with you.",
   },
 ];
 

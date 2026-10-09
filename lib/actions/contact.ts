@@ -1,13 +1,18 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { after } from "next/server";
 import { contactFormSchema, type ContactFormState } from "@/lib/validations/contact";
 import { contactMethodMap } from "@/lib/enum-maps";
 import { generateRequestId } from "@/lib/ids";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
-import { checkFormSpamSignals, isDuplicateSubmission } from "@/lib/spam-guards";
+import {
+  checkFormSpamSignals,
+  DUPLICATE_WINDOW_MS,
+  withSubmissionLock,
+} from "@/lib/spam-guards";
 import { getClientIp } from "@/lib/request-ip";
 import { sendContactAcknowledgement } from "@/lib/email/send";
+import { siteConfig } from "@/config/site";
 
 export async function submitContactMessage(
   _prevState: ContactFormState,
@@ -26,6 +31,7 @@ export async function submitContactMessage(
     location: formData.get("location"),
     contactMethod: formData.get("contactMethod"),
     message: formData.get("message"),
+    consent: formData.get("consent"),
   });
 
   if (!parsed.success) {
@@ -48,47 +54,46 @@ export async function submitContactMessage(
   const data = parsed.data;
 
   try {
-    const duplicate = await isDuplicateSubmission("contactMessage", [
-      data.email,
-      data.message,
-    ]);
-    if (duplicate) {
+    const since = new Date(Date.now() - DUPLICATE_WINDOW_MS);
+
+    const requestId = await withSubmissionLock([data.email, data.message], async (tx) => {
       // Likely a double-click or a retry after the first attempt's email
       // failed to send — don't create a duplicate row, but do resend the
-      // acknowledgement so a transient Resend outage doesn't lose it.
+      // acknowledgement (below) so a transient Resend outage doesn't lose it.
+      const existing = await tx.contactMessage.findFirst({
+        where: { email: data.email, message: data.message, createdAt: { gte: since } },
+        select: { requestId: true },
+      });
+      if (existing) return existing.requestId;
+
       const requestId = generateRequestId("CM");
-      await sendContactAcknowledgement({
+
+      await tx.contactMessage.create({
+        data: {
+          requestId,
+          name: data.name,
+          email: data.email,
+          phone: data.phone || null,
+          location: data.location || null,
+          contactMethod: contactMethodMap[data.contactMethod],
+          message: data.message,
+          consentAt: new Date(),
+          consentVersion: siteConfig.legal.policyVersion,
+        },
+      });
+
+      return requestId;
+    });
+
+    after(() =>
+      sendContactAcknowledgement({
         to: data.email,
         name: data.name,
         requestId,
         phone: data.phone || null,
         message: data.message,
-      });
-      return { status: "success", requestId };
-    }
-
-    const requestId = generateRequestId("CM");
-
-    await db.contactMessage.create({
-      data: {
-        requestId,
-        name: data.name,
-        email: data.email,
-        phone: data.phone || null,
-        location: data.location || null,
-        contactMethod: contactMethodMap[data.contactMethod],
-        message: data.message,
-        ipAddress: ip,
-      },
-    });
-
-    await sendContactAcknowledgement({
-      to: data.email,
-      name: data.name,
-      requestId,
-      phone: data.phone || null,
-      message: data.message,
-    });
+      })
+    );
 
     return { status: "success", requestId };
   } catch (error) {

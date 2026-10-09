@@ -6,8 +6,8 @@ const steps = [
   {
     icon: CalendarCheck,
     step: "Step 01",
-    title: "Book Pickup",
-    description: "Choose a time that works for you, in under a minute.",
+    title: "Request Pickup",
+    description: "Choose a time that suits you. We confirm it by call or message.",
   },
   {
     icon: PackageCheck,
@@ -18,14 +18,14 @@ const steps = [
   {
     icon: Sparkles,
     step: "Step 03",
-    title: "Professional Cleaning",
-    description: "Every item gets the fabric-safe care it needs.",
+    title: "We Clean",
+    description: "Your laundry is cleaned with the service you chose.",
   },
   {
     icon: Truck,
     step: "Step 04",
     title: "Delivered to Your Door",
-    description: "Fresh, folded laundry back at your home, on time.",
+    description: "Clean laundry comes back to your home at the time we agree with you.",
   },
 ];
 
