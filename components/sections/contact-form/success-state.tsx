@@ -18,6 +18,7 @@ export function ContactFormSuccess({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.3 }}
+      role="status"
       className="flex flex-col items-center gap-3 py-10 text-center"
     >
       <span className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">

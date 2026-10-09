@@ -9,7 +9,7 @@ import { TrustStrip } from "@/components/sections/trust-strip";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "A&I Laundry Basket is a Bengaluru-based laundry and dry cleaning service built on smart scheduling and real local care.",
+    "A&I Laundry Basket is a Bengaluru-based laundry and dry cleaning service with doorstep pickup and delivery.",
   alternates: { canonical: "/about" },
 };
 
@@ -23,7 +23,7 @@ export default function AboutPage() {
       <Cta
         title="Ready to see it for yourself?"
         description="Get a custom quote in minutes, no obligation."
-        buttonLabel="Get Instant Quote"
+        buttonLabel="Request a Quote"
         buttonHref="/quote"
         note="No obligation, quick response."
       />

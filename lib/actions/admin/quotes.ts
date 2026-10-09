@@ -1,9 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
-import { verifySession, requireSuperAdmin } from "@/lib/auth/dal";
+import { getCurrentAdmin, requireSuperAdmin } from "@/lib/auth/dal";
 import { QuoteStatus } from "@/generated/prisma/client";
 import { generateRequestId } from "@/lib/ids";
 import { sendBookingConfirmation } from "@/lib/email/send";
@@ -14,7 +15,7 @@ function isQuoteStatus(value: string): value is QuoteStatus {
 }
 
 export async function updateQuoteStatusAction(id: string, formData: FormData) {
-  await verifySession();
+  await getCurrentAdmin();
 
   const status = formData.get("status");
   if (typeof status !== "string" || !isQuoteStatus(status)) {
@@ -49,7 +50,7 @@ export async function deleteQuoteRequestAction(id: string) {
 }
 
 export async function convertQuoteToOrderAction(id: string) {
-  const session = await verifySession();
+  const admin = await getCurrentAdmin();
 
   const quote = await db.quoteRequest.findUnique({ where: { id } });
   if (!quote) {
@@ -76,7 +77,7 @@ export async function convertQuoteToOrderAction(id: string) {
           deliveryDate: quote.deliveryDate,
           status: "PENDING",
           statusHistory: {
-            create: { status: "PENDING", changedBy: session.email },
+            create: { status: "PENDING", changedBy: admin.email },
           },
         },
       });
@@ -93,14 +94,16 @@ export async function convertQuoteToOrderAction(id: string) {
     throw error;
   }
 
-  await sendBookingConfirmation({
-    to: quote.email,
-    name: quote.name,
-    orderId: order.orderId,
-    serviceType: order.serviceType,
-    pickupDate: quote.pickupDate.toISOString().split("T")[0],
-    pickupTime: quote.pickupTime,
-  });
+  after(() =>
+    sendBookingConfirmation({
+      to: quote.email,
+      name: quote.name,
+      orderId: order.orderId,
+      serviceType: order.serviceType,
+      pickupDate: quote.pickupDate.toISOString().split("T")[0],
+      pickupTime: quote.pickupTime,
+    })
+  );
 
   revalidatePath("/admin/quotes");
   revalidatePath("/admin/orders");

@@ -1,5 +1,4 @@
 import "server-only";
-import { createHash } from "node:crypto";
 import { db } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { HONEYPOT_FIELD, FORM_TIMESTAMP_FIELD } from "@/lib/spam-guard-constants";
@@ -41,43 +40,25 @@ export function checkFormSpamSignals(formData: FormData): SpamCheckResult {
   return { isSpam: false };
 }
 
-function hashContent(parts: string[]) {
-  return createHash("sha256").update(parts.join("|")).digest("hex");
-}
+export const DUPLICATE_WINDOW_MS = 60_000;
 
 /**
- * Guards against accidental double-submits (double-click, browser retry) by
- * rejecting an identical email+message combination submitted in the last
- * `windowSeconds`. Not a security control — just avoids duplicate rows.
- *
- * Count-then-insert runs in a Serializable transaction (same pattern as
- * checkRateLimit) so two near-simultaneous double-clicks can't both read
- * "no recent hit" and both slip through as non-duplicates.
+ * Runs `fn` in a transaction holding a Postgres advisory lock keyed on the
+ * submission's content, so two near-simultaneous identical submissions
+ * (double-click, retry) execute one after the other instead of both passing
+ * their "already exists?" lookup and both inserting. The lookup and the
+ * insert live inside `fn`, against the real table: a failed insert leaves no
+ * trace, so a retry is never mistaken for a duplicate of a row that was never
+ * saved, and a genuine duplicate can return the existing row's request ID.
+ * The lock is transaction-scoped, so it is safe behind pgbouncer.
  */
-export async function isDuplicateSubmission(
-  table: "contactMessage" | "quoteRequest",
+export function withSubmissionLock<T>(
   parts: string[],
-  windowSeconds = 60
-): Promise<boolean> {
-  const contentHash = hashContent(parts);
-  const since = new Date(Date.now() - windowSeconds * 1000);
-  const key = `dupe:${table}:${contentHash}`;
-
-  try {
-    return await db.$transaction(
-      async (tx) => {
-        const recentHits = await tx.rateLimitHit.count({
-          where: { key, createdAt: { gte: since } },
-        });
-        await tx.rateLimitHit.create({ data: { key } });
-        return recentHits > 0;
-      },
-      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
-    );
-  } catch {
-    // A serialization conflict here means another request for the same
-    // content is racing this one right now — treat that as "duplicate"
-    // rather than letting a DB hiccup silently allow a double-submit through.
-    return true;
-  }
+  fn: (tx: Prisma.TransactionClient) => Promise<T>
+): Promise<T> {
+  const key = `submission:${parts.join("|")}`;
+  return db.$transaction(async (tx) => {
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${key}))`;
+    return fn(tx);
+  });
 }

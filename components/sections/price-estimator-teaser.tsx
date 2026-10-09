@@ -34,8 +34,8 @@ export function PriceEstimatorTeaser() {
           <div className="bg-accent flex flex-col justify-center p-10 sm:p-12 md:w-1/2">
             <h2 className="text-foreground">Estimate your order</h2>
             <p className="text-muted-foreground mt-3 max-w-md">
-              Quickly estimate a Wash &amp; Fold order by load size. No hidden
-              fees — final price is confirmed by weighing at pickup.
+              Quickly estimate a Wash &amp; Fold order by load size. The final
+              price is confirmed by weighing at pickup.
             </p>
             <div className="mt-8 flex flex-col gap-3">
               {presetTotals.map((preset) => {
