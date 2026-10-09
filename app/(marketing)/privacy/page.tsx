@@ -144,7 +144,8 @@ export default function PrivacyPolicyPage() {
         <ul className="list-disc pl-5">
           <li>
             Quote requests and contact messages that do not become an order:
-            up to 12 months, then deleted.
+            we review and delete these at least once a year, and sooner if you
+            ask.
           </li>
           <li>
             Orders and related records: as long as needed to deliver the
