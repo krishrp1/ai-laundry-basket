@@ -20,8 +20,8 @@ export function BookingConfirmationEmail({
       heading={`Your booking is confirmed, ${name.split(" ")[0] || "there"}!`}
     >
       <Text style={{ fontSize: "14px" }}>
-        We&apos;ve scheduled your laundry service. You can track its status any time by
-        referencing the order ID below.
+        We&apos;ve scheduled your laundry service. Please quote the order ID below if you
+        contact us about this order.
       </Text>
       <Section style={emailSectionStyle}>
         <EmailField label="Order ID" value={orderId} />
