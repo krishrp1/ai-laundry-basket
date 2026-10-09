@@ -30,11 +30,11 @@ export function AboutHero() {
             About A&I Laundry Basket
           </Badge>
           <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl">
-            Bengaluru&apos;s smarter laundry service
+            Laundry pickup and delivery in South Bengaluru
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            We pair smart technology with a real local team, so every order
-            is sorted, cleaned, and delivered with care.
+            A local team that collects your laundry, cleans it, and brings it
+            back to your door.
           </p>
         </Reveal>
 

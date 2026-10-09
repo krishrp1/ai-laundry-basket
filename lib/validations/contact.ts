@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { consentSchema } from "./consent";
+
 export const contactMethodValues = ["email", "phone", "text"] as const;
 
 // Strips control characters (keeps tab/newline/CR) without touching normal
@@ -22,6 +24,7 @@ export const contactFormSchema = z.object({
   location: z.string().trim().max(120).optional().or(z.literal("")),
   contactMethod: z.enum(contactMethodValues),
   message: trimmed(4000, 5),
+  consent: consentSchema,
 });
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;

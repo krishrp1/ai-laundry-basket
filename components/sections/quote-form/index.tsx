@@ -7,9 +7,7 @@ import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -17,9 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ConsentField } from "@/components/forms/consent-field";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { weightTiers } from "@/config/pricing";
+import { focusFirstInvalid } from "@/lib/focus-first-invalid";
 import { submitQuoteRequest } from "@/lib/actions/quote";
 import { HONEYPOT_FIELD, FORM_TIMESTAMP_FIELD } from "@/lib/spam-guard-constants";
 import { Field } from "./fields";
@@ -74,9 +74,11 @@ export function QuoteForm({
     setFormError(null);
 
     if (Object.keys(nextErrors).length > 0) {
+      focusFirstInvalid(event.currentTarget);
       return;
     }
 
+    const form = event.currentTarget;
     setStatus("submitting");
 
     const formData = new FormData();
@@ -100,7 +102,7 @@ export function QuoteForm({
     // Read the honeypot's real DOM value (via the actual <form> element, not
     // React state — this field is intentionally uncontrolled) instead of
     // hardcoding "", which previously discarded whatever a bot had filled in.
-    const honeypotInput = event.currentTarget.elements.namedItem(
+    const honeypotInput = form.elements.namedItem(
       HONEYPOT_FIELD
     ) as HTMLInputElement | null;
     formData.set(HONEYPOT_FIELD, honeypotInput?.value ?? "");
@@ -126,6 +128,7 @@ export function QuoteForm({
         setFormError(result.formError ?? null);
       }
       setStatus("idle");
+      focusFirstInvalid(form);
     });
   }
 
@@ -147,6 +150,7 @@ export function QuoteForm({
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
+              role="status"
               className="flex flex-col items-center gap-3 py-14 text-center"
             >
               <span className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -188,7 +192,9 @@ export function QuoteForm({
             <div>
               <p className="font-heading text-2xl font-semibold">Get a quote</p>
               <p className="mt-1 text-base text-muted-foreground">
-                Fill this in and we will call you back with pricing.
+                Fill this in and we will call you back with pricing. Fields
+                marked <span aria-hidden="true">*</span>
+                <span className="sr-only">with an asterisk</span> are required.
               </p>
             </div>
 
@@ -430,24 +436,12 @@ export function QuoteForm({
               </div>
             </div>
 
-            <div className="flex items-start gap-3">
-              <Checkbox
-                id="quote-consent"
-                className="mt-0.5 size-5"
-                checked={values.consent}
-                onCheckedChange={(checked) => updateField("consent", Boolean(checked))}
-                aria-invalid={Boolean(errors.consent)}
-                aria-describedby={errors.consent ? "quote-consent-error" : undefined}
-              />
-              <Label htmlFor="quote-consent" className="text-base font-normal">
-                I agree to be contacted about this quote request.
-              </Label>
-            </div>
-            {errors.consent && (
-              <p id="quote-consent-error" className="-mt-4 text-sm text-destructive">
-                {errors.consent}
-              </p>
-            )}
+            <ConsentField
+              id="quote-consent"
+              checked={values.consent}
+              onCheckedChange={(checked) => updateField("consent", checked)}
+              error={errors.consent}
+            />
 
             {/* Honeypot: hidden from real users, bots tend to fill every field. */}
             <input
@@ -479,7 +473,7 @@ export function QuoteForm({
               ) : (
                 <>
                   <Send className="size-5" />
-                  Get Instant Quote
+                  Request a Quote
                 </>
               )}
             </Button>

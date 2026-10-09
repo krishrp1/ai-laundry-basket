@@ -154,3 +154,20 @@ set `RESEND_API_KEY` and `BUSINESS_NOTIFICATION_EMAIL` in Vercel.
   backed by a `RateLimitHit` Postgres table — no external cache required.
 - Server Actions get Next.js's built-in Origin/Host CSRF check for free; combined
   with `SameSite=Lax` cookies this covers the standard CSRF threat model.
+
+## Legal & compliance
+
+Policy pages live at `/privacy`, `/terms`, `/refunds` and `/cookies` and share
+`components/legal/`. Legal identity details come from `siteConfig.legal` in
+`config/site.ts`; any value left `null` is simply not shown.
+
+- **Before launch:** fill in `entityName`, `registeredAddress`, `gstin` (only if
+  GST-registered) and `grievanceOfficerName`, and have a lawyer review the policy
+  text.
+- **When policy text changes:** bump `legal.policyVersion` and `legal.lastUpdated`
+  together. Each form submission stores `consentAt` and `consentVersion`.
+- **Deploy order:** run `npm run db:deploy` (migration `add_form_consent`) before
+  deploying code that writes the new consent columns.
+- **Adding analytics, maps, embeds or any third-party script** needs a consent
+  banner, a Cookie Policy and Privacy Policy update, and a CSP change in
+  `next.config.ts` first.

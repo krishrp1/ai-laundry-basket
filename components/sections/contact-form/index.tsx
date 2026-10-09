@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal } from "@/components/motion/reveal";
+import { focusFirstInvalid } from "@/lib/focus-first-invalid";
 import { submitContactMessage } from "@/lib/actions/contact";
 import { FORM_TIMESTAMP_FIELD, HONEYPOT_FIELD } from "@/lib/spam-guard-constants";
 import { ContactFormFields } from "./form-fields";
@@ -42,9 +43,11 @@ export function ContactForm() {
     setFormError(null);
 
     if (Object.keys(nextErrors).length > 0) {
+      focusFirstInvalid(event.currentTarget);
       return;
     }
 
+    const form = event.currentTarget;
     setStatus("submitting");
 
     const formData = new FormData();
@@ -54,10 +57,11 @@ export function ContactForm() {
     formData.set("location", values.location);
     formData.set("contactMethod", values.contactMethod);
     formData.set("message", values.message);
+    formData.set("consent", values.consent ? "on" : "");
     // Read the honeypot's real DOM value (via the actual <form> element, not
     // React state — this field is intentionally uncontrolled) instead of
     // hardcoding "", which previously discarded whatever a bot had filled in.
-    const honeypotInput = event.currentTarget.elements.namedItem(
+    const honeypotInput = form.elements.namedItem(
       HONEYPOT_FIELD
     ) as HTMLInputElement | null;
     formData.set(HONEYPOT_FIELD, honeypotInput?.value ?? "");
@@ -83,6 +87,7 @@ export function ContactForm() {
         setFormError(result.formError ?? null);
       }
       setStatus("idle");
+      focusFirstInvalid(form);
     });
   }
 
@@ -107,7 +112,9 @@ export function ContactForm() {
         <h2 className="mt-3">Tell us how we can help</h2>
         <p className="mt-4 text-muted-foreground">
           Fill out the form below and our support team will follow up using
-          your preferred contact method.
+          your preferred contact method. Fields marked{" "}
+          <span aria-hidden="true">*</span>
+          <span className="sr-only">with an asterisk</span> are required.
         </p>
       </Reveal>
 

@@ -129,7 +129,7 @@ export function validate(values: QuoteFormValues, minDate: string): FormErrors {
   }
 
   if (!values.consent) {
-    errors.consent = "Please agree before submitting your request.";
+    errors.consent = "Please tick the box to agree before sending.";
   }
 
   return errors;
