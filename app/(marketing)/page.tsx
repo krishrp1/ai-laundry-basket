@@ -5,7 +5,6 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { PriceEstimatorTeaser } from "@/components/sections/price-estimator-teaser";
 import { ServiceAreas } from "@/components/sections/service-areas";
 import { ServicesTeaser } from "@/components/sections/services-teaser";
-import { Testimonials } from "@/components/sections/testimonials";
 import { TrustStrip } from "@/components/sections/trust-strip";
 
 export const metadata: Metadata = {
@@ -20,9 +19,8 @@ export default function Home() {
       <HowItWorks />
       <ServicesTeaser />
       <PriceEstimatorTeaser />
-      <Testimonials />
       <ServiceAreas />
-      <Cta buttonLabel="Get Instant Quote" />
+      <Cta buttonLabel="Request a Quote" />
     </>
   );
 }

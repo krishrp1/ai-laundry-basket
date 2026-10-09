@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/reveal";
 const badges = [
   { icon: Truck, label: "Doorstep Pickup & Delivery" },
   { icon: ReceiptText, label: "Transparent Pricing" },
-  { icon: ShieldCheck, label: "Expert Garment Care" },
+  { icon: ShieldCheck, label: "Careful Garment Handling" },
   { icon: MapPin, label: "Serving South Bengaluru" },
 ];
 

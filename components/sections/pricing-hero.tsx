@@ -1,12 +1,11 @@
-import { Receipt, ShieldCheck, Sparkles } from "lucide-react";
+import { Receipt, ShieldCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/motion/reveal";
 
 const trustPoints = [
-  { icon: ShieldCheck, label: "No hidden fees" },
-  { icon: Sparkles, label: "A&I-optimized scheduling" },
-  { icon: Receipt, label: "Clear pricing before you book" },
+  { icon: ShieldCheck, label: "Fees shown before you book" },
+  { icon: Receipt, label: "Per-kg and per-garment rates" },
 ];
 
 export function PricingHero() {
@@ -26,7 +25,7 @@ export function PricingHero() {
             Simple, transparent pricing
           </h1>
           <p className="mt-5 text-lg text-muted-foreground">
-            See exactly what you will pay before you book. No hidden fees.
+            See the rates and any delivery or express fees before you book.
           </p>
         </Reveal>
 
