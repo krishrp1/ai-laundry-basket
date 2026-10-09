@@ -55,14 +55,14 @@ export function PricingPlans() {
               <Card
                 className={cn(
                   // overflow-visible: the base Card clips its contents, which cut
-                  // off the floating "Most Popular" badge above the card edge.
+                  // off the floating "Suggested for everyday clothes" badge above the card edge.
                   "relative h-full overflow-visible transition-all duration-200 hover:-translate-y-1 hover:shadow-lg",
                   popular ? "shadow-lg ring-2 ring-primary" : "hover:ring-primary/30"
                 )}
               >
                 {popular && (
                   <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    Most Popular
+                    Suggested for everyday clothes
                   </Badge>
                 )}
 
@@ -90,7 +90,7 @@ export function PricingPlans() {
                   </div>
 
                   <Button render={<Link href="/quote" />} className="w-full">
-                    Get Instant Quote
+                    Request a Quote
                   </Button>
                 </CardContent>
               </Card>

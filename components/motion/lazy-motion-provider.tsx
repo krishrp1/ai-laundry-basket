@@ -1,6 +1,6 @@
 "use client";
 
-import { LazyMotion, domMax } from "framer-motion";
+import { LazyMotion, MotionConfig, domMax } from "framer-motion";
 
 /**
  * Loads framer-motion's feature bundle once for the whole marketing route
@@ -12,8 +12,10 @@ import { LazyMotion, domMax } from "framer-motion";
  */
 export function LazyMotionProvider({ children }: { children: React.ReactNode }) {
   return (
-    <LazyMotion features={domMax} strict>
-      {children}
-    </LazyMotion>
+    <MotionConfig reducedMotion="user">
+      <LazyMotion features={domMax} strict>
+        {children}
+      </LazyMotion>
+    </MotionConfig>
   );
 }

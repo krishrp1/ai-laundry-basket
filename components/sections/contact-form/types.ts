@@ -7,6 +7,7 @@ export type FormValues = {
   location: string;
   contactMethod: ContactMethod;
   message: string;
+  consent: boolean;
 };
 
 export type FormErrors = Partial<Record<keyof FormValues, string>>;
@@ -18,6 +19,7 @@ export const initialValues: FormValues = {
   location: "",
   contactMethod: "email",
   message: "",
+  consent: false,
 };
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,6 +39,10 @@ export function validate(values: FormValues): FormErrors {
 
   if (!values.message.trim()) {
     errors.message = "Please add a short message so we know how to help.";
+  }
+
+  if (!values.consent) {
+    errors.consent = "Please tick the box to agree before sending.";
   }
 
   return errors;

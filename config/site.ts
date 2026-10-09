@@ -3,15 +3,15 @@ import { resolveSiteUrl } from "@/lib/site-url";
 export const siteConfig = {
   name: "A&I Laundry Basket",
   shortName: "Laundry Basket",
-  tagline: "Professional Laundry & Dry Cleaning, Delivered to Your Doorstep.",
+  tagline: "Laundry & Dry Cleaning, Delivered to Your Doorstep.",
   description:
-    "A&I Laundry Basket is a modern laundry and dry cleaning service that offers convenient doorstep pickup, expert garment care, transparent pricing, and reliable delivery—making laundry effortless for homes and professionals across Bengaluru.",
+    "A&I Laundry Basket is a laundry and dry cleaning service in Bengaluru. We collect your laundry from your doorstep, clean it, and deliver it back, with prices shown before you book.",
   // The homepage-level browser tab title and search-result title.
   seoTitle: "A&I Laundry Basket | Laundry & Dry Cleaning Services in Bengaluru",
   // Shorter, search/social-optimized description (distinct from the longer
   // `description` above, which is used for general on-page/footer copy).
   metaDescription:
-    "A&I Laundry Basket provides premium laundry, dry cleaning, ironing, and doorstep pickup & delivery across South Bengaluru with transparent pricing and reliable service.",
+    "A&I Laundry Basket provides laundry, dry cleaning, ironing, and doorstep pickup & delivery across South Bengaluru, with prices shown before you book.",
   // Canonical/OG/sitemap base URL — see lib/site-url.ts.
   url: resolveSiteUrl({
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
@@ -34,6 +34,28 @@ export const siteConfig = {
     ownerRole: "Founder",
     opsName: "Krish Pareet",
     opsRole: "Operations & Customer Relations",
+  },
+  // Legal identity and compliance details, shown in the footer, Terms, Privacy
+  // Policy and Refund Policy. Fill the `null` values in before launch — the
+  // site omits any line whose value is null rather than inventing one.
+  legal: {
+    // Bump `policyVersion` and `lastUpdated` together whenever the Privacy
+    // Policy, Terms, Cookie Policy or Refund Policy text changes. The version
+    // is stored with each form submission as the version the visitor agreed to.
+    policyVersion: "2026-10-10",
+    lastUpdated: "10 October 2026",
+    // TODO: exact registered name of the proprietor/firm/company that runs the
+    // business (e.g. "A&I Laundry Basket (Proprietor: Ramesh Pareet)").
+    entityName: null as string | null,
+    // TODO: registered business address (needed for consumer-law disclosures
+    // and the Privacy Policy). Doorstep-only is fine as long as a postal
+    // address for legal notices is published.
+    registeredAddress: null as string | null,
+    // TODO: GSTIN, once registered. Leave null if not GST-registered — do not
+    // claim "GST included" anywhere on the site unless registered.
+    gstin: null as string | null,
+    // TODO: name of the person who answers privacy / grievance queries.
+    grievanceOfficerName: null as string | null,
   },
   contact: {
     phone: "+91 90199 61091",
@@ -109,6 +131,8 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     items: [
       { title: "Privacy Policy", href: "/privacy" },
       { title: "Terms of Service", href: "/terms" },
+      { title: "Refund & Cancellation", href: "/refunds" },
+      { title: "Cookie Policy", href: "/cookies" },
     ],
   },
 ];

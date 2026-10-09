@@ -20,7 +20,7 @@ function firstValue(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
-/** Builds QuoteForm initial values from the price estimator's "Book Pickup" query
+/** Builds QuoteForm initial values from the price estimator's "Request pickup" query
  * params. Every field is optional and defensively validated against the known
  * option lists — a missing or malformed param just leaves that field blank,
  * exactly like navigating to /quote directly. */

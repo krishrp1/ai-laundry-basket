@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { m } from "framer-motion";
-import { ArrowRight, Droplets, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Droplets, Sparkles, Zap } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -71,14 +70,14 @@ export function Hero() {
           </Badge>
 
           <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl">
-            Professional laundry & dry cleaning,{" "}
+            Laundry & dry cleaning,{" "}
             <span className="text-amber">delivered</span> to your doorstep.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            Book a pickup in minutes. We collect, clean, and deliver back to
-            your door, anywhere across South Bengaluru — with transparent
-            pricing and no surprises at checkout.
+            Request a pickup in minutes. We collect, clean, and deliver back to
+            your door across South Bengaluru, with prices shown before you
+            book.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -87,7 +86,7 @@ export function Hero() {
               render={<Link href="/quote" />}
               className="gap-1.5"
             >
-              Get Instant Quote
+              Request a Quote
               <ArrowRight className="size-4" />
             </Button>
             <Button size="lg" variant="outline" render={<Link href="#how-it-works" />}>
@@ -114,14 +113,14 @@ export function Hero() {
           <Card className="relative z-10 gap-5 rounded-[2rem] shadow-lg ring-1 ring-foreground/8">
             <div className="flex items-center justify-between px-(--card-spacing)">
               <div>
-                <p className="text-sm text-muted-foreground">Today&apos;s plan</p>
+                <p className="text-sm text-muted-foreground">Sample order</p>
                 <p className="font-heading text-lg font-semibold">
-                  3 loads scheduled
+                  Three loads
                 </p>
               </div>
               <Badge variant="outline" className="gap-1 border-none bg-accent text-primary">
                 <Zap className="size-3" />
-                Optimized
+                Illustration only
               </Badge>
             </div>
 
@@ -149,34 +148,10 @@ export function Hero() {
             <Separator />
 
             <div className="flex items-center justify-between px-(--card-spacing) text-sm">
-              <span className="text-muted-foreground">Best pickup slot</span>
-              <span className="font-medium">2:30 PM today</span>
+              <span className="text-muted-foreground">Pickup time</span>
+              <span className="font-medium">You choose the window</span>
             </div>
           </Card>
-
-          <m.div
-            className="absolute -top-6 -left-6 z-20 hidden sm:block"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <Card className="flex-row items-center gap-2 px-3 py-2 shadow-lg">
-              <ShieldCheck className="size-4 text-primary" />
-              <span className="text-xs font-medium">Fabric-safe wash</span>
-            </Card>
-          </m.div>
-
-          <m.div
-            className="absolute -right-4 -bottom-6 z-20 hidden sm:block"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            <Card className="flex-row items-center gap-2 px-3 py-2 shadow-lg">
-              <Sparkles className="size-4 text-primary" />
-              <span className="text-xs font-medium">Same-day pickup</span>
-            </Card>
-          </m.div>
         </div>
       </div>
     </section>

@@ -142,22 +142,25 @@ model QuoteRequest {
   address             String
   city                String
   zip                 String
-  customerType        CustomerType        @default(RESIDENTIAL)
+  customerType        CustomerType       @default(RESIDENTIAL)
   serviceType         String
   estimatedWeight     String
-  recurring           RecurringFrequency  @default(ONE_TIME)
+  recurring           RecurringFrequency @default(ONE_TIME)
   pickupDate          DateTime
   pickupTime          String
   deliveryDate        DateTime?
-  urgency             Urgency             @default(STANDARD)
+  urgency             Urgency            @default(STANDARD)
   specialInstructions String?
-  contactMethod       ContactMethod       @default(EMAIL)
-  status              QuoteStatus         @default(NEW)
+  contactMethod       ContactMethod      @default(EMAIL)
+  status              QuoteStatus        @default(NEW)
   ipAddress           String?
+  // When the visitor ticked the consent box, and which policy version they saw.
+  consentAt           DateTime?
+  consentVersion      String?
 
   order     LaundryOrder?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@index([status])
   @@index([email])
@@ -209,18 +212,21 @@ model OrderStatusHistory {
 }
 
 model ContactMessage {
-  id            String        @id @default(uuid()) @db.Uuid
-  requestId     String        @unique
-  name          String
-  email         String
-  phone         String?
-  location      String?
-  contactMethod ContactMethod @default(EMAIL)
-  message       String
-  status        ContactStatus @default(NEW)
-  ipAddress     String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id             String        @id @default(uuid()) @db.Uuid
+  requestId      String        @unique
+  name           String
+  email          String
+  phone          String?
+  location       String?
+  contactMethod  ContactMethod @default(EMAIL)
+  message        String
+  status         ContactStatus @default(NEW)
+  ipAddress      String?
+  // When the visitor ticked the consent box, and which policy version they saw.
+  consentAt      DateTime?
+  consentVersion String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 
   @@index([status])
   @@index([email])

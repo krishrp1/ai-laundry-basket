@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
-import { verifySession, requireSuperAdmin } from "@/lib/auth/dal";
+import { getCurrentAdmin, requireSuperAdmin } from "@/lib/auth/dal";
 import { ContactStatus } from "@/generated/prisma/client";
 import { isRecordNotFoundError } from "@/lib/prisma-errors";
 
@@ -12,7 +12,7 @@ function isContactStatus(value: string): value is ContactStatus {
 }
 
 export async function updateMessageStatusAction(id: string, formData: FormData) {
-  await verifySession();
+  await getCurrentAdmin();
 
   const status = formData.get("status");
   if (typeof status !== "string" || !isContactStatus(status)) {
