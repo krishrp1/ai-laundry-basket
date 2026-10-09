@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { after } from "next/server";
 import { quoteFormSchema, type QuoteFormState } from "@/lib/validations/quote";
 import {
   contactMethodMap,
@@ -10,9 +10,14 @@ import {
 } from "@/lib/enum-maps";
 import { generateRequestId } from "@/lib/ids";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
-import { checkFormSpamSignals, isDuplicateSubmission } from "@/lib/spam-guards";
+import {
+  checkFormSpamSignals,
+  DUPLICATE_WINDOW_MS,
+  withSubmissionLock,
+} from "@/lib/spam-guards";
 import { getClientIp } from "@/lib/request-ip";
 import { sendQuoteConfirmation } from "@/lib/email/send";
+import { siteConfig } from "@/config/site";
 
 export async function submitQuoteRequest(
   _prevState: QuoteFormState,
@@ -63,69 +68,78 @@ export async function submitQuoteRequest(
   const data = parsed.data;
 
   try {
-    const duplicate = await isDuplicateSubmission("quoteRequest", [
-      data.email,
-      data.serviceType,
-      data.pickupDate,
-    ]);
-    if (duplicate) {
-      // The row from the first attempt already exists — but that attempt may
-      // have failed to email the customer (e.g. a transient Resend outage),
-      // so resend the confirmation on retry instead of silently no-oping.
-      const requestId = generateRequestId("QR");
-      await sendQuoteConfirmation({
+    const since = new Date(Date.now() - DUPLICATE_WINDOW_MS);
+    const pickupDate = new Date(`${data.pickupDate}T00:00:00Z`);
+
+    const requestId = await withSubmissionLock(
+      [data.email, data.serviceType, data.pickupDate],
+      async (tx) => {
+        // Likely a double-click or a retry after the first attempt's email
+        // failed to send — don't create a duplicate row, but do resend the
+        // confirmation (below) so a transient Resend outage doesn't lose it.
+        const existing = await tx.quoteRequest.findFirst({
+          where: {
+            email: data.email,
+            serviceType: data.serviceType,
+            pickupDate,
+            createdAt: { gte: since },
+          },
+          select: { requestId: true },
+        });
+        if (existing) return existing.requestId;
+
+        const requestId = generateRequestId("QR");
+
+        // The submitter is unauthenticated, so they must not be able to
+        // rewrite an existing customer's identity: keep the stored name and
+        // phone, and let this quote carry the details they just submitted.
+        const customer = await tx.customer.upsert({
+          where: { email: data.email },
+          update: {},
+          create: { name: data.name, email: data.email, phone: data.phone },
+        });
+
+        await tx.quoteRequest.create({
+          data: {
+            requestId,
+            customerId: customer.id,
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            city: data.city,
+            zip: data.zip,
+            customerType: customerTypeMap[data.customerType],
+            serviceType: data.serviceType,
+            estimatedWeight: data.estimatedWeight,
+            recurring: recurringMap[data.recurring],
+            pickupDate,
+            pickupTime: data.pickupTime,
+            deliveryDate: data.deliveryDate
+              ? new Date(`${data.deliveryDate}T00:00:00Z`)
+              : null,
+            urgency: urgencyMap[data.urgency],
+            specialInstructions: data.specialInstructions || null,
+            contactMethod: contactMethodMap[data.contactMethod],
+            consentAt: new Date(),
+            consentVersion: siteConfig.legal.policyVersion,
+          },
+        });
+
+        return requestId;
+      }
+    );
+
+    after(() =>
+      sendQuoteConfirmation({
         to: data.email,
         name: data.name,
         requestId,
         serviceType: data.serviceType,
         pickupDate: data.pickupDate,
         pickupTime: data.pickupTime,
-      });
-      return { status: "success", requestId };
-    }
-
-    const requestId = generateRequestId("QR");
-
-    const customer = await db.customer.upsert({
-      where: { email: data.email },
-      update: { name: data.name, phone: data.phone },
-      create: { name: data.name, email: data.email, phone: data.phone },
-    });
-
-    await db.quoteRequest.create({
-      data: {
-        requestId,
-        customerId: customer.id,
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-        city: data.city,
-        zip: data.zip,
-        customerType: customerTypeMap[data.customerType],
-        serviceType: data.serviceType,
-        estimatedWeight: data.estimatedWeight,
-        recurring: recurringMap[data.recurring],
-        pickupDate: new Date(`${data.pickupDate}T00:00:00Z`),
-        pickupTime: data.pickupTime,
-        deliveryDate: data.deliveryDate
-          ? new Date(`${data.deliveryDate}T00:00:00Z`)
-          : null,
-        urgency: urgencyMap[data.urgency],
-        specialInstructions: data.specialInstructions || null,
-        contactMethod: contactMethodMap[data.contactMethod],
-        ipAddress: ip,
-      },
-    });
-
-    await sendQuoteConfirmation({
-      to: data.email,
-      name: data.name,
-      requestId,
-      serviceType: data.serviceType,
-      pickupDate: data.pickupDate,
-      pickupTime: data.pickupTime,
-    });
+      })
+    );
 
     return { status: "success", requestId };
   } catch (error) {
