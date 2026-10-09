@@ -129,6 +129,14 @@ export default async function AdminQuoteDetailPage({
               <h2 className="text-base font-semibold">Metadata</h2>
               <Field label="Received" value={formatDateTimeIN(quote.createdAt)} />
               <Field label="IP address" value={quote.ipAddress ?? "—"} />
+              <Field
+                label="Consent"
+                value={
+                  quote.consentAt
+                    ? `${formatDateTimeIN(quote.consentAt)} (policy ${quote.consentVersion ?? "unknown"})`
+                    : "Not recorded"
+                }
+              />
             </CardContent>
           </Card>
         </div>

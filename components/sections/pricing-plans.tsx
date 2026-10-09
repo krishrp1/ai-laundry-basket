@@ -100,7 +100,7 @@ export function PricingPlans() {
       </div>
 
       <Reveal delay={0.3} className="mt-8 text-center text-sm text-muted-foreground">
-        Free delivery on orders above {formatINR(FREE_DELIVERY_THRESHOLD)}. Need pricing
+        Free delivery on orders of {formatINR(FREE_DELIVERY_THRESHOLD)} or more. Need pricing
         for a business, hotel, or bulk order?{" "}
         <Link href="/contact" className="font-medium text-primary hover:underline">
           Contact us
