@@ -15,12 +15,6 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const fontHeading = Outfit({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -76,7 +70,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontMono.variable} ${fontHeading.variable} h-full antialiased`}
+      className={`${fontSans.variable} ${fontMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a
