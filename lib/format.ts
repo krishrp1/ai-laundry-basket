@@ -1,3 +1,12 @@
+/**
+ * A date as YYYY-MM-DD in IST, independent of the server's or browser's own
+ * timezone. Used for "is this pickup date in the past?" checks so the client
+ * and the server agree on what "today" is.
+ */
+export function todayIST(now: Date = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(now);
+}
+
 const inrFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
   currency: "INR",

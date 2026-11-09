@@ -24,6 +24,7 @@ import {
   type GarmentCounts,
 } from "@/lib/pricing-engine";
 import { getAvailablePickupWindows, estimateDelivery, getDayLabel, formatHour } from "@/lib/scheduling";
+import { todayIST } from "@/lib/format";
 import { ServiceTypeCard } from "./service-type-card";
 import { LoadCard } from "./load-card";
 import { PickupDetailsCard } from "./pickup-details-card";
@@ -43,7 +44,7 @@ export function PriceEstimator() {
 
   const minDate = React.useSyncExternalStore(
     () => () => {},
-    () => new Date().toISOString().split("T")[0],
+    () => todayIST(),
     () => ""
   );
 
@@ -137,7 +138,7 @@ export function PriceEstimator() {
         <Reveal className="mx-auto max-w-2xl text-center">
           <Badge variant="secondary" className="gap-1.5">
             <Sparkles className="size-3" />
-            AI Price Estimator
+            Price Estimator
           </Badge>
           <h2 className="mt-3">Know your price before you book</h2>
           <p className="mt-4 text-muted-foreground">

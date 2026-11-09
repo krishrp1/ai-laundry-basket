@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { todayIST } from "@/lib/format";
 import { consentSchema } from "./consent";
 import { contactMethodValues } from "./contact";
 
@@ -21,11 +22,6 @@ const isoDate = z
   .string()
   .trim()
   .regex(/^\d{4}-\d{2}-\d{2}$/, { error: "Use a valid date." });
-
-/** Today's date as YYYY-MM-DD in IST, independent of the server process's own timezone. */
-function todayIST(): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
-}
 
 export const quoteFormSchema = z
   .object({

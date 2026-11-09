@@ -12,8 +12,12 @@ const BUSINESS_HOURS: Record<number, { open: number; close: number }> = {
   6: { open: 9, close: 21 }, // Saturday
 };
 
-const STANDARD_TURNAROUND_HOURS = 24;
-const EXPRESS_TURNAROUND_HOURS = 8;
+// Must agree with the customer-facing promises: standard "2 to 3 business
+// days" and express "12 to 24 hours" (FAQ, quote form). Uses the faster end of
+// standard and the slower end of express so the estimate is never optimistic
+// about express.
+const STANDARD_TURNAROUND_HOURS = 48;
+const EXPRESS_TURNAROUND_HOURS = 24;
 
 export function getBusinessHours(dayOfWeek: number) {
   return BUSINESS_HOURS[dayOfWeek];
