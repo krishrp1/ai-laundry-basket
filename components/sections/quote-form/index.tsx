@@ -20,6 +20,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { weightTiers } from "@/config/pricing";
 import { focusFirstInvalid } from "@/lib/focus-first-invalid";
+import { todayIST } from "@/lib/format";
 import { submitQuoteRequest } from "@/lib/actions/quote";
 import { HONEYPOT_FIELD, FORM_TIMESTAMP_FIELD } from "@/lib/spam-guard-constants";
 import { Field } from "./fields";
@@ -55,7 +56,7 @@ export function QuoteForm({
 
   const minDate = React.useSyncExternalStore(
     () => () => {},
-    () => new Date().toISOString().split("T")[0],
+    () => todayIST(),
     () => ""
   );
 
