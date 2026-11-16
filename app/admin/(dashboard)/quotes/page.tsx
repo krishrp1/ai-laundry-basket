@@ -49,7 +49,7 @@ export default async function AdminQuotesPage({
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search name, email, phone, ID..." />
 
-      <div className="rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border border-border">
         <Table>
           <TableHeader>
             <TableRow>

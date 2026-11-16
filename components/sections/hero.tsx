@@ -110,7 +110,7 @@ export function Hero() {
             aria-hidden="true"
             className="bg-amber/12 absolute -top-8 -right-8 -z-10 size-40 rounded-full blur-2xl"
           />
-          <Card className="relative z-10 gap-5 rounded-[2rem] shadow-lg ring-1 ring-foreground/8">
+          <Card className="relative z-10 gap-5 rounded-[2rem] shadow-lg ring-1 ring-foreground/8 dark:bg-popover">
             <div className="flex items-center justify-between px-(--card-spacing)">
               <div>
                 <p className="text-sm text-muted-foreground">Sample order</p>
@@ -130,7 +130,7 @@ export function Hero() {
               {loads.map((row) => (
                 <div
                   key={row.label}
-                  className="flex items-center justify-between rounded-xl bg-muted/60 px-3 py-2.5"
+                  className="flex items-center justify-between rounded-[calc(2rem-var(--card-spacing))] bg-muted/60 px-3 py-2.5"
                 >
                   <div className="flex items-center gap-2.5">
                     <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-primary">
