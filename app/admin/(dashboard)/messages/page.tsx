@@ -48,7 +48,7 @@ export default async function AdminMessagesPage({
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search name, email, message..." />
 
-      <div className="rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border border-border">
         <Table>
           <TableHeader>
             <TableRow>

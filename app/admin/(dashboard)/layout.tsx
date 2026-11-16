@@ -24,7 +24,7 @@ export default async function AdminLayout({
   const adminName = admin.name ?? admin.email;
 
   return (
-    <div className="flex min-h-screen flex-1 flex-col sm:flex-row">
+    <div className="flex min-h-dvh flex-1 flex-col sm:flex-row">
       <AdminSidebar adminName={adminName} />
       <div className="flex flex-1 flex-col overflow-x-hidden">
         <AdminMobileNav adminName={adminName} />

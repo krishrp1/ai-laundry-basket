@@ -10,7 +10,7 @@ export function AboutHero() {
     <section className="relative isolate overflow-hidden border-b border-border/60">
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,color-mix(in_oklch,var(--primary)_22%,transparent),transparent_65%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%_in_oklch,color-mix(in_oklch,var(--primary)_22%,transparent),transparent_65%)]"
       />
       <div
         aria-hidden="true"

@@ -35,7 +35,7 @@ export default async function AdminCustomersPage({
 
       <AdminFiltersBar statusOptions={[]} searchPlaceholder="Search name, email, phone..." />
 
-      <div className="rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border border-border">
         <Table>
           <TableHeader>
             <TableRow>

@@ -54,7 +54,7 @@ export function LiveEstimateCard({
   bookDisabled,
 }: LiveEstimateCardProps) {
   return (
-    <Card className="shadow-xl ring-1 ring-foreground/10">
+    <Card className="shadow-xl ring-1 ring-foreground/10 dark:bg-popover">
       <CardContent className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
           <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
