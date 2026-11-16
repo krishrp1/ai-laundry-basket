@@ -43,7 +43,7 @@ export default async function AdminOrdersPage({
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search order ID, customer..." />
 
-      <div className="rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border border-border">
         <Table>
           <TableHeader>
             <TableRow>

@@ -75,7 +75,7 @@ export function LoadCard({
                   aria-pressed={inputMode === mode}
                   onClick={() => setInputMode(mode)}
                   className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    "rounded-[calc(var(--radius-lg)-(--spacing(1)))] px-3 py-1.5 text-sm font-medium transition-colors",
                     inputMode === mode
                       ? "bg-background text-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground"

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AdminForbiddenPage() {
   return (
-    <div className="flex min-h-screen flex-1 flex-col items-center justify-center bg-muted/30 px-4 py-24 text-center">
+    <div className="flex min-h-dvh flex-1 flex-col items-center justify-center bg-muted/30 px-4 py-24 text-center">
       <span className="flex size-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
         <ShieldAlert className="size-7" />
       </span>

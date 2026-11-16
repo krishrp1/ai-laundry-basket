@@ -72,7 +72,7 @@ export function PriceEstimatorTeaser() {
             </div>
           </div>
 
-          <div className="bg-card flex flex-col items-center justify-center p-10 text-center sm:p-12 md:w-1/2">
+          <div className="bg-card dark:bg-popover flex flex-col items-center justify-center p-10 text-center sm:p-12 md:w-1/2">
             <span className="bg-accent mb-4 flex size-20 items-center justify-center rounded-full">
               <ShoppingBasket className="text-amber size-9" />
             </span>
