@@ -1,4 +1,5 @@
 import "server-only";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 import { QuoteStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
@@ -9,6 +10,7 @@ function isQuoteStatus(value: string): value is QuoteStatus {
 }
 
 export async function listQuoteRequests({ search, status, sort, page }: ListParams) {
+  await getCurrentAdmin();
   const where: Prisma.QuoteRequestWhereInput = {
     ...(status && isQuoteStatus(status) ? { status } : {}),
     ...(search
@@ -47,6 +49,7 @@ export async function listQuoteRequests({ search, status, sort, page }: ListPara
 }
 
 export async function getQuoteRequestById(id: string) {
+  await getCurrentAdmin();
   if (!isValidUuid(id)) return null;
   return db.quoteRequest.findUnique({
     where: { id },

@@ -1,7 +1,9 @@
 import "server-only";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 
 export async function getDashboardStats() {
+  await getCurrentAdmin();
   const [
     newQuotes,
     activeOrders,
