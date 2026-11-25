@@ -1,4 +1,5 @@
 import "server-only";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 import { ContactStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
@@ -9,6 +10,7 @@ function isContactStatus(value: string): value is ContactStatus {
 }
 
 export async function listContactMessages({ search, status, sort, page }: ListParams) {
+  await getCurrentAdmin();
   const where: Prisma.ContactMessageWhereInput = {
     ...(status && isContactStatus(status) ? { status } : {}),
     ...(search
@@ -35,6 +37,7 @@ export async function listContactMessages({ search, status, sort, page }: ListPa
 }
 
 export async function getContactMessageById(id: string) {
+  await getCurrentAdmin();
   if (!isValidUuid(id)) return null;
   return db.contactMessage.findUnique({ where: { id } });
 }
