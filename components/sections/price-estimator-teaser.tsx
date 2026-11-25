@@ -28,14 +28,18 @@ export function PriceEstimatorTeaser() {
 
   return (
     <section className="border-y bg-card">
-      <div className="container-page section-y grid gap-10 lg:grid-cols-[1fr_1.15fr]">
+      <div className="container-page section-y grid gap-x-10 gap-y-8 lg:grid-cols-[1fr_1.15fr] lg:grid-rows-[auto_1fr]">
         <div>
           <h2>What will a load cost?</h2>
           <p className="mt-3 max-w-md text-muted-foreground">
             Pick the size closest to yours for a Wash &amp; Fold estimate. We
             weigh your laundry at pickup, and that weight sets the final price.
           </p>
-          <div className="mt-8" aria-live="polite">
+        </div>
+
+        {/* After the options on phones, so the price changes next to the thing that was tapped. */}
+        <div className="order-last self-start lg:order-none">
+          <div aria-live="polite">
             <p className="text-sm text-muted-foreground">
               Estimate for {selected.label.toLowerCase()}
             </p>
@@ -48,7 +52,7 @@ export function PriceEstimatorTeaser() {
           </Button>
         </div>
 
-        <div className="flex flex-col divide-y self-start rounded-xl border">
+        <div className="flex flex-col divide-y self-start rounded-xl border lg:col-start-2 lg:row-span-2 lg:row-start-1">
           {presetTotals.map((preset) => {
             const isActive = preset.key === selectedKey;
             return (

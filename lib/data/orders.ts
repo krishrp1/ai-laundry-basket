@@ -20,8 +20,8 @@ function isOrderStatus(value: string): value is OrderStatus {
   return (Object.values(OrderStatus) as string[]).includes(value);
 }
 
-export async function listOrders({ search, status, sort, page }: ListParams) {
-  const where: Prisma.LaundryOrderWhereInput = {
+export function orderWhere({ search, status }: Pick<ListParams, "search" | "status">): Prisma.LaundryOrderWhereInput {
+  return {
     ...(status && isOrderStatus(status) ? { status } : {}),
     ...(search
       ? {
@@ -33,6 +33,10 @@ export async function listOrders({ search, status, sort, page }: ListParams) {
         }
       : {}),
   };
+}
+
+export async function listOrders({ search, status, sort, page }: ListParams) {
+  const where = orderWhere({ search, status });
 
   const [total, items] = await Promise.all([
     db.laundryOrder.count({ where }),

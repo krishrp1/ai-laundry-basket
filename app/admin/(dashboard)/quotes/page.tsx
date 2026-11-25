@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AdminFiltersBar } from "@/components/admin/filters-bar";
+import { ExportLink } from "@/components/admin/export-link";
 import { AdminPagination } from "@/components/admin/pagination";
 import { StatusSelectForm } from "@/components/admin/status-select-form";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
@@ -40,11 +41,14 @@ export default async function AdminQuotesPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl">Quote Requests</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {meta.total} request{meta.total === 1 ? "" : "s"}
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl">Quote Requests</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {meta.total} request{meta.total === 1 ? "" : "s"}
+          </p>
+        </div>
+        {admin.role === "SUPER_ADMIN" && <ExportLink resource="quotes" params={params} />}
       </div>
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search name, email, phone, ID..." />

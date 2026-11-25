@@ -4,8 +4,8 @@ import { Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
 import { isValidUuid } from "@/lib/uuid";
 
-export async function listCustomers({ search, sort, page }: Omit<ListParams, "status">) {
-  const where: Prisma.CustomerWhereInput = search
+export function customerWhere({ search }: Pick<ListParams, "search">): Prisma.CustomerWhereInput {
+  return search
     ? {
         OR: [
           { name: { contains: search, mode: "insensitive" } },
@@ -14,6 +14,10 @@ export async function listCustomers({ search, sort, page }: Omit<ListParams, "st
         ],
       }
     : {};
+}
+
+export async function listCustomers({ search, sort, page }: Omit<ListParams, "status">) {
+  const where = customerWhere({ search });
 
   const [total, items] = await Promise.all([
     db.customer.count({ where }),

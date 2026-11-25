@@ -25,17 +25,17 @@ export function Footer() {
               {siteConfig.description}
             </p>
 
-            <div className="mt-5 flex flex-col gap-2 text-sm">
+            <div className="mt-3 flex flex-col items-start text-sm">
               <Link
                 href={siteConfig.contact.phoneHref}
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                className="inline-flex min-h-9 items-center gap-2 text-muted-foreground hover:text-foreground"
               >
                 <Phone className="size-4 text-primary" />
                 {siteConfig.contact.phone}
               </Link>
               <Link
                 href={`mailto:${siteConfig.contact.email}`}
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                className="inline-flex min-h-9 items-center gap-2 text-muted-foreground hover:text-foreground"
               >
                 <Mail className="size-4 text-primary" />
                 {siteConfig.contact.email}
@@ -65,12 +65,12 @@ export function Footer() {
               <h2 className="font-sans text-sm font-semibold sm:text-sm">
                 {group.title}
               </h2>
-              <ul className="mt-3 flex flex-col gap-2">
+              <ul className="mt-2 flex flex-col">
                 {group.items.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="inline-flex min-h-9 items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {item.title}
                     </Link>

@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AdminFiltersBar } from "@/components/admin/filters-bar";
+import { ExportLink } from "@/components/admin/export-link";
 import { AdminPagination } from "@/components/admin/pagination";
 import { StatusSelectForm } from "@/components/admin/status-select-form";
 import { listOrders } from "@/lib/data/orders";
@@ -16,6 +17,7 @@ import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { orderStatusLabels } from "@/lib/order-status-labels";
 import { updateOrderStatusAction } from "@/lib/actions/admin/orders";
 import { formatDateIN } from "@/lib/format";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Orders" };
 
@@ -30,15 +32,18 @@ export default async function AdminOrdersPage({
   searchParams: Promise<RawSearchParams>;
 }) {
   const params = parseListParams(await searchParams);
-  const { items, meta } = await listOrders(params);
+  const [{ items, meta }, admin] = await Promise.all([listOrders(params), getCurrentAdmin()]);
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl">Orders</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {meta.total} order{meta.total === 1 ? "" : "s"}
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl">Orders</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {meta.total} order{meta.total === 1 ? "" : "s"}
+          </p>
+        </div>
+        {admin.role === "SUPER_ADMIN" && <ExportLink resource="orders" params={params} />}
       </div>
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search order ID, customer..." />

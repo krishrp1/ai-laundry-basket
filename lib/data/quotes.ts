@@ -8,8 +8,8 @@ function isQuoteStatus(value: string): value is QuoteStatus {
   return (Object.values(QuoteStatus) as string[]).includes(value);
 }
 
-export async function listQuoteRequests({ search, status, sort, page }: ListParams) {
-  const where: Prisma.QuoteRequestWhereInput = {
+export function quoteWhere({ search, status }: Pick<ListParams, "search" | "status">): Prisma.QuoteRequestWhereInput {
+  return {
     ...(status && isQuoteStatus(status) ? { status } : {}),
     ...(search
       ? {
@@ -22,6 +22,10 @@ export async function listQuoteRequests({ search, status, sort, page }: ListPara
         }
       : {}),
   };
+}
+
+export async function listQuoteRequests({ search, status, sort, page }: ListParams) {
+  const where = quoteWhere({ search, status });
 
   const [total, items] = await Promise.all([
     db.quoteRequest.count({ where }),

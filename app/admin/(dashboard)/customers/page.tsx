@@ -9,10 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AdminFiltersBar } from "@/components/admin/filters-bar";
+import { ExportLink } from "@/components/admin/export-link";
 import { AdminPagination } from "@/components/admin/pagination";
 import { listCustomers } from "@/lib/data/customers";
 import { parseListParams, type RawSearchParams } from "@/lib/data/list-params";
 import { formatDateIN } from "@/lib/format";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Customers" };
 
@@ -22,15 +24,18 @@ export default async function AdminCustomersPage({
   searchParams: Promise<RawSearchParams>;
 }) {
   const params = parseListParams(await searchParams);
-  const { items, meta } = await listCustomers(params);
+  const [{ items, meta }, admin] = await Promise.all([listCustomers(params), getCurrentAdmin()]);
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl">Customers</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {meta.total} customer{meta.total === 1 ? "" : "s"}
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl">Customers</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {meta.total} customer{meta.total === 1 ? "" : "s"}
+          </p>
+        </div>
+        {admin.role === "SUPER_ADMIN" && <ExportLink resource="customers" params={params} />}
       </div>
 
       <AdminFiltersBar statusOptions={[]} searchPlaceholder="Search name, email, phone..." />
