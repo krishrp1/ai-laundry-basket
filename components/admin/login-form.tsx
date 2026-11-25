@@ -2,13 +2,14 @@
 
 import * as React from "react";
 import { useActionState } from "react";
-import { Loader2, LogIn } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginAdmin, type LoginState } from "@/lib/actions/admin/auth";
+import { Brand } from "@/components/layout/brand";
 
 const initialState: LoginState = { status: "idle" };
 
@@ -17,11 +18,12 @@ export function AdminLoginForm() {
 
   return (
     <Card className="w-full max-w-sm">
-      <CardContent className="flex flex-col gap-5 pt-6">
-        <div className="text-center">
-          <h1 className="text-xl font-semibold">Admin sign in</h1>
+      <CardContent className="flex flex-col gap-5">
+        <div>
+          <Brand className="mb-5" />
+          <h1 className="text-2xl sm:text-2xl">Admin sign in</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            A&I Laundry Basket operations dashboard
+            Operations dashboard
           </p>
         </div>
 
@@ -61,10 +63,7 @@ export function AdminLoginForm() {
                 Signing in
               </>
             ) : (
-              <>
-                <LogIn className="size-4" />
-                Sign in
-              </>
+              "Sign in"
             )}
           </Button>
         </form>

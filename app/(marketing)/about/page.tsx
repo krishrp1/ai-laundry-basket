@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 
-import { AboutHero } from "@/components/sections/about-hero";
 import { AboutStory } from "@/components/sections/about-story";
 import { Cta } from "@/components/sections/cta";
-import { Team } from "@/components/sections/team";
-import { TrustStrip } from "@/components/sections/trust-strip";
+import { PageHeader } from "@/components/sections/page-header";
 
 export const metadata: Metadata = {
   title: "About",
@@ -16,17 +14,12 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <AboutHero />
-      <AboutStory />
-      <TrustStrip />
-      <Team />
-      <Cta
-        title="Ready to see it for yourself?"
-        description="Get a custom quote in minutes, no obligation."
-        buttonLabel="Request a Quote"
-        buttonHref="/quote"
-        note="No obligation, quick response."
+      <PageHeader
+        title="A laundry service for South Bengaluru"
+        description="A local team that collects your laundry, cleans it, and brings it back to your door."
       />
+      <AboutStory />
+      <Cta />
     </>
   );
 }

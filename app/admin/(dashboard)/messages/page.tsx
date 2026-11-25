@@ -40,7 +40,7 @@ export default async function AdminMessagesPage({
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Contact Messages</h1>
+        <h1 className="text-2xl sm:text-3xl">Contact Messages</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {meta.total} message{meta.total === 1 ? "" : "s"}
         </p>
@@ -48,7 +48,7 @@ export default async function AdminMessagesPage({
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search name, email, message..." />
 
-      <div className="overflow-hidden rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border bg-card">
         <Table>
           <TableHeader>
             <TableRow>

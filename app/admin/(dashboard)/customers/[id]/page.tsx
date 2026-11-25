@@ -29,7 +29,7 @@ export default async function AdminCustomerDetailPage({
           <ArrowLeft className="size-4" />
           Back to customers
         </Link>
-        <h1 className="text-2xl font-semibold">{customer.name}</h1>
+        <h1 className="text-2xl sm:text-3xl">{customer.name}</h1>
         <p className="text-sm text-muted-foreground">
           {customer.email}
           {customer.phone ? ` · ${customer.phone}` : ""}
@@ -39,7 +39,7 @@ export default async function AdminCustomerDetailPage({
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardContent>
-            <h2 className="mb-4 text-base font-semibold">Quote requests</h2>
+            <h2 className="mb-4 text-lg sm:text-lg">Quote requests</h2>
             <ul className="flex flex-col gap-3">
               {customer.quoteRequests.length === 0 && (
                 <li className="text-sm text-muted-foreground">No quote requests.</li>
@@ -58,7 +58,7 @@ export default async function AdminCustomerDetailPage({
 
         <Card>
           <CardContent>
-            <h2 className="mb-4 text-base font-semibold">Orders</h2>
+            <h2 className="mb-4 text-lg sm:text-lg">Orders</h2>
             <ul className="flex flex-col gap-3">
               {customer.orders.length === 0 && (
                 <li className="text-sm text-muted-foreground">No orders.</li>

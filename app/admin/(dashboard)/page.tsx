@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { FileText, Package, MessageSquare, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { LinkListItem } from "@/components/admin/link-list-item";
@@ -10,10 +9,10 @@ import { quoteStatusLabels, orderStatusLabels } from "@/lib/order-status-labels"
 export const metadata: Metadata = { title: "Dashboard" };
 
 const statCards = [
-  { key: "newQuotes" as const, label: "New quote requests", icon: FileText, href: "/admin/quotes" },
-  { key: "activeOrders" as const, label: "Active orders", icon: Package, href: "/admin/orders" },
-  { key: "unreadMessages" as const, label: "Unread messages", icon: MessageSquare, href: "/admin/messages" },
-  { key: "totalCustomers" as const, label: "Total customers", icon: Users, href: "/admin/customers" },
+  { key: "newQuotes" as const, label: "New quote requests", href: "/admin/quotes" },
+  { key: "activeOrders" as const, label: "Active orders", href: "/admin/orders" },
+  { key: "unreadMessages" as const, label: "Unread messages", href: "/admin/messages" },
+  { key: "totalCustomers" as const, label: "Total customers", href: "/admin/customers" },
 ];
 
 export default async function AdminDashboardPage() {
@@ -22,26 +21,23 @@ export default async function AdminDashboardPage() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl">Dashboard</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           A snapshot of what needs attention today.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border bg-border lg:grid-cols-4">
         {statCards.map((card) => (
-          <Link key={card.key} href={card.href}>
-            <Card className="transition-colors hover:border-primary/40">
-              <CardContent className="flex items-center gap-4">
-                <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <card.icon className="size-5" />
-                </span>
-                <div>
-                  <p className="text-2xl font-semibold">{stats[card.key]}</p>
-                  <p className="text-sm text-muted-foreground">{card.label}</p>
-                </div>
-              </CardContent>
-            </Card>
+          <Link
+            key={card.key}
+            href={card.href}
+            className="group bg-card p-5 outline-none hover:bg-accent focus-visible:bg-accent"
+          >
+            <p className="font-heading text-4xl font-semibold tabular-nums">{stats[card.key]}</p>
+            <p className="text-sm text-muted-foreground underline-offset-4 group-hover:underline">
+              {card.label}
+            </p>
           </Link>
         ))}
       </div>
@@ -50,7 +46,7 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-semibold">Recent quote requests</h2>
+              <h2 className="text-lg sm:text-lg">Recent quote requests</h2>
               <Link href="/admin/quotes" className="text-sm text-primary hover:underline">
                 View all
               </Link>
@@ -75,7 +71,7 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-semibold">Recent orders</h2>
+              <h2 className="text-lg sm:text-lg">Recent orders</h2>
               <Link href="/admin/orders" className="text-sm text-primary hover:underline">
                 View all
               </Link>

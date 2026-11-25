@@ -11,7 +11,6 @@ import {
   Users,
   LogOut,
   Menu,
-  WashingMachine,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -24,6 +23,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { logoutAdmin } from "@/lib/actions/admin/auth";
+import { Brand } from "@/components/layout/brand";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -86,12 +86,9 @@ function AdminLogoutForm({ adminName }: { adminName: string }) {
  * push page content below a full-width stack of nav links. */
 export function AdminSidebar({ adminName }: { adminName: string }) {
   return (
-    <aside className="hidden h-full w-56 shrink-0 flex-col gap-6 border-r border-border bg-card p-4 sm:flex">
-      <Link href="/admin" className="flex items-center gap-2 px-1 font-heading text-base font-semibold">
-        <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <WashingMachine className="size-4" aria-hidden="true" />
-        </span>
-        Admin
+    <aside className="sticky top-0 hidden h-dvh w-56 shrink-0 flex-col gap-6 border-r border-border bg-card p-4 sm:flex">
+      <Link href="/admin" className="px-1">
+        <Brand label="Admin" />
       </Link>
 
       <AdminSidebarNav />
@@ -107,11 +104,8 @@ export function AdminMobileNav({ adminName }: { adminName: string }) {
 
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card px-4 py-3 sm:hidden">
-      <Link href="/admin" className="flex items-center gap-2 font-heading text-base font-semibold">
-        <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <WashingMachine className="size-4" aria-hidden="true" />
-        </span>
-        Admin
+      <Link href="/admin">
+        <Brand label="Admin" />
       </Link>
 
       <Sheet open={open} onOpenChange={setOpen}>
@@ -129,11 +123,8 @@ export function AdminMobileNav({ adminName }: { adminName: string }) {
         </SheetTrigger>
         <SheetContent side="right" className="flex w-3/4 flex-col gap-6 p-4 sm:max-w-xs">
           <SheetHeader className="p-0">
-            <SheetTitle className="flex items-center gap-2 font-heading text-base font-semibold">
-              <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <WashingMachine className="size-4" aria-hidden="true" />
-              </span>
-              Admin
+            <SheetTitle>
+              <Brand label="Admin" />
             </SheetTitle>
           </SheetHeader>
           <AdminSidebarNav onNavigate={() => setOpen(false)} />

@@ -35,7 +35,7 @@ export default async function AdminOrdersPage({
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Orders</h1>
+        <h1 className="text-2xl sm:text-3xl">Orders</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {meta.total} order{meta.total === 1 ? "" : "s"}
         </p>
@@ -43,7 +43,7 @@ export default async function AdminOrdersPage({
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search order ID, customer..." />
 
-      <div className="overflow-hidden rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border bg-card">
         <Table>
           <TableHeader>
             <TableRow>

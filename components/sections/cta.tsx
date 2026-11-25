@@ -1,49 +1,46 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Reveal } from "@/components/motion/reveal";
+import { siteConfig } from "@/config/site";
 
 type CtaProps = {
   title?: string;
   description?: string;
   buttonLabel?: string;
   buttonHref?: string;
-  note?: string;
 };
 
 export function Cta({
-  title = "Ready to make laundry day effortless?",
-  description = "Doorstep pickup, careful cleaning, and reliable delivery — every order, every time.",
+  title = "Book a pickup",
+  description = "Send your address and a pickup window. Nothing is booked or charged until we confirm with you.",
   buttonLabel = "Request a Quote",
   buttonHref = "/quote",
-  note = "No obligation, quick response.",
 }: CtaProps = {}) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-      <Reveal>
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-accent px-8 py-16 text-center sm:px-16">
-          <h2 className="relative text-foreground">{title}</h2>
-          <p className="relative mx-auto mt-4 max-w-xl text-muted-foreground">
-            {description}
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button
-              size="lg"
-              render={<Link href={buttonHref} />}
-              className="h-12 gap-1.5 rounded-full px-8 text-base shadow-md transition-transform hover:-translate-y-0.5 hover:shadow-lg"
-            >
-              {buttonLabel}
-              <ArrowRight className="size-4" />
-            </Button>
-          </div>
-          {note && (
-            <p className="relative mt-4 text-xs text-muted-foreground">
-              {note}
-            </p>
-          )}
+    <section className="bg-band text-band-foreground">
+      <div className="container-page flex flex-col gap-6 py-12 lg:flex-row lg:items-center lg:justify-between">
+        <div className="max-w-xl">
+          <h2>{title}</h2>
+          <p className="mt-2">{description}</p>
         </div>
-      </Reveal>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button
+            size="lg"
+            render={<Link href={buttonHref} />}
+            className="bg-highlight text-highlight-foreground hover:bg-band-foreground"
+          >
+            {buttonLabel}
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            render={<a href={siteConfig.contact.phoneHref} />}
+            className="border-band-foreground/60 bg-transparent text-band-foreground hover:border-band-foreground hover:bg-band-foreground hover:text-band"
+          >
+            Call {siteConfig.contact.phone}
+          </Button>
+        </div>
+      </div>
     </section>
   );
 }

@@ -38,7 +38,7 @@ export default async function AdminOrderDetailPage({
             <ArrowLeft className="size-4" />
             Back to orders
           </Link>
-          <h1 className="text-2xl font-semibold">{order.orderId}</h1>
+          <h1 className="text-2xl sm:text-3xl">{order.orderId}</h1>
         </div>
         <StatusBadge status={order.status} label={orderStatusLabels[order.status]} />
       </div>
@@ -46,7 +46,7 @@ export default async function AdminOrderDetailPage({
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardContent className="flex flex-col gap-4">
-            <h2 className="text-base font-semibold">Order details</h2>
+            <h2 className="text-lg sm:text-lg">Order details</h2>
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <Field label="Customer" value={order.customer.name} />
               <Field label="Email" value={order.customer.email} />
@@ -98,7 +98,7 @@ export default async function AdminOrderDetailPage({
 
       <Card>
         <CardContent>
-          <h2 className="mb-4 text-base font-semibold">Status history</h2>
+          <h2 className="mb-4 text-lg sm:text-lg">Status history</h2>
           <ol className="flex flex-col gap-4">
             {order.statusHistory.map((entry) => (
               <li key={entry.id} className="flex gap-3 border-l-2 border-border pl-4">

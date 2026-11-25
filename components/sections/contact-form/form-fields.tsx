@@ -1,8 +1,6 @@
-import { m } from "framer-motion";
-import { Loader2, Send } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { ConsentField } from "@/components/forms/consent-field";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,12 +25,7 @@ export function ContactFormFields({
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }) {
   return (
-    <m.form
-      key="form"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+    <form
       onSubmit={onSubmit}
       noValidate
       className="flex flex-col gap-5"
@@ -124,7 +117,7 @@ export function ContactFormFields({
             <Label
               key={option.value}
               htmlFor={`contact-method-${option.value}`}
-              className="flex cursor-pointer items-center gap-2 rounded-lg border border-border px-3 py-2 font-normal has-[[data-checked]]:border-primary has-[[data-checked]]:bg-primary/5"
+              className="flex cursor-pointer items-center gap-2 rounded-lg border border-input px-3 py-2.5 font-normal hover:border-primary has-[[data-checked]]:border-primary has-[[data-checked]]:bg-primary/5"
             >
               <RadioGroupItem id={`contact-method-${option.value}`} value={option.value} />
               {option.label}
@@ -178,9 +171,7 @@ export function ContactFormFields({
       )}
 
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-        <Badge variant="outline" className="font-normal">
-          Typical reply time: one business day
-        </Badge>
+        <p className="text-sm text-muted-foreground">We reply within one business day.</p>
         <Button type="submit" disabled={submitting} className="w-full gap-1.5 sm:w-auto">
           {submitting ? (
             <>
@@ -188,13 +179,10 @@ export function ContactFormFields({
               Sending
             </>
           ) : (
-            <>
-              <Send className="size-4" />
-              Send message
-            </>
+            "Send message"
           )}
         </Button>
       </div>
-    </m.form>
+    </form>
   );
 }

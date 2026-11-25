@@ -2,7 +2,6 @@ import { RotateCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Reveal } from "@/components/motion/reveal";
 import { GarmentSelector } from "@/components/estimator/garment-selector";
 import { loadPresets, type ServiceKey, type GarmentKey } from "@/config/pricing";
 import { cn } from "@/lib/utils";
@@ -36,7 +35,6 @@ export function LoadCard({
   updateGarment: (key: GarmentKey, value: number) => void;
 }) {
   return (
-    <Reveal delay={0.05}>
       <Card>
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-start justify-between gap-3">
@@ -77,7 +75,7 @@ export function LoadCard({
                   className={cn(
                     "rounded-[calc(var(--radius-lg)-(--spacing(1)))] px-3 py-1.5 text-sm font-medium transition-colors",
                     inputMode === mode
-                      ? "bg-background text-foreground shadow-sm"
+                      ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -98,15 +96,12 @@ export function LoadCard({
                     aria-pressed={selected}
                     onClick={() => setPresetKey(selected ? null : preset.key)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg border px-3.5 py-3 text-left transition-colors",
+                      "rounded-lg border px-3.5 py-3 text-left transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                       selected
-                        ? "border-primary bg-primary/5 ring-1 ring-primary"
-                        : "border-border bg-card hover:border-primary/40"
+                        ? "border-primary bg-accent ring-1 ring-primary"
+                        : "bg-card hover:border-primary hover:bg-muted"
                     )}
                   >
-                    <span aria-hidden="true" className="text-2xl">
-                      {preset.icon}
-                    </span>
                     <span>
                       <span className="block text-sm font-medium">{preset.label}</span>
                       <span className="block text-xs text-muted-foreground">{preset.sublabel}</span>
@@ -124,6 +119,5 @@ export function LoadCard({
           )}
         </CardContent>
       </Card>
-    </Reveal>
   );
 }

@@ -18,12 +18,7 @@ export function GarmentSelector({ serviceKey, garmentCounts, onChange }: Garment
           key={garment.key}
           className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-3.5 py-2.5"
         >
-          <span className="flex items-center gap-2.5 text-sm font-medium">
-            <span aria-hidden="true" className="text-lg">
-              {garment.icon}
-            </span>
-            {garment.label}
-          </span>
+          <span className="font-medium">{garment.label}</span>
           <Stepper
             label={garment.label}
             value={garmentCounts[garment.key] ?? 0}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Cta } from "@/components/sections/cta";
 import { FaqAccordion, faqCategories } from "@/components/sections/faq-accordion";
-import { FaqHero } from "@/components/sections/faq-hero";
+import { PageHeader } from "@/components/sections/page-header";
 import { FaqJsonLd } from "@/components/seo/faq-json-ld";
 
 export const metadata: Metadata = {
@@ -16,14 +16,16 @@ export default function FaqPage() {
   return (
     <>
       <FaqJsonLd categories={faqCategories} />
-      <FaqHero />
+      <PageHeader
+        title="Frequently asked questions"
+        description="Pricing, pickup and delivery, garment care, cancellations and damaged items."
+      />
       <FaqAccordion />
       <Cta
-        title="Still have questions?"
-        description="Our support team is happy to help with anything not covered here."
-        buttonLabel="Contact Us"
+        title="Still have a question?"
+        description="Send us a message and we will reply within one business day."
+        buttonLabel="Contact us"
         buttonHref="/contact"
-        note=""
       />
     </>
   );

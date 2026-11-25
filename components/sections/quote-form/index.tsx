@@ -1,10 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { m } from "framer-motion";
-import { CheckCircle2, Loader2, Send } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,7 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ConsentField } from "@/components/forms/consent-field";
-import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { weightTiers } from "@/config/pricing";
 import { focusFirstInvalid } from "@/lib/focus-first-invalid";
@@ -29,8 +26,8 @@ import type { CustomerType, FormErrors, QuoteFormValues } from "./types";
 
 export type { QuoteFormValues } from "./types";
 
-const inputClass = "h-12 text-base";
-const selectTriggerClass = "h-12 w-full text-base";
+const inputClass = "h-11 text-base";
+const selectTriggerClass = "w-full text-base data-[size=default]:h-11";
 
 export function QuoteForm({
   initialValues,
@@ -144,19 +141,10 @@ export function QuoteForm({
 
   if (status === "success") {
     return (
-      <Reveal>
         <Card>
           <CardContent>
-            <m.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              role="status"
-              className="flex flex-col items-center gap-3 py-14 text-center"
-            >
-              <span className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <CheckCircle2 className="size-7" />
-              </span>
+            <div role="status" className="flex flex-col items-center gap-3 py-14 text-center">
+              <CheckCircle2 className="size-10 text-success" />
               <p className="font-heading text-2xl font-semibold">
                 Quote request received
               </p>
@@ -166,34 +154,29 @@ export function QuoteForm({
                 pickup time.
               </p>
               {requestId && (
-                <Badge variant="outline" className="text-sm font-normal">
-                  Reference: {requestId}
-                </Badge>
+                <p className="font-semibold">Reference: {requestId}</p>
               )}
               <Button
                 variant="outline"
                 size="lg"
-                className="h-12 px-6 text-base"
                 onClick={handleReset}
               >
                 Submit another request
               </Button>
-            </m.div>
+            </div>
           </CardContent>
         </Card>
-      </Reveal>
     );
   }
 
   return (
-    <Reveal>
       <Card>
         <CardContent>
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-7">
             <div>
-              <p className="font-heading text-2xl font-semibold">Get a quote</p>
+              <h2 className="text-2xl sm:text-2xl">Your details</h2>
               <p className="mt-1 text-base text-muted-foreground">
-                Fill this in and we will call you back with pricing. Fields
+                We will call or message you with pricing. Fields
                 marked <span aria-hidden="true">*</span>
                 <span className="sr-only">with an asterisk</span> are required.
               </p>
@@ -216,10 +199,10 @@ export function QuoteForm({
                     onClick={() => updateField("customerType", option.value as CustomerType)}
                     aria-pressed={values.customerType === option.value}
                     className={cn(
-                      "flex h-14 items-center justify-center rounded-lg border-2 text-base font-semibold transition-colors",
+                      "flex h-11 items-center justify-center rounded-lg border text-base font-semibold transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                       values.customerType === option.value
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/40"
+                        ? "border-primary bg-accent text-accent-foreground ring-1 ring-primary"
+                        : "border-input text-muted-foreground hover:border-primary hover:text-foreground"
                     )}
                   >
                     {option.label}
@@ -228,8 +211,8 @@ export function QuoteForm({
               </div>
             </fieldset>
 
-            <div className="flex flex-col gap-7 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-7">
-              <div className="flex flex-col gap-7">
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Field label="Your name" htmlFor="quote-name" error={errors.name} required>
                     <Input
@@ -290,7 +273,7 @@ export function QuoteForm({
                 </Field>
               </div>
 
-              <div className="flex flex-col gap-7">
+              <div className="flex flex-col gap-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Field label="City" htmlFor="quote-city" error={errors.city} required>
                     <Input
@@ -464,7 +447,7 @@ export function QuoteForm({
               type="submit"
               size="lg"
               disabled={status === "submitting" || isPending}
-              className="h-14 w-full gap-2 text-lg"
+              className="w-full"
             >
               {status === "submitting" || isPending ? (
                 <>
@@ -473,7 +456,6 @@ export function QuoteForm({
                 </>
               ) : (
                 <>
-                  <Send className="size-5" />
                   Request a Quote
                 </>
               )}
@@ -481,6 +463,5 @@ export function QuoteForm({
           </form>
         </CardContent>
       </Card>
-    </Reveal>
   );
 }

@@ -13,18 +13,15 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#1E88E5",
-          borderRadius: 7,
+          background: "#173f8f",
+          color: "#ffffff",
+          fontSize: 15,
+          fontWeight: 700,
+          borderRadius: 6,
+          borderBottom: "3px solid #f2b63c",
         }}
       >
-        <div
-          style={{
-            width: 15,
-            height: 15,
-            borderRadius: "50%",
-            border: "3px solid #fafafa",
-          }}
-        />
+        A&I
       </div>
     ),
     { ...size }

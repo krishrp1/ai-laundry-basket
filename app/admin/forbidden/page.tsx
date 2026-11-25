@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ShieldAlert } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -12,14 +10,9 @@ export const metadata: Metadata = {
 
 export default function AdminForbiddenPage() {
   return (
-    <div className="flex min-h-dvh flex-1 flex-col items-center justify-center bg-muted/30 px-4 py-24 text-center">
-      <span className="flex size-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
-        <ShieldAlert className="size-7" />
-      </span>
-      <Badge variant="secondary" className="mt-6">
-        403
-      </Badge>
-      <h1 className="mt-5 text-3xl sm:text-4xl">
+    <div className="flex min-h-dvh flex-1 flex-col items-center justify-center px-4 py-24 text-center">
+      <p className="font-heading text-xl font-semibold text-primary">403</p>
+      <h1 className="mt-2">
         You do not have access to that
       </h1>
       <p className="mt-4 max-w-md text-muted-foreground">

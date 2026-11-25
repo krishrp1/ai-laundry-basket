@@ -1,24 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Outfit } from "next/font/google";
+import { Anek_Latin, Hind } from "next/font/google";
 import "./globals.css";
 
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
-const fontSans = Outfit({
-  variable: "--font-sans",
-  subsets: ["latin"],
+// Both families come from Indian type foundries: Anek (Ek Type) for headings
+// and figures, Hind (Indian Type Foundry) for reading text. latin-ext carries ₹.
+const fontBody = Hind({
+  variable: "--font-body",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const fontMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const fontHeading = Outfit({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+const fontDisplay = Anek_Latin({
+  variable: "--font-display",
+  subsets: ["latin", "latin-ext"],
+  axes: ["wdth"],
 });
 
 export const metadata: Metadata = {
@@ -62,8 +60,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f9fd" },
-    { media: "(prefers-color-scheme: dark)", color: "#17181c" },
+    { media: "(prefers-color-scheme: light)", color: "#f8fafd" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b101d" },
   ],
 };
 
@@ -76,7 +74,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontMono.variable} ${fontHeading.variable} h-full antialiased`}
+      className={`${fontBody.variable} ${fontDisplay.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a

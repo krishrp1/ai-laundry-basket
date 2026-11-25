@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 
+import { ContactDetails } from "@/components/sections/contact-details";
 import { ContactForm } from "@/components/sections/contact-form";
-import { ContactHero } from "@/components/sections/contact-hero";
-import { ContactInfo } from "@/components/sections/contact-info";
-import { ContactMap } from "@/components/sections/contact-map";
-import { Cta } from "@/components/sections/cta";
+import { PageHeader } from "@/components/sections/page-header";
+import { ServiceAreas } from "@/components/sections/service-areas";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -16,17 +15,17 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <ContactHero />
-      <ContactInfo />
-      <ContactMap />
-      <ContactForm />
-      <Cta
-        title="Ready for a custom quote?"
-        description="Tell us about your home or business laundry needs and we will put together a plan that fits."
-        buttonLabel="Request a Quote"
-        buttonHref="#contact-form"
-        note="No obligation, quick response."
+      <PageHeader
+        title="Contact us"
+        description="Ask about an order, a business account or a price. We reply to messages within one business day."
       />
+      <div className="container-page section-y grid gap-12 lg:grid-cols-[2fr_3fr]">
+        <ContactDetails />
+        <ContactForm />
+      </div>
+      <div className="border-t bg-card">
+        <ServiceAreas />
+      </div>
     </>
   );
 }

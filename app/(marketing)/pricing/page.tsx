@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 import { Cta } from "@/components/sections/cta";
-import { PricingHero } from "@/components/sections/pricing-hero";
-import { PricingPlans } from "@/components/sections/pricing-plans";
+import { PageHeader } from "@/components/sections/page-header";
+import { DryCleaningPrices, PricingPlans } from "@/components/sections/pricing-plans";
 import { PriceEstimator } from "@/components/sections/price-estimator";
 
 export const metadata: Metadata = {
@@ -15,16 +15,14 @@ export const metadata: Metadata = {
 export default function PricingPage() {
   return (
     <>
-      <PricingHero />
+      <PageHeader
+        title="Prices"
+        description="Washing is charged by weight. Ironing on its own and dry cleaning are charged per garment."
+      />
       <PricingPlans />
       <PriceEstimator />
-      <Cta
-        title="Ready for pricing built around you?"
-        description="Get a personalised quote based on your exact laundry needs."
-        buttonLabel="Request a Quote"
-        buttonHref="/quote"
-        note="Free, no-obligation quote."
-      />
+      <DryCleaningPrices />
+      <Cta />
     </>
   );
 }

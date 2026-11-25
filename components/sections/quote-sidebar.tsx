@@ -1,98 +1,61 @@
-import Link from "next/link";
-import { ClipboardCheck, Mail, Phone, Sparkles, Truck } from "lucide-react";
-
 import { siteConfig } from "@/config/site";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Reveal } from "@/components/motion/reveal";
 
 const steps = [
   {
-    icon: ClipboardCheck,
-    title: "Submit your request",
-    description: "Tell us what you need and when you need it.",
+    title: "You send this form",
+    description: "It does not book a pickup or charge you anything.",
   },
   {
-    icon: Sparkles,
     title: "We confirm the details",
-    description:
-      "Our team reviews your request and confirms pricing and scheduling.",
+    description: "We contact you to agree the price and a pickup time.",
   },
   {
-    icon: Truck,
-    title: "Pickup is scheduled",
+    title: "We collect",
     description:
-      "A driver arrives during your pickup window and weighs your laundry on the spot — you only pay for actual weight.",
+      "Per-kg laundry is weighed at pickup, so you only pay for actual weight.",
   },
   {
-    icon: ClipboardCheck,
-    title: "Fresh laundry, delivered",
-    description: "Your items come back to your door at the delivery time we agree with you.",
+    title: "We deliver",
+    description: "Your items come back at the delivery time we agree with you.",
   },
 ];
 
+const linkClass =
+  "font-semibold text-primary underline underline-offset-4 break-all hover:text-primary-hover";
+
 export function QuoteSidebar() {
   return (
-    <div className="flex flex-col gap-5">
-      <Reveal>
-        <Card>
-          <CardContent className="flex flex-col gap-5">
-            <div>
-              <p className="font-heading text-xl font-semibold">
-                How it works
-              </p>
-              <p className="mt-1 text-base text-muted-foreground">
-                Here is what happens after you submit this form.
-              </p>
-            </div>
+    <aside className="flex flex-col gap-8">
+      <div>
+        <h2 className="text-xl sm:text-xl">What happens next</h2>
+        <ol className="mt-4 divide-y border-y">
+          {steps.map((step, i) => (
+            <li key={step.title} className="flex gap-4 py-4">
+              <span aria-hidden="true" className="font-heading text-2xl leading-none font-semibold text-primary tabular-nums">
+                {i + 1}
+              </span>
+              <div>
+                <p className="font-semibold">{step.title}</p>
+                <p className="text-sm text-muted-foreground">{step.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
 
-            <ol className="flex flex-col gap-4">
-              {steps.map((step, i) => (
-                <li key={step.title} className="flex gap-3">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <p className="text-base font-medium">{step.title}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {step.description}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
-      </Reveal>
-
-      <Reveal delay={0.08}>
-        <Card>
-          <CardContent className="flex flex-col gap-4">
-            <p className="text-lg font-medium">Prefer to talk it through?</p>
-            <div className="flex flex-col gap-3 text-base">
-              <Link
-                href={siteConfig.contact.phoneHref}
-                className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Phone className="size-5 text-primary" />
-                {siteConfig.contact.phone}
-              </Link>
-              <Link
-                href={`mailto:${siteConfig.contact.email}`}
-                className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Mail className="size-5 text-primary" />
-                {siteConfig.contact.email}
-              </Link>
-            </div>
-            <Separator />
-            <p className="text-sm text-muted-foreground">
-              Submitting this form does not book a pickup. We will follow up
-              to confirm details before anything is scheduled or charged.
-            </p>
-          </CardContent>
-        </Card>
-      </Reveal>
-    </div>
+      <div>
+        <h2 className="text-xl sm:text-xl">Prefer to talk?</h2>
+        <p className="mt-2">
+          <a href={siteConfig.contact.phoneHref} className={linkClass}>
+            {siteConfig.contact.phone}
+          </a>
+        </p>
+        <p>
+          <a href={`mailto:${siteConfig.contact.email}`} className={linkClass}>
+            {siteConfig.contact.email}
+          </a>
+        </p>
+      </div>
+    </aside>
   );
 }

@@ -113,7 +113,6 @@ export type GarmentKey =
 export type GarmentDefinition = {
   key: GarmentKey;
   label: string;
-  icon: string;
   category: ItemCategory;
   /** Average weight in kg for one unit, used by per-kg services and mixed orders. */
   weightKg: number;
@@ -123,26 +122,26 @@ export type GarmentDefinition = {
 
 /** itemRates: per-garment weight and per-piece rate for every supported category. */
 export const garments: GarmentDefinition[] = [
-  { key: "shirt", label: "Shirts", icon: "👔", category: "wearable_items", weightKg: 0.2, perPieceRate: { min: 85, max: 119, default: 99 } },
-  { key: "t_shirt", label: "T-Shirts", icon: "👕", category: "wearable_items", weightKg: 0.15, perPieceRate: { min: 85, max: 119, default: 89 } },
-  { key: "trousers", label: "Trousers", icon: "🩳", category: "wearable_items", weightKg: 0.3, perPieceRate: { min: 85, max: 119, default: 105 } },
-  { key: "jeans", label: "Jeans", icon: "👖", category: "wearable_items", weightKg: 0.33, perPieceRate: { min: 119, max: 130, default: 125 } },
-  { key: "kurti_plain", label: "Kurtis (Plain)", icon: "👘", category: "wearable_items", weightKg: 0.25, perPieceRate: { min: 89, max: 119, default: 99 } },
-  { key: "kurti_fancy", label: "Kurtis (Fancy)", icon: "👘", category: "delicate_items", weightKg: 0.3, perPieceRate: { min: 130, max: 180, default: 150 } },
-  { key: "bedsheet_single", label: "Bedsheets (Single)", icon: "🛏️", category: "non_wearable_items", weightKg: 1.0, perPieceRate: { min: 60, max: 90, default: 75 } },
-  { key: "bedsheet_double", label: "Bedsheets (Double)", icon: "🛏️", category: "non_wearable_items", weightKg: 1.5, perPieceRate: { min: 90, max: 130, default: 110 } },
-  { key: "towel_small", label: "Towels (Small)", icon: "🧺", category: "non_wearable_items", weightKg: 0.25, perPieceRate: { min: 25, max: 40, default: 32 } },
-  { key: "towel_large", label: "Towels (Large)", icon: "🧺", category: "non_wearable_items", weightKg: 0.45, perPieceRate: { min: 40, max: 60, default: 50 } },
-  { key: "saree_cotton", label: "Sarees (Cotton)", icon: "🥻", category: "delicate_items", weightKg: 0.45, perPieceRate: { min: 200, max: 260, default: 220 } },
-  { key: "saree_silk", label: "Sarees (Silk)", icon: "🥻", category: "delicate_items", weightKg: 0.5, perPieceRate: { min: 260, max: 340, default: 290 } },
-  { key: "saree_fancy", label: "Sarees (Fancy/Work)", icon: "🥻", category: "premium_items", weightKg: 0.6, perPieceRate: { min: 320, max: 390, default: 360 } },
-  { key: "lehenga_plain", label: "Lehengas (Plain)", icon: "💃", category: "premium_items", weightKg: 1.0, perPieceRate: { min: 350, max: 480, default: 420 } },
-  { key: "lehenga_heavy", label: "Lehengas (Heavy Work)", icon: "💃", category: "premium_items", weightKg: 1.4, perPieceRate: { min: 480, max: 750, default: 620 } },
-  { key: "sherwani", label: "Sherwanis", icon: "🥼", category: "premium_items", weightKg: 0.9, perPieceRate: { min: 550, max: 650, default: 600 } },
-  { key: "blanket", label: "Blankets", icon: "🛌", category: "non_wearable_items", weightKg: 2.2, perPieceRate: { min: 150, max: 220, default: 180 } },
-  { key: "curtain", label: "Curtains", icon: "🪟", category: "non_wearable_items", weightKg: 1.0, perPieceRate: { min: 120, max: 180, default: 150 } },
-  { key: "suit", label: "Suits", icon: "🤵", category: "premium_items", weightKg: 1.6, perPieceRate: { min: 350, max: 450, default: 400 } },
-  { key: "gown", label: "Gowns", icon: "👗", category: "premium_items", weightKg: 0.8, perPieceRate: { min: 300, max: 450, default: 360 } },
+  { key: "shirt", label: "Shirts", category: "wearable_items", weightKg: 0.2, perPieceRate: { min: 85, max: 119, default: 99 } },
+  { key: "t_shirt", label: "T-Shirts", category: "wearable_items", weightKg: 0.15, perPieceRate: { min: 85, max: 119, default: 89 } },
+  { key: "trousers", label: "Trousers", category: "wearable_items", weightKg: 0.3, perPieceRate: { min: 85, max: 119, default: 105 } },
+  { key: "jeans", label: "Jeans", category: "wearable_items", weightKg: 0.33, perPieceRate: { min: 119, max: 130, default: 125 } },
+  { key: "kurti_plain", label: "Kurtis (Plain)", category: "wearable_items", weightKg: 0.25, perPieceRate: { min: 89, max: 119, default: 99 } },
+  { key: "kurti_fancy", label: "Kurtis (Fancy)", category: "delicate_items", weightKg: 0.3, perPieceRate: { min: 130, max: 180, default: 150 } },
+  { key: "bedsheet_single", label: "Bedsheets (Single)", category: "non_wearable_items", weightKg: 1.0, perPieceRate: { min: 60, max: 90, default: 75 } },
+  { key: "bedsheet_double", label: "Bedsheets (Double)", category: "non_wearable_items", weightKg: 1.5, perPieceRate: { min: 90, max: 130, default: 110 } },
+  { key: "towel_small", label: "Towels (Small)", category: "non_wearable_items", weightKg: 0.25, perPieceRate: { min: 25, max: 40, default: 32 } },
+  { key: "towel_large", label: "Towels (Large)", category: "non_wearable_items", weightKg: 0.45, perPieceRate: { min: 40, max: 60, default: 50 } },
+  { key: "saree_cotton", label: "Sarees (Cotton)", category: "delicate_items", weightKg: 0.45, perPieceRate: { min: 200, max: 260, default: 220 } },
+  { key: "saree_silk", label: "Sarees (Silk)", category: "delicate_items", weightKg: 0.5, perPieceRate: { min: 260, max: 340, default: 290 } },
+  { key: "saree_fancy", label: "Sarees (Fancy/Work)", category: "premium_items", weightKg: 0.6, perPieceRate: { min: 320, max: 390, default: 360 } },
+  { key: "lehenga_plain", label: "Lehengas (Plain)", category: "premium_items", weightKg: 1.0, perPieceRate: { min: 350, max: 480, default: 420 } },
+  { key: "lehenga_heavy", label: "Lehengas (Heavy Work)", category: "premium_items", weightKg: 1.4, perPieceRate: { min: 480, max: 750, default: 620 } },
+  { key: "sherwani", label: "Sherwanis", category: "premium_items", weightKg: 0.9, perPieceRate: { min: 550, max: 650, default: 600 } },
+  { key: "blanket", label: "Blankets", category: "non_wearable_items", weightKg: 2.2, perPieceRate: { min: 150, max: 220, default: 180 } },
+  { key: "curtain", label: "Curtains", category: "non_wearable_items", weightKg: 1.0, perPieceRate: { min: 120, max: 180, default: 150 } },
+  { key: "suit", label: "Suits", category: "premium_items", weightKg: 1.6, perPieceRate: { min: 350, max: 450, default: 400 } },
+  { key: "gown", label: "Gowns", category: "premium_items", weightKg: 0.8, perPieceRate: { min: 300, max: 450, default: 360 } },
 ];
 
 export const garmentByKey = Object.fromEntries(
@@ -255,7 +254,6 @@ export type LoadPreset = {
   key: string;
   label: string;
   sublabel: string;
-  icon: string;
   /**
    * Representative weight (tier midpoint) used to price the estimate — actual
    * billing is by weighing at pickup, so this only needs to be an honest
@@ -273,10 +271,10 @@ export type LoadPreset = {
  * that never get itemized). One preset per quote-form weight tier.
  */
 export const loadPresets: LoadPreset[] = [
-  { key: "small", label: "A few clothes", sublabel: "Under 5 kg · 1-2 small bags", icon: "🛍️", weightKg: 4, quoteTier: weightTiers[0] },
-  { key: "hamper", label: "One hamper", sublabel: "5-10 kg · about a week's laundry", icon: "🧺", weightKg: 7.5, quoteTier: weightTiers[1] },
-  { key: "family", label: "Two-three hampers", sublabel: "10-20 kg · family-size load", icon: "🏠", weightKg: 15, quoteTier: weightTiers[2] },
-  { key: "bulk", label: "Large household", sublabel: "20+ kg · bulk or commercial", icon: "🏢", weightKg: 22, quoteTier: weightTiers[3] },
+  { key: "small", label: "A few clothes", sublabel: "Under 5 kg · 1-2 small bags", weightKg: 4, quoteTier: weightTiers[0] },
+  { key: "hamper", label: "One hamper", sublabel: "5-10 kg · about a week's laundry", weightKg: 7.5, quoteTier: weightTiers[1] },
+  { key: "family", label: "Two-three hampers", sublabel: "10-20 kg · family-size load", weightKg: 15, quoteTier: weightTiers[2] },
+  { key: "bulk", label: "Large household", sublabel: "20+ kg · bulk or commercial", weightKg: 22, quoteTier: weightTiers[3] },
 ];
 
 /**

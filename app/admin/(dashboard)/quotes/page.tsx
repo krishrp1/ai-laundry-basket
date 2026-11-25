@@ -41,7 +41,7 @@ export default async function AdminQuotesPage({
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Quote Requests</h1>
+        <h1 className="text-2xl sm:text-3xl">Quote Requests</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {meta.total} request{meta.total === 1 ? "" : "s"}
         </p>
@@ -49,7 +49,7 @@ export default async function AdminQuotesPage({
 
       <AdminFiltersBar statusOptions={statusOptions} searchPlaceholder="Search name, email, phone, ID..." />
 
-      <div className="overflow-hidden rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border bg-card">
         <Table>
           <TableHeader>
             <TableRow>

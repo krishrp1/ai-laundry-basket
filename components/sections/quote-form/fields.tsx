@@ -17,7 +17,7 @@ export function Field({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor={htmlFor} className="text-base font-semibold">
+      <Label htmlFor={htmlFor} className="text-base">
         {label}{" "}
         {required && (
           <>

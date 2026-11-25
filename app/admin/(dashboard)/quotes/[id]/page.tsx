@@ -51,7 +51,7 @@ export default async function AdminQuoteDetailPage({
             <ArrowLeft className="size-4" />
             Back to quotes
           </Link>
-          <h1 className="text-2xl font-semibold">{quote.requestId}</h1>
+          <h1 className="text-2xl sm:text-3xl">{quote.requestId}</h1>
         </div>
         <StatusSelectForm
           action={updateQuoteStatusAction.bind(null, quote.id)}
@@ -64,7 +64,7 @@ export default async function AdminQuoteDetailPage({
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardContent className="flex flex-col gap-4">
-            <h2 className="text-base font-semibold">Request details</h2>
+            <h2 className="text-lg sm:text-lg">Request details</h2>
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <Field label="Customer" value={quote.name} />
               <Field label="Email" value={quote.email} />
@@ -97,7 +97,7 @@ export default async function AdminQuoteDetailPage({
         <div className="flex flex-col gap-4">
           <Card>
             <CardContent className="flex flex-col gap-3">
-              <h2 className="text-base font-semibold">Actions</h2>
+              <h2 className="text-lg sm:text-lg">Actions</h2>
               {quote.order ? (
                 <Button variant="outline" render={<Link href={`/admin/orders/${quote.order.id}`} />}>
                   View linked order
@@ -126,7 +126,7 @@ export default async function AdminQuoteDetailPage({
 
           <Card>
             <CardContent className="flex flex-col gap-2 text-sm">
-              <h2 className="text-base font-semibold">Metadata</h2>
+              <h2 className="text-lg sm:text-lg">Metadata</h2>
               <Field label="Received" value={formatDateTimeIN(quote.createdAt)} />
               <Field label="IP address" value={quote.ipAddress ?? "—"} />
               <Field

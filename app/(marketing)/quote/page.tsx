@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { QuoteForm } from "@/components/sections/quote-form";
-import { QuoteHero } from "@/components/sections/quote-hero";
+import { PageHeader } from "@/components/sections/page-header";
 import { QuoteSidebar } from "@/components/sections/quote-sidebar";
 import { services, weightTiers, pickupWindows } from "@/config/pricing";
 import type { QuoteFormValues } from "@/components/sections/quote-form";
@@ -89,9 +89,12 @@ export default async function QuotePage({
 
   return (
     <>
-      <QuoteHero />
+      <PageHeader
+        title="Request a quote"
+        description="Tell us what you need cleaned and when to collect it. We reply within one business day, and there is no obligation to book."
+      />
 
-      <section className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-16 sm:px-6 lg:px-8">
+      <section className="container-page section-y grid gap-10 lg:grid-cols-[1fr_20rem] lg:items-start">
         <QuoteForm initialValues={initialValues} />
         <QuoteSidebar />
       </section>

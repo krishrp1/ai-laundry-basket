@@ -1,6 +1,5 @@
 "use client";
 
-import { m } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -36,7 +35,6 @@ function Stepper({
         type="button"
         variant="outline"
         size="icon-sm"
-        className="rounded-full"
         disabled={value <= min}
         aria-label={`Decrease ${label}`}
         onClick={() => onChange(Math.max(min, value - step))}
@@ -47,21 +45,12 @@ function Stepper({
         className="w-6 text-center text-sm font-semibold tabular-nums"
         aria-live="polite"
       >
-        <m.span
-          key={value}
-          initial={{ scale: 0.6, opacity: 0.4 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 550, damping: 30 }}
-          className="inline-block"
-        >
-          {value}
-        </m.span>
+        {value}
       </span>
       <Button
         type="button"
         variant="outline"
         size="icon-sm"
-        className="rounded-full"
         disabled={value >= max}
         aria-label={`Increase ${label}`}
         onClick={() => onChange(Math.min(max, value + step))}

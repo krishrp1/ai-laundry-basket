@@ -8,18 +8,19 @@ export function LegalPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-heading text-3xl font-semibold sm:text-4xl">
-          {title}
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Last updated: {siteConfig.legal.lastUpdated}
-        </p>
+    <>
+      <div className="border-b bg-card">
+        <div className="container-page py-12">
+          <h1>{title}</h1>
+          <p className="mt-3 text-muted-foreground">
+            Last updated: {siteConfig.legal.lastUpdated}
+          </p>
+        </div>
       </div>
-
-      <div className="mt-10 flex flex-col gap-10">{children}</div>
-    </div>
+      <div className="container-page section-y">
+        <div className="flex max-w-3xl flex-col gap-10">{children}</div>
+      </div>
+    </>
   );
 }
 
@@ -32,10 +33,10 @@ export function LegalSection({
 }) {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="font-heading text-xl font-semibold text-foreground">
+      <h2 className="text-xl text-foreground sm:text-xl">
         {title}
       </h2>
-      <div className="flex flex-col gap-3 text-sm leading-relaxed text-muted-foreground">
+      <div className="flex flex-col gap-3 text-base leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4">
         {children}
       </div>
     </section>

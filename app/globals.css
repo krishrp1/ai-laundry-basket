@@ -7,156 +7,112 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
-  --color-brand-accent: var(--brand-accent);
-  --color-brand-accent-foreground: var(--brand-accent-foreground);
-  --color-brand-accent-strong: var(--brand-accent-strong);
-  --color-chart-2-strong: var(--chart-2-strong);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-amber: var(--amber);
+  --color-success: var(--success);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-band: var(--band);
+  --color-band-foreground: var(--band-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-xl: calc(var(--radius) * 1.5);
+  /* Elevation: surfaces are separated by borders. The only shadow is for
+     things that float above the page (menus, popovers, sheets). */
+  --shadow-overlay: 0 12px 32px -12px oklch(0.2 0.05 265 / 28%);
 }
 
 :root {
-  /* Monochrome + sky-blue-accent palette (RinseFlow-inspired): near-white
-     page/cards, near-black text and buttons (one neutral CTA color
-     everywhere, no competing hue), soft sky blue reserved for tinted
-     backgrounds/illustration accents only — never a button fill. Contrast
-     hand-verified: black/white-bg huge margin, --amber(dusty blue text)/card
-     6.14:1, muted-foreground/muted ~5.4:1 (pattern-consistent). */
-  --background: oklch(0.979 0.008 241.7);
-  --foreground: oklch(0.197 0.01 276.5);
+  /* "Neel" indigo (the blue used to brighten white cotton) on cool whites,
+     with turmeric kept for small marks and the one call to action that sits on
+     indigo. */
+  --background: oklch(0.982 0.004 250);
+  --foreground: oklch(0.23 0.035 265);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.197 0.01 276.5);
+  --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.197 0.01 276.5);
-  --primary: oklch(0.197 0.01 276.5);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.41 0.15 262);
+  --primary-hover: oklch(0.33 0.125 262);
   --primary-foreground: oklch(1 0 0);
-  /* Same near-black as primary, by design — this direction uses one neutral
-     CTA color everywhere rather than a second accent hue on buttons. */
-  --secondary: oklch(0.197 0.01 276.5);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.969 0.01 238.5);
-  --muted-foreground: oklch(0.506 0.023 253);
-  --accent: oklch(0.96 0.015 248);
-  --accent-foreground: oklch(0.197 0.01 276.5);
-  --destructive: oklch(0.501 0.178 28.7);
+  --secondary: oklch(0.945 0.016 255);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.953 0.008 250);
+  --muted-foreground: oklch(0.47 0.028 262);
+  --accent: oklch(0.94 0.026 255);
+  --accent-foreground: oklch(0.33 0.125 262);
+  --destructive: oklch(0.5 0.18 28);
   --destructive-foreground: oklch(1 0 0);
-  /* Borders are alpha inks so they blend into whatever surface they sit on.
-     --border composites to #dbe6f0 on white. */
-  --border: oklch(0.49 0.12 250 / 16%);
-  /* Form-control borders: composites to #7a8796 on white and stays >=3.5:1 on
-     white, page, muted and accent surfaces (WCAG 1.4.11 non-text contrast).
-     Decorative --border stays subtle. */
-  --input: oklch(0.331 0.053 252.5 / 60%);
-  --ring: color-mix(in oklch, oklch(0.197 0.01 276.5) 50%, transparent);
-  --chart-1: oklch(0.197 0.01 276.5);
-  --chart-2: oklch(0.492 0.09 243.8);
-  --chart-3: oklch(0.656 0.107 185.3);
-  --chart-4: oklch(0.769 0.188 70.08);
-  --chart-5: oklch(0.723 0.192 149.6);
-  --radius: 0.7rem;
-  --sidebar: oklch(0.979 0.008 241.7);
-  --sidebar-foreground: oklch(0.197 0.01 276.5);
-  --sidebar-primary: oklch(0.197 0.01 276.5);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0.015 248);
-  --sidebar-accent-foreground: oklch(0.197 0.01 276.5);
-  --sidebar-border: oklch(0.49 0.12 250 / 16%);
-  --sidebar-ring: color-mix(in oklch, oklch(0.197 0.01 276.5) 50%, transparent);
-  /* Success green, used deliberately (checkmarks, trust badges, success
-     accents) rather than as a pervasive UI hover color. */
-  --brand-accent: oklch(0.723 0.192 149.6);
-  --brand-accent-foreground: oklch(1 0 0);
-  --brand-accent-strong: oklch(0.627 0.17 149.2);
-  --chart-2-strong: oklch(0.492 0.09 243.8);
-  /* Dusty sky-blue text accent for price highlights / illustration strokes —
-     the one hue in this palette, used sparingly and never as a button fill.
-     Kept as --amber for identifier stability across components. */
-  --amber: oklch(0.492 0.09 243.8);
+  --success: oklch(0.47 0.11 152);
+  --highlight: oklch(0.82 0.15 80);
+  --highlight-foreground: oklch(0.23 0.035 265);
+  --band: oklch(0.33 0.125 262);
+  --band-foreground: oklch(0.98 0.008 250);
+  --border: oklch(0.23 0.035 265 / 14%);
+  /* Form-control borders stay above 3:1 on every surface (WCAG 1.4.11). */
+  --input: oklch(0.23 0.035 265 / 56%);
+  --ring: oklch(0.55 0.17 262);
+  --radius: 0.5rem;
 }
 
 .dark {
-  /* Inverted monochrome: near-black surface, near-white text/buttons, deep
-     blue-tinted accent bg with light sky-blue foreground. Light-on-near-black
-     and dark-on-near-white pairs both carry large margins by construction. */
-  --background: oklch(0.21 0.008 274.5);
-  --foreground: oklch(0.961 0.003 106.4);
-  --card: oklch(0.236 0.008 274.6);
-  --card-foreground: oklch(0.961 0.003 106.4);
-  /* Depth in dark mode comes from lighter surfaces (shadows barely read):
-     background < card < popover. */
-  --popover: oklch(0.28 0.008 274.6);
-  --popover-foreground: oklch(0.961 0.003 106.4);
-  --primary: oklch(0.961 0.003 106.4);
-  --primary-foreground: oklch(0.197 0.01 276.5);
-  --secondary: oklch(0.961 0.003 106.4);
-  --secondary-foreground: oklch(0.197 0.01 276.5);
-  --muted: oklch(0.248 0.006 271.2);
-  --muted-foreground: oklch(0.738 0.006 264.5);
-  --accent: oklch(0.247 0.029 249);
-  --accent-foreground: oklch(0.799 0.084 244.2);
-  --destructive: oklch(0.712 0.181 22.8);
-  --destructive-foreground: oklch(0.201 0.054 23.2);
-  --border: oklch(1 0 0 / 10%);
-  /* >=3.8:1 on background, card and popover surfaces. */
+  /* Depth comes from lighter surfaces: background < card < popover. */
+  --background: oklch(0.18 0.022 265);
+  --foreground: oklch(0.95 0.008 250);
+  --card: oklch(0.225 0.026 265);
+  --popover: oklch(0.27 0.03 265);
+  --primary: oklch(0.77 0.105 258);
+  --primary-hover: oklch(0.84 0.075 258);
+  --primary-foreground: oklch(0.18 0.04 265);
+  --secondary: oklch(0.28 0.035 262);
+  --muted: oklch(0.255 0.024 265);
+  --muted-foreground: oklch(0.76 0.02 255);
+  --accent: oklch(0.3 0.055 262);
+  --accent-foreground: oklch(0.9 0.045 255);
+  --destructive: oklch(0.73 0.16 24);
+  --destructive-foreground: oklch(0.2 0.05 24);
+  --success: oklch(0.77 0.14 152);
+  --band: oklch(0.31 0.095 262);
+  --border: oklch(1 0 0 / 13%);
   --input: oklch(1 0 0 / 44%);
-  --ring: color-mix(in oklch, oklch(0.961 0.003 106.4) 50%, transparent);
-  --chart-1: oklch(0.961 0.003 106.4);
-  --chart-2: oklch(0.746 0.082 243.5);
-  --chart-3: oklch(0.656 0.107 185.3);
-  --chart-4: oklch(0.769 0.188 70.08);
-  --chart-5: oklch(0.723 0.192 149.6);
-  --sidebar: oklch(0.21 0.008 274.5);
-  --sidebar-foreground: oklch(0.961 0.003 106.4);
-  --sidebar-primary: oklch(0.961 0.003 106.4);
-  --sidebar-primary-foreground: oklch(0.197 0.01 276.5);
-  --sidebar-accent: oklch(0.247 0.029 249);
-  --sidebar-accent-foreground: oklch(0.799 0.084 244.2);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: color-mix(in oklch, oklch(0.961 0.003 106.4) 50%, transparent);
-  --brand-accent: oklch(0.723 0.192 149.6);
-  --brand-accent-foreground: oklch(0.3159 0.0726 152.76);
-  --brand-accent-strong: oklch(0.8 0.182 151.7);
-  --chart-2-strong: oklch(0.746 0.082 243.5);
-  --amber: oklch(0.746 0.082 243.5);
+  --ring: oklch(0.77 0.105 258);
+}
+
+/* Page rhythm: one content width and one vertical step, used everywhere. */
+@utility container-page {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @variant sm {
+    padding-inline: 1.5rem;
+  }
+}
+
+@utility section-y {
+  padding-block: 3.5rem;
+  @variant lg {
+    padding-block: 5rem;
+  }
 }
 
 @layer base {
@@ -169,28 +125,29 @@
   html {
     @apply font-sans scroll-smooth;
   }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
   h1,
   h2,
   h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading font-semibold tracking-tight text-balance;
+  h4 {
+    @apply font-heading font-semibold text-balance;
+    font-stretch: 92%;
   }
   h1 {
-    @apply text-4xl leading-tight sm:text-5xl;
+    @apply text-4xl leading-[1.08] tracking-tight sm:text-5xl;
   }
   h2 {
-    @apply text-3xl leading-tight sm:text-4xl;
+    @apply text-2xl leading-tight sm:text-3xl;
   }
   h3 {
-    @apply text-2xl leading-snug sm:text-3xl;
-  }
-  h4 {
-    @apply text-xl leading-snug;
+    @apply text-lg leading-snug;
   }
   p {
-    @apply leading-relaxed;
+    @apply leading-relaxed text-pretty;
   }
   a {
     @apply transition-colors;
@@ -203,10 +160,7 @@
   .font-medium .lucide {
     stroke-width: 1.75;
   }
-  :is(.font-semibold, h1, h2, h3, h4, h5, h6) .lucide {
+  :is(.font-semibold, h1, h2, h3, h4) .lucide {
     stroke-width: 2;
-  }
-  .font-bold .lucide {
-    stroke-width: 2.25;
   }
 }

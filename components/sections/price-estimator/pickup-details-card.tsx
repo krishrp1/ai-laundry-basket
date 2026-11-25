@@ -9,8 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Reveal } from "@/components/motion/reveal";
 import { expressRates as expressConfig, type PickupWindow } from "@/config/pricing";
+import { formatINR } from "@/lib/format";
 import { siteConfig } from "@/config/site";
 
 export function PickupDetailsCard({
@@ -23,6 +23,7 @@ export function PickupDetailsCard({
   setPickupWindowLabel,
   availableWindows,
   express,
+  isPerKg,
   setExpress,
   couponCode,
   setCouponCode,
@@ -36,18 +37,18 @@ export function PickupDetailsCard({
   setPickupWindowLabel: (value: string) => void;
   availableWindows: PickupWindow[];
   express: boolean;
+  isPerKg: boolean;
   setExpress: (value: boolean) => void;
   couponCode: string;
   setCouponCode: (value: string) => void;
 }) {
   return (
-    <Reveal delay={0.1}>
       <Card>
         <CardContent className="flex flex-col gap-5">
           <p className="font-medium">Pickup details</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="estimator-location">Pickup Location</Label>
+              <Label htmlFor="estimator-location">Pickup location</Label>
               <Select value={location} onValueChange={(value) => setLocation(value ?? "")}>
                 <SelectTrigger id="estimator-location" className="w-full">
                   <SelectValue placeholder="Choose your area" />
@@ -63,7 +64,7 @@ export function PickupDetailsCard({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="estimator-date">Preferred Pickup Date</Label>
+              <Label htmlFor="estimator-date">Preferred pickup date</Label>
               <Input
                 id="estimator-date"
                 type="date"
@@ -74,7 +75,7 @@ export function PickupDetailsCard({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="estimator-time">Preferred Pickup Time</Label>
+              <Label htmlFor="estimator-time">Preferred pickup time</Label>
               <Select
                 value={pickupWindowLabel}
                 onValueChange={(value) => setPickupWindowLabel(value ?? "")}
@@ -94,9 +95,11 @@ export function PickupDetailsCard({
 
             <div className="flex items-center justify-between gap-3 rounded-lg border border-border px-3.5 py-2.5">
               <div>
-                <Label htmlFor="estimator-express">Express Delivery</Label>
+                <Label htmlFor="estimator-express">Express delivery</Label>
                 <p className="text-xs text-muted-foreground">
-                  +{Math.round((expressConfig.multiplier - 1) * 100)}% • faster turnaround
+                  {isPerKg
+                    ? `${formatINR(expressConfig.perKgRate.default)} per kg, faster turnaround`
+                    : `+${Math.round((expressConfig.multiplier - 1) * 100)}% per garment, faster turnaround`}
                 </p>
               </div>
               <Switch id="estimator-express" checked={express} onCheckedChange={setExpress} />
@@ -104,7 +107,7 @@ export function PickupDetailsCard({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="estimator-coupon">Coupon Code (optional)</Label>
+            <Label htmlFor="estimator-coupon">Coupon code (optional)</Label>
             <Input
               id="estimator-coupon"
               placeholder="e.g. FIRST10"
@@ -115,6 +118,5 @@ export function PickupDetailsCard({
           </div>
         </CardContent>
       </Card>
-    </Reveal>
   );
 }

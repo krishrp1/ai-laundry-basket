@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ShoppingBasket } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Reveal } from "@/components/motion/reveal";
 import { formatINR } from "@/lib/format";
 import { computeEstimate } from "@/lib/pricing-engine";
 import { loadPresets } from "@/config/pricing";
+import { cn } from "@/lib/utils";
 
 /** Wash & Fold total for each load preset — computed live via the real pricing engine, not hardcoded. */
 const presetTotals = loadPresets.map((preset) => {
@@ -28,70 +27,55 @@ export function PriceEstimatorTeaser() {
   const selected = presetTotals.find((p) => p.key === selectedKey) ?? presetTotals[0]!;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-      <Reveal>
-        <div className="border-border flex flex-col overflow-hidden rounded-[2rem] border shadow-lg md:flex-row">
-          <div className="bg-accent flex flex-col justify-center p-10 sm:p-12 md:w-1/2">
-            <h2 className="text-foreground">Estimate your order</h2>
-            <p className="text-muted-foreground mt-3 max-w-md">
-              Quickly estimate a Wash &amp; Fold order by load size. The final
-              price is confirmed by weighing at pickup.
+    <section className="border-y bg-card">
+      <div className="container-page section-y grid gap-10 lg:grid-cols-[1fr_1.15fr]">
+        <div>
+          <h2>What will a load cost?</h2>
+          <p className="mt-3 max-w-md text-muted-foreground">
+            Pick the size closest to yours for a Wash &amp; Fold estimate. We
+            weigh your laundry at pickup, and that weight sets the final price.
+          </p>
+          <div className="mt-8" aria-live="polite">
+            <p className="text-sm text-muted-foreground">
+              Estimate for {selected.label.toLowerCase()}
             </p>
-            <div className="mt-8 flex flex-col gap-3">
-              {presetTotals.map((preset) => {
-                const isActive = preset.key === selectedKey;
-                return (
-                  <button
-                    key={preset.key}
-                    type="button"
-                    onClick={() => setSelectedKey(preset.key)}
-                    aria-pressed={isActive}
-                    className={`flex items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors ${
-                      isActive
-                        ? "border-primary bg-card"
-                        : "border-transparent hover:bg-card/60"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <span aria-hidden="true">{preset.icon}</span>
-                      <span>
-                        <span className="text-foreground block text-sm font-medium">
-                          {preset.label}
-                        </span>
-                        <span className="text-muted-foreground block text-xs">
-                          {preset.sublabel}
-                        </span>
-                      </span>
-                    </span>
-                    <span className="text-foreground font-semibold">
-                      {formatINR(preset.total)}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="bg-card dark:bg-popover flex flex-col items-center justify-center p-10 text-center sm:p-12 md:w-1/2">
-            <span className="bg-accent mb-4 flex size-20 items-center justify-center rounded-full">
-              <ShoppingBasket className="text-amber size-9" />
-            </span>
-            <span className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-              Estimated total
-            </span>
-            <div className="text-primary mt-2 text-6xl font-semibold">
+            <p className="font-heading text-6xl font-semibold text-primary tabular-nums">
               {formatINR(selected.total)}
-            </div>
-            <p className="text-muted-foreground mt-6 max-w-xs text-sm">
-              *Final pricing confirmed upon physical weighing during pickup.
             </p>
-            <Button size="lg" render={<Link href="/quote" />} className="mt-6 gap-1.5">
-              Request Pickup Now
-              <ArrowRight className="size-4" />
-            </Button>
           </div>
+          <Button size="lg" render={<Link href="/quote" />} className="mt-6">
+            Request pickup
+          </Button>
         </div>
-      </Reveal>
+
+        <div className="flex flex-col divide-y self-start rounded-xl border">
+          {presetTotals.map((preset) => {
+            const isActive = preset.key === selectedKey;
+            return (
+              <button
+                key={preset.key}
+                type="button"
+                onClick={() => setSelectedKey(preset.key)}
+                aria-pressed={isActive}
+                className={cn(
+                  "flex items-center justify-between gap-4 border-l-4 px-4 py-4 text-left transition-colors outline-none first:rounded-t-xl last:rounded-b-xl focus-visible:ring-3 focus-visible:ring-ring/50",
+                  isActive
+                    ? "border-l-primary bg-accent"
+                    : "border-l-transparent hover:bg-muted"
+                )}
+              >
+                <span>
+                  <span className="block font-semibold">{preset.label}</span>
+                  <span className="block text-sm text-muted-foreground">{preset.sublabel}</span>
+                </span>
+                <span className="font-heading text-xl font-semibold tabular-nums">
+                  {formatINR(preset.total)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

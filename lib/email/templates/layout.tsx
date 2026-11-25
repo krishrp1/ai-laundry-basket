@@ -11,7 +11,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-const BRAND_COLOR = "#1E88E5";
+const BRAND_COLOR = "#173f8f";
 
 export function EmailLayout({
   previewText,

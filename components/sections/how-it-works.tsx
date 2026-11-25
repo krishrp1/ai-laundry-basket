@@ -1,71 +1,38 @@
-import { CalendarCheck, PackageCheck, Sparkles, Truck } from "lucide-react";
-
-import { Reveal } from "@/components/motion/reveal";
-
 const steps = [
   {
-    icon: CalendarCheck,
-    step: "Step 01",
-    title: "Request Pickup",
-    description: "Choose a time that suits you. We confirm it by call or message.",
+    title: "Send a request",
+    description: "Pick a service and a pickup window. We call or message you to confirm both.",
   },
   {
-    icon: PackageCheck,
-    step: "Step 02",
-    title: "We Collect",
-    description: "Our team picks up your laundry from your doorstep.",
+    title: "We collect",
+    description: "We pick up from your door. Per-kg loads are weighed then, so you pay for actual weight.",
   },
   {
-    icon: Sparkles,
-    step: "Step 03",
-    title: "We Clean",
-    description: "Your laundry is cleaned with the service you chose.",
+    title: "We clean",
+    description: "Washed, ironed or dry cleaned as you chose, following the care labels.",
   },
   {
-    icon: Truck,
-    step: "Step 04",
-    title: "Delivered to Your Door",
-    description: "Clean laundry comes back to your home at the time we agree with you.",
+    title: "We bring it back",
+    description: "Standard orders are usually ready 2 to 3 business days after pickup.",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section
-      id="how-it-works"
-      className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8"
-    >
-      <Reveal className="mx-auto max-w-2xl text-center">
-        <span className="text-sm font-semibold text-primary">
-          How it works
-        </span>
-        <h2 className="mt-3">Four steps to effortless laundry</h2>
-      </Reveal>
+    <section id="how-it-works" className="container-page section-y scroll-mt-16">
+      <h2>How a pickup works</h2>
 
-      <div className="relative mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-6 hidden h-px bg-border lg:block"
-        />
+      <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {steps.map((step, i) => (
-          <Reveal
-            key={step.title}
-            delay={i * 0.08}
-            className="relative text-center"
-          >
-            <div className="relative z-10 mx-auto flex size-14 items-center justify-center rounded-full border border-border bg-card text-primary shadow-md">
-              <step.icon className="size-6" />
-            </div>
-            <span className="mt-4 block text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-              {step.step}
+          <li key={step.title} className="border-t-2 border-primary pt-4">
+            <span aria-hidden="true" className="font-heading text-4xl font-semibold text-primary tabular-nums">
+              {i + 1}
             </span>
-            <h3 className="mt-1 text-lg">{step.title}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {step.description}
-            </p>
-          </Reveal>
+            <h3 className="mt-3">{step.title}</h3>
+            <p className="mt-1.5 text-muted-foreground">{step.description}</p>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }

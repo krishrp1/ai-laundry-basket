@@ -1,23 +1,9 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Building2,
-  CreditCard,
-  Droplets,
-  PackageX,
-  RefreshCw,
-  Shirt,
-  Timer,
-  Truck,
-  UserCog,
-} from "lucide-react";
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Reveal } from "@/components/motion/reveal";
 import {
   DELIVERY_FEE,
   FREE_DELIVERY_THRESHOLD,
@@ -36,7 +22,6 @@ export type FaqItem = {
 export type FaqCategory = {
   id: string;
   title: string;
-  icon: LucideIcon;
   items: FaqItem[];
 };
 
@@ -44,7 +29,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "pricing-payments",
     title: "Pricing & Payments",
-    icon: CreditCard,
     items: [
       {
         question: "How does pricing work?",
@@ -65,7 +49,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "pickup-delivery",
     title: "Pickup, Delivery & Service Areas",
-    icon: Truck,
     items: [
       {
         question: "How does pickup and delivery work?",
@@ -86,7 +69,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "turnaround-same-day",
     title: "Turnaround & Same-Day Service",
-    icon: Timer,
     items: [
       {
         question: "What is the standard turnaround time?",
@@ -108,7 +90,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "wash-fold",
     title: "Wash & Fold",
-    icon: Shirt,
     items: [
       {
         question: "What is included in Wash & Fold?",
@@ -125,7 +106,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "dry-cleaning-care",
     title: "Dry Cleaning & Garment Care",
-    icon: Droplets,
     items: [
       {
         question: "What items can I send for dry cleaning?",
@@ -147,7 +127,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "commercial",
     title: "Business Customers",
-    icon: Building2,
     items: [
       {
         question: "Do you take orders from businesses?",
@@ -164,7 +143,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "subscriptions-cancellation",
     title: "Repeat Pickups & Cancellation",
-    icon: RefreshCw,
     items: [
       {
         question: "Can I get regular pickups?",
@@ -181,7 +159,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "damaged-lost",
     title: "Damaged or Lost Items",
-    icon: PackageX,
     items: [
       {
         question: "What happens if an item is damaged?",
@@ -198,7 +175,6 @@ export const faqCategories: FaqCategory[] = [
   {
     id: "scheduling-account",
     title: "Changing Your Details",
-    icon: UserCog,
     items: [
       {
         question: "Do I need an account?",
@@ -216,36 +192,41 @@ export const faqCategories: FaqCategory[] = [
 
 export function FaqAccordion() {
   return (
-    <section className="mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-6">
-        {faqCategories.map((category, categoryIndex) => (
-          <Reveal
-            key={category.id}
-            id={category.id}
-            delay={Math.min(categoryIndex * 0.04, 0.24)}
-            className="scroll-mt-24 rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow duration-200 hover:shadow-md sm:p-8"
-          >
-            <div className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <category.icon className="size-4" />
-              </span>
-              <h2 className="text-xl sm:text-2xl">{category.title}</h2>
-            </div>
+    <section className="container-page section-y grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
+      <nav aria-label="Question topics" className="self-start lg:sticky lg:top-24">
+        <ul className="flex flex-wrap gap-x-5 gap-y-1 lg:flex-col">
+          {faqCategories.map((category) => (
+            <li key={category.id}>
+              <a
+                href={`#${category.id}`}
+                className="inline-block py-1 font-medium text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
+              >
+                {category.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-            <Accordion className="mt-4">
+      <div className="flex max-w-3xl flex-col gap-12">
+        {faqCategories.map((category, categoryIndex) => (
+          <div key={category.id} id={category.id} className="scroll-mt-24">
+            <h2 className="border-b-2 border-primary pb-3">{category.title}</h2>
+            <Accordion>
               {category.items.map((item, itemIndex) => (
                 <AccordionItem
                   key={item.question}
                   value={`${categoryIndex}-${itemIndex}`}
+                  className="border-b"
                 >
                   <AccordionTrigger>{item.question}</AccordionTrigger>
                   <AccordionContent>
-                    <p className="text-muted-foreground">{item.answer}</p>
+                    <p className="text-base text-muted-foreground">{item.answer}</p>
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-          </Reveal>
+          </div>
         ))}
       </div>
     </section>

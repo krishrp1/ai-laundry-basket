@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Reveal } from "@/components/motion/reveal";
 import { services, type ServiceKey } from "@/config/pricing";
 
 export function ServiceTypeCard({
@@ -20,10 +19,9 @@ export function ServiceTypeCard({
   const selected = services.find((s) => s.key === serviceKey);
 
   return (
-    <Reveal>
       <Card>
         <CardContent className="flex flex-col gap-4">
-          <Label htmlFor="estimator-service">Service Type</Label>
+          <Label htmlFor="estimator-service">Service type</Label>
           <Select
             value={selected?.label}
             onValueChange={(value) => {
@@ -45,6 +43,5 @@ export function ServiceTypeCard({
           <p className="text-sm text-muted-foreground">{selected?.description}</p>
         </CardContent>
       </Card>
-    </Reveal>
   );
 }

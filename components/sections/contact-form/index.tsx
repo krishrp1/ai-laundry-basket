@@ -1,10 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence } from "framer-motion";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Reveal } from "@/components/motion/reveal";
 import { focusFirstInvalid } from "@/lib/focus-first-invalid";
 import { submitContactMessage } from "@/lib/actions/contact";
 import { FORM_TIMESTAMP_FIELD, HONEYPOT_FIELD } from "@/lib/spam-guard-constants";
@@ -101,43 +99,30 @@ export function ContactForm() {
   }
 
   return (
-    <section
-      id="contact-form"
-      className="mx-auto max-w-3xl scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8"
-    >
-      <Reveal className="text-center">
-        <span className="text-sm font-semibold text-primary">
-          Send a message
-        </span>
-        <h2 className="mt-3">Tell us how we can help</h2>
-        <p className="mt-4 text-muted-foreground">
-          Fill out the form below and our support team will follow up using
-          your preferred contact method. Fields marked{" "}
-          <span aria-hidden="true">*</span>
-          <span className="sr-only">with an asterisk</span> are required.
-        </p>
-      </Reveal>
+    <div id="contact-form" className="scroll-mt-24">
+      <h2>Send a message</h2>
+      <p className="mt-2 text-muted-foreground">
+        We reply using your preferred contact method. Fields marked{" "}
+        <span aria-hidden="true">*</span>
+        <span className="sr-only">with an asterisk</span> are required.
+      </p>
 
-      <Reveal delay={0.1} className="mt-10">
-        <Card>
-          <CardContent>
-            <AnimatePresence mode="wait">
-              {status === "success" ? (
-                <ContactFormSuccess requestId={requestId} onReset={handleReset} />
-              ) : (
-                <ContactFormFields
-                  values={values}
-                  errors={errors}
-                  formError={formError}
-                  submitting={status === "submitting" || isPending}
-                  updateField={updateField}
-                  onSubmit={handleSubmit}
-                />
-              )}
-            </AnimatePresence>
-          </CardContent>
-        </Card>
-      </Reveal>
-    </section>
+      <Card className="mt-6">
+        <CardContent>
+          {status === "success" ? (
+            <ContactFormSuccess requestId={requestId} onReset={handleReset} />
+          ) : (
+            <ContactFormFields
+              values={values}
+              errors={errors}
+              formError={formError}
+              submitting={status === "submitting" || isPending}
+              updateField={updateField}
+              onSubmit={handleSubmit}
+            />
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

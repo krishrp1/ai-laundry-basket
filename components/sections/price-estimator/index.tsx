@@ -1,10 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Sparkles } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
-import { Reveal } from "@/components/motion/reveal";
 import { LaundryGuide } from "@/components/estimator/laundry-guide";
 import { LiveEstimateCard } from "@/components/estimator/live-estimate-card";
 import {
@@ -133,20 +129,14 @@ export function PriceEstimator() {
   }, [bookDisabled, serviceKey, garmentCounts, loadMode, selectedPreset, estimate, location, pickupDate, pickupWindowLabel, express, delivery]);
 
   return (
-    <section id="price-estimator" className="border-t border-border/60 bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="gap-1.5">
-            <Sparkles className="size-3" />
-            Price Estimator
-          </Badge>
-          <h2 className="mt-3">Know your price before you book</h2>
-          <p className="mt-4 text-muted-foreground">
-            Add your garments and we will estimate the weight, price, and schedule instantly.
-          </p>
-        </Reveal>
+    <section id="price-estimator" className="scroll-mt-16 border-y bg-card">
+      <div className="container-page section-y">
+        <h2>Estimate your order</h2>
+        <p className="mt-3 text-muted-foreground">
+          Choose a service, your load and a pickup time to see the price and delivery estimate.
+        </p>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3 lg:items-start lg:gap-8">
+        <div className="mt-8 grid gap-6 lg:grid-cols-3 lg:items-start">
           <div className="flex flex-col gap-6 lg:col-span-2">
             <ServiceTypeCard serviceKey={serviceKey} onServiceChange={setServiceKey} />
 
@@ -178,6 +168,7 @@ export function PriceEstimator() {
               setPickupWindowLabel={setPickupWindowLabel}
               availableWindows={availableWindows}
               express={express}
+              isPerKg={isPerKg}
               setExpress={setExpress}
               couponCode={couponCode}
               setCouponCode={setCouponCode}

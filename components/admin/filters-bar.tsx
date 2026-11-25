@@ -66,6 +66,7 @@ export function AdminFiltersBar({
 
       {statusOptions.length > 0 && (
         <Select
+          items={[{ value: "all", label: "All statuses" }, ...statusOptions]}
           value={searchParams.get("status") ?? "all"}
           onValueChange={(value) =>
             updateParams({ status: value === "all" ? undefined : (value ?? undefined) })
@@ -86,6 +87,10 @@ export function AdminFiltersBar({
       )}
 
       <Select
+        items={[
+          { value: "desc", label: "Newest first" },
+          { value: "asc", label: "Oldest first" },
+        ]}
         value={searchParams.get("sort") ?? "desc"}
         onValueChange={(value) =>
           updateParams({ sort: value === "desc" ? undefined : (value ?? undefined) })

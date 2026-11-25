@@ -1,112 +1,111 @@
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
-import { Droplets, Gem, Scale, Shirt, WashingMachine } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Reveal } from "@/components/motion/reveal";
-import { cn } from "@/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { serviceRates } from "@/components/sections/rates";
 import { formatINR } from "@/lib/format";
-import { services, dryCleanableGarments, FREE_DELIVERY_THRESHOLD, type ServiceKey } from "@/config/pricing";
+import {
+  DELIVERY_FEE,
+  FREE_DELIVERY_THRESHOLD,
+  MINIMUM_ORDER_VALUE,
+  dryCleanableGarments,
+  expressRates,
+} from "@/config/pricing";
 
-const serviceIcons: Record<ServiceKey, LucideIcon> = {
-  wash_fold: Droplets,
-  wash_iron: WashingMachine,
-  steam_iron: Shirt,
-  dry_cleaning: Gem,
-};
-
-const dryCleaningStartingPrice = Math.min(
-  ...dryCleanableGarments.map((garment) => garment.perPieceRate?.default ?? Infinity)
-);
-
-function priceDisplay(serviceKey: ServiceKey) {
-  const service = services.find((s) => s.key === serviceKey)!;
-  if (service.model === "per_kg" && service.perKgRate) {
-    return {
-      price: formatINR(service.perKgRate.default),
-      unit: "per kg",
-      note: "Weighed at pickup — you pay for actual weight.",
-    };
-  }
-  if (serviceKey === "steam_iron" && service.flatPerPieceRate) {
-    return { price: formatINR(service.flatPerPieceRate.default), unit: "starting, per garment", note: undefined };
-  }
-  return { price: formatINR(dryCleaningStartingPrice), unit: "starting price", note: undefined };
-}
+const fees = [
+  {
+    label: "Delivery",
+    value: `Free on orders of ${formatINR(FREE_DELIVERY_THRESHOLD)} or more, ${formatINR(DELIVERY_FEE)} below that`,
+  },
+  {
+    label: "Minimum order",
+    value: `${formatINR(MINIMUM_ORDER_VALUE)}. Smaller orders are topped up to this amount`,
+  },
+  {
+    label: expressRates.label,
+    value: `${formatINR(expressRates.perKgRate.default)} per kg for per-kg services; per-garment prices are ${expressRates.multiplier} times the standard rate`,
+  },
+];
 
 export function PricingPlans() {
   return (
-    <section id="plans" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
-      <Reveal className="mx-auto max-w-2xl text-center">
-        <span className="text-sm font-semibold text-primary">Pricing</span>
-        <h2 className="mt-3">Pay only for what you need</h2>
-      </Reveal>
+    <section id="plans" className="container-page section-y scroll-mt-16">
+      <h2>Rates and fees</h2>
 
-      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {services.map((service, i) => {
-          const { price, unit, note } = priceDisplay(service.key);
-          const popular = service.key === "wash_fold";
-          const Icon = serviceIcons[service.key];
-
-          return (
-            <Reveal key={service.key} delay={i * 0.06}>
-              <Card
-                className={cn(
-                  // overflow-visible: the base Card clips its contents, which cut
-                  // off the floating "Suggested for everyday clothes" badge above the card edge.
-                  "relative h-full overflow-visible transition-all duration-200 hover:-translate-y-1 hover:shadow-lg",
-                  popular ? "shadow-lg ring-2 ring-primary dark:bg-popover" : "hover:ring-primary/30"
-                )}
-              >
-                {popular && (
-                  <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    Suggested for everyday clothes
-                  </Badge>
-                )}
-
-                <CardContent className="flex h-full flex-col gap-4">
-                  <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <Icon className="size-5" />
-                  </span>
-
-                  <div>
-                    <p className="font-heading text-lg font-semibold">{service.label}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{service.description}</p>
-                  </div>
-
-                  <div className="mt-auto">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="font-heading text-3xl font-semibold">{price}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{unit}</p>
-                    {note && (
-                      <p className="mt-1.5 flex items-start gap-1.5 text-xs text-muted-foreground">
-                        <Scale className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                        {note}
-                      </p>
-                    )}
-                  </div>
-
-                  <Button render={<Link href="/quote" />} className="w-full">
-                    Request a Quote
-                  </Button>
-                </CardContent>
-              </Card>
-            </Reveal>
-          );
-        })}
+      <div className="mt-8 grid overflow-hidden rounded-xl border bg-card sm:grid-cols-2 lg:grid-cols-4">
+        {serviceRates.map((rate) => (
+          <div
+            key={rate.key}
+            className="border-b p-5 last:border-b-0 sm:border-r lg:border-b-0 lg:last:border-r-0"
+          >
+            <h3>{rate.label}</h3>
+            <p className="mt-3 font-heading text-4xl font-semibold text-primary tabular-nums">
+              {rate.price}
+            </p>
+            <p className="text-sm text-muted-foreground">{rate.unit}</p>
+            <p className="mt-3 text-muted-foreground">{rate.description}</p>
+          </div>
+        ))}
       </div>
 
-      <Reveal delay={0.3} className="mt-8 text-center text-sm text-muted-foreground">
-        Free delivery on orders of {formatINR(FREE_DELIVERY_THRESHOLD)} or more. Need pricing
-        for a business, hotel, or bulk order?{" "}
-        <Link href="/contact" className="font-medium text-primary hover:underline">
+      <dl className="mt-8 divide-y border-y">
+        {fees.map((fee) => (
+          <div key={fee.label} className="grid gap-1 py-3.5 sm:grid-cols-[14rem_1fr] sm:gap-6">
+            <dt className="font-semibold">{fee.label}</dt>
+            <dd className="text-muted-foreground">{fee.value}.</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p className="mt-6 text-muted-foreground">
+        Need a price for a business, hotel or bulk order?{" "}
+        <Link href="/contact" className="font-semibold text-primary underline underline-offset-4 hover:text-primary-hover">
           Contact us
         </Link>
         .
-      </Reveal>
+      </p>
+    </section>
+  );
+}
+
+export function DryCleaningPrices() {
+  return (
+    <section id="dry-cleaning-prices" className="container-page section-y scroll-mt-16">
+      <h2>Dry cleaning, per garment</h2>
+      <p className="mt-3 text-muted-foreground">Standard turnaround rates.</p>
+
+      <div className="mt-8 grid gap-x-10 md:grid-cols-2">
+        {[0, 1].map((column) => {
+          const half = Math.ceil(dryCleanableGarments.length / 2);
+          const rows = dryCleanableGarments.slice(column * half, (column + 1) * half);
+          return (
+            <Table key={column} className="text-base">
+              <TableHeader className={column === 1 ? "max-md:sr-only" : undefined}>
+                <TableRow>
+                  <TableHead>Garment</TableHead>
+                  <TableHead className="text-right">Price</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rows.map((garment) => (
+                  <TableRow key={garment.key}>
+                    <TableCell>{garment.label}</TableCell>
+                    <TableCell className="text-right font-semibold tabular-nums">
+                      {formatINR(garment.perPieceRate!.default)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          );
+        })}
+      </div>
     </section>
   );
 }

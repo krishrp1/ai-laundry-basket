@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { Mail, Phone, WashingMachine } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 import { footerNav, siteConfig } from "@/config/site";
 import { socialLinks } from "@/config/social";
 import { SocialIcon } from "@/components/icons/social-icon";
 import { Separator } from "@/components/ui/separator";
+import { Brand } from "@/components/layout/brand";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -13,23 +14,15 @@ export function Footer() {
   const configuredSocialLinks = socialLinks.filter((social) => social.href !== "#");
 
   return (
-    <footer className="w-full border-t border-border/60 bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="w-full border-t bg-card">
+      <div className="container-page py-12">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <WashingMachine className="size-4.5" aria-hidden="true" />
-              </span>
-              <span className="font-heading text-lg font-semibold tracking-tight">
-                {siteConfig.name}
-              </span>
+            <Link href="/" className="inline-block">
+              <Brand />
             </Link>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               {siteConfig.description}
-            </p>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Founded by {siteConfig.business.ownerName}.
             </p>
 
             <div className="mt-5 flex flex-col gap-2 text-sm">
@@ -69,9 +62,9 @@ export function Footer() {
 
           {footerNav.map((group) => (
             <div key={group.title}>
-              <h3 className="text-sm font-semibold text-foreground">
+              <h2 className="font-sans text-sm font-semibold sm:text-sm">
                 {group.title}
-              </h3>
+              </h2>
               <ul className="mt-3 flex flex-col gap-2">
                 {group.items.map((item) => (
                   <li key={item.href}>

@@ -67,8 +67,8 @@ export const siteConfig = {
     // No permanent storefront/office yet — do not invent a street address.
     addressLine: "Serving customers across South Bengaluru.",
     // TODO: Replace with a real street address once finalized, and update
-    // components/sections/contact-map.tsx + components/seo/organization-json-ld.tsx
-    // to add a proper PostalAddress / embedded map at that time.
+    // components/sections/contact-details.tsx + components/seo/organization-json-ld.tsx
+    // to show it and add a proper PostalAddress at that time.
     hours: [
       { day: "Monday - Sunday", time: "9:00 AM - 9:00 PM" },
     ],

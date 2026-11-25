@@ -15,7 +15,7 @@ export function LinkListItem({
     <li>
       <Link
         href={href}
-        className="flex items-center justify-between gap-3 rounded-lg border border-border p-3 text-sm hover:bg-muted/50"
+        className="flex items-center justify-between gap-3 rounded-lg border border-border p-3 text-sm hover:border-primary hover:bg-accent"
       >
         {subtitle ? (
           <div className="min-w-0">

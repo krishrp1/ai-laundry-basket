@@ -14,50 +14,18 @@ export default function OpengraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          gap: 32,
-          background: "linear-gradient(135deg, #1E88E5 0%, #123A5C 100%)",
+          padding: 96,
+          background: "#173f8f",
+          color: "#ffffff",
           fontFamily: "sans-serif",
+          borderBottom: "24px solid #f2b63c",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 120,
-            height: 120,
-            borderRadius: 28,
-            background: "rgba(255,255,255,0.15)",
-          }}
-        >
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: "50%",
-              border: "8px solid #fafafa",
-            }}
-          />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 64,
-            fontWeight: 700,
-            color: "#fafafa",
-          }}
-        >
+        <div style={{ display: "flex", fontSize: 80, fontWeight: 700 }}>
           {siteConfig.name}
         </div>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 30,
-            color: "rgba(250,250,250,0.85)",
-          }}
-        >
+        <div style={{ display: "flex", marginTop: 32, fontSize: 36 }}>
           {siteConfig.tagline}
         </div>
       </div>
