@@ -1,4 +1,5 @@
 import "server-only";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 import { OrderStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
@@ -21,6 +22,7 @@ function isOrderStatus(value: string): value is OrderStatus {
 }
 
 export async function listOrders({ search, status, sort, page }: ListParams) {
+  await getCurrentAdmin();
   const where: Prisma.LaundryOrderWhereInput = {
     ...(status && isOrderStatus(status) ? { status } : {}),
     ...(search
@@ -55,6 +57,7 @@ export async function listOrders({ search, status, sort, page }: ListParams) {
 }
 
 export async function getOrderById(id: string) {
+  await getCurrentAdmin();
   if (!isValidUuid(id)) return null;
   return db.laundryOrder.findUnique({
     where: { id },
