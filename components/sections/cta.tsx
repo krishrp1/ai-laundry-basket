@@ -17,7 +17,7 @@ export function Cta({
   buttonHref = "/quote",
 }: CtaProps = {}) {
   return (
-    <section className="bg-band text-band-foreground">
+    <section className="fx-aurora bg-band text-band-foreground">
       <div className="container-page flex flex-col gap-6 py-12 lg:flex-row lg:items-center lg:justify-between">
         <div className="max-w-xl">
           <h2>{title}</h2>
@@ -27,7 +27,7 @@ export function Cta({
           <Button
             size="lg"
             render={<Link href={buttonHref} />}
-            className="bg-highlight text-highlight-foreground hover:bg-band-foreground"
+            className="fx-glow bg-highlight text-highlight-foreground hover:bg-band-foreground"
           >
             {buttonLabel}
           </Button>

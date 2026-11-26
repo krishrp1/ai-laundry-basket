@@ -6,7 +6,7 @@ import { formatINR } from "@/lib/format";
 
 export function RateCard() {
   return (
-    <div className="overflow-hidden rounded-xl border bg-card">
+    <div className="fx-card overflow-hidden rounded-xl border bg-card">
       <div className="border-b-4 border-highlight bg-band px-5 py-4 text-band-foreground sm:px-6">
         <h2 className="text-xl sm:text-xl">Rate card</h2>
       </div>

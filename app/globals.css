@@ -41,6 +41,10 @@
   --shadow-overlay: 0 12px 32px -12px oklch(0.2 0.05 265 / 28%);
 }
 
+body {
+  --fx-accent: var(--highlight);
+}
+
 :root {
   /* "Neel" indigo (the blue used to brighten white cotton) on cool whites,
      with turmeric kept for small marks and the one call to action that sits on
@@ -162,5 +166,168 @@
   }
   :is(.font-semibold, h1, h2, h3, h4) .lucide {
     stroke-width: 2;
+  }
+}
+
+/* ---- Visual effects. Everything that moves sits inside the reduced-motion query. ---- */
+.fx-cursor,
+.fx-grain {
+  pointer-events: none;
+  position: fixed;
+}
+.fx-cursor {
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1.5px solid color-mix(in srgb, var(--primary) 70%, transparent);
+  border-radius: 999px;
+  opacity: 0;
+  transition: transform 0.12s ease-out, width 0.15s, height 0.15s, margin 0.15s, background-color 0.15s, opacity 0.2s;
+}
+.fx-cursor[data-active] {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+.fx-grain {
+  inset: 0;
+  z-index: 90;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Cursor spotlight on cards. An inset shadow plus gradient layer, so no child markup is needed. */
+[data-fx-hover] {
+  background-image: radial-gradient(22rem circle at var(--fx-x) var(--fx-y), color-mix(in srgb, var(--primary) 13%, transparent), transparent 65%);
+  box-shadow: 0 12px 36px -16px color-mix(in srgb, var(--primary) 55%, transparent);
+}
+
+@property --fx-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Drifting aurora behind a hero. */
+.fx-aurora {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.fx-aurora::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  /* Fade out before the section edge, so a narrow hero never shows a hard rectangle. */
+  -webkit-mask-image: radial-gradient(31% 31% at 50% 50%, #000 40%, transparent);
+  mask-image: radial-gradient(31% 31% at 50% 50%, #000 40%, transparent);
+  background:
+    radial-gradient(32% 38% at 22% 32%, color-mix(in srgb, var(--primary) 24%, transparent), transparent 70%),
+    radial-gradient(28% 34% at 76% 28%, color-mix(in srgb, var(--fx-accent) 22%, transparent), transparent 70%),
+    radial-gradient(34% 30% at 58% 78%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 70%);
+}
+
+/* Shimmering headline. Both stops are text-safe colours, so contrast holds through the sweep. */
+.fx-shimmer {
+  background: linear-gradient(100deg, var(--foreground) 35%, var(--primary) 50%, var(--foreground) 65%);
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Rotating border trail with a soft glow, for the primary call to action. */
+.fx-glow {
+  position: relative;
+}
+.fx-glow::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--fx-angle), transparent 55%, var(--fx-accent), var(--primary), transparent 95%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Underline that grows under navigation links. */
+header nav a {
+  background: linear-gradient(currentColor, currentColor) left calc(100% - 2px) / 0 1.5px no-repeat;
+}
+header nav a:hover,
+header nav a:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-fx-hover],
+  [data-slot="card"],
+  .surface,
+  .fx-card {
+    transition: transform 0.18s ease-out, box-shadow 0.25s;
+  }
+  [data-slot="button"],
+  .fx-magnetic {
+    transition: translate 0.15s ease-out, background-color 0.15s, color 0.15s, border-color 0.15s;
+  }
+  header nav a {
+    transition: background-size 0.25s ease-out, color 0.15s;
+  }
+  .fx-aurora::before {
+    animation: fx-drift 18s ease-in-out infinite alternate;
+  }
+  .fx-shimmer {
+    animation: fx-shimmer 5s ease-in-out infinite;
+  }
+  .fx-glow::after {
+    animation: fx-spin 3.5s linear infinite;
+  }
+  /* Page entrance, then scroll reveals where the browser supports scroll timelines. */
+  main h1 {
+    animation: fx-rise 0.6s ease-out both;
+  }
+  @supports (animation-timeline: view()) {
+    main section > *,
+    main .surface,
+    .fx-reveal {
+      animation: fx-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+    main h1.fx-shimmer {
+      animation: fx-shimmer 5s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes fx-rise {
+  from { opacity: 0; translate: 0 1.5rem; filter: blur(4px); }
+  to { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+@keyframes fx-drift {
+  from { transform: translate3d(-4%, -2%, 0) rotate(0deg) scale(1); }
+  to { transform: translate3d(4%, 3%, 0) rotate(8deg) scale(1.12); }
+}
+@keyframes fx-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: 0% 0; }
+}
+@keyframes fx-spin {
+  to { --fx-angle: 360deg; }
+}
+
+@media print {
+  .fx-cursor,
+  .fx-grain {
+    display: none;
   }
 }

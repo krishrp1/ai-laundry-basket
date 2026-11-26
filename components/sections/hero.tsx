@@ -6,10 +6,10 @@ import { siteConfig } from "@/config/site";
 
 export function Hero() {
   return (
-    <section className="border-b bg-card">
+    <section className="fx-aurora border-b bg-card">
       <div className="container-page grid gap-12 py-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:py-20">
         <div>
-          <h1 className="sm:text-6xl">
+          <h1 className="fx-shimmer sm:text-6xl">
             Laundry picked up from your door and brought back clean.
           </h1>
 
@@ -19,7 +19,7 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button size="lg" render={<Link href="/quote" />}>
+            <Button size="lg" className="fx-glow" render={<Link href="/quote" />}>
               Request a Quote
             </Button>
             <Button size="lg" variant="outline" render={<Link href="/pricing#price-estimator" />}>

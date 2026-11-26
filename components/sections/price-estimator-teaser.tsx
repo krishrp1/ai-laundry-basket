@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { AnimatedNumber } from "@/components/effects";
 import { Button } from "@/components/ui/button";
 import { formatINR } from "@/lib/format";
 import { computeEstimate } from "@/lib/pricing-engine";
@@ -44,7 +45,7 @@ export function PriceEstimatorTeaser() {
               Estimate for {selected.label.toLowerCase()}
             </p>
             <p className="font-heading text-6xl font-semibold text-primary tabular-nums">
-              {formatINR(selected.total)}
+              <AnimatedNumber value={formatINR(selected.total)} locale="en-IN" />
             </p>
           </div>
           <Button size="lg" render={<Link href="/quote" />} className="mt-6">
@@ -52,7 +53,7 @@ export function PriceEstimatorTeaser() {
           </Button>
         </div>
 
-        <div className="flex flex-col divide-y self-start rounded-xl border lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <div className="fx-card flex flex-col divide-y self-start rounded-xl border lg:col-start-2 lg:row-span-2 lg:row-start-1">
           {presetTotals.map((preset) => {
             const isActive = preset.key === selectedKey;
             return (
