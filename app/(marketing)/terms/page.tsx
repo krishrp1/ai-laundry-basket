@@ -20,8 +20,7 @@ export default function TermsOfServicePage() {
         <p>
           These terms are between you and the business below. They govern your
           use of {siteConfig.url} and any laundry, dry cleaning, ironing, or
-          pickup &amp; delivery service you request through it or by phone,
-          email, or WhatsApp. By sending a quote request or using our service
+          pickup &amp; delivery service you request through it or by email. By sending a quote request or using our service
           you agree to these terms. If you do not agree, please do not use the
           service.
         </p>
@@ -154,8 +153,8 @@ export default function TermsOfServicePage() {
             className="text-primary hover:underline"
           >
             {contact.supportEmail}
-          </a>{" "}
-          or {contact.phone}. You also have the right to approach the National
+          </a>
+          {". "}You also have the right to approach the National
           Consumer Helpline (1915) or the Consumer Commission if you are not
           satisfied.
         </p>
@@ -186,8 +185,8 @@ export default function TermsOfServicePage() {
             className="text-primary hover:underline"
           >
             {contact.email}
-          </a>{" "}
-          or {contact.phone}.
+          </a>
+          {"."}
         </p>
       </LegalSection>
     </LegalPage>

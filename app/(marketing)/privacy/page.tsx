@@ -63,7 +63,7 @@ export default function PrivacyPolicyPage() {
           </li>
           <li>
             <strong className="text-foreground">
-              When you call, email, or message us on WhatsApp:
+              When you contact us directly:
             </strong>{" "}
             we see the phone number or email address you contact us from and
             what you write.
@@ -122,10 +122,6 @@ export default function PrivacyPolicyPage() {
           on them to protect it under their own security and contractual
           commitments. The DPDP Act allows transfers outside India except to
           countries the Government of India restricts.
-        </p>
-        <p>
-          The WhatsApp link on our contact page opens WhatsApp, which is run by
-          Meta and governed by Meta&apos;s own privacy policy.
         </p>
       </LegalSection>
 
@@ -231,8 +227,8 @@ export default function PrivacyPolicyPage() {
             className="text-primary hover:underline"
           >
             {contact.supportEmail}
-          </a>{" "}
-          or {contact.phone}.
+          </a>
+          {"."}
         </p>
       </LegalSection>
     </LegalPage>

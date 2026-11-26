@@ -74,7 +74,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         question: "What areas do you currently serve?",
-        answer: `We currently serve ${areaPreview}, and other neighbourhoods across South Bengaluru. If you are not sure we cover you, send a request or call us and we will tell you.`,
+        answer: `We currently serve ${areaPreview}, and other neighbourhoods across South Bengaluru. If you are not sure we cover you, send a request or email us and we will tell you.`,
       },
       {
         question: "Can I choose a pickup window?",
@@ -174,7 +174,7 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "How do I cancel or reschedule?",
         answer:
-          "Call, WhatsApp, or email us before we collect your items and we will cancel or reschedule free of charge. After collection, see our Refund & Cancellation Policy.",
+          "Email us before we collect your items and we will cancel or reschedule free of charge. After collection, see our Refund & Cancellation Policy.",
       },
     ],
   },

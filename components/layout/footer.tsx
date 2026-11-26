@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone, WashingMachine } from "lucide-react";
+import { Mail, WashingMachine } from "lucide-react";
 
 import { footerNav, siteConfig } from "@/config/site";
 import { socialLinks } from "@/config/social";
@@ -28,18 +28,8 @@ export function Footer() {
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               {siteConfig.description}
             </p>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Founded by {siteConfig.business.ownerName}.
-            </p>
 
             <div className="mt-5 flex flex-col gap-2 text-sm">
-              <Link
-                href={siteConfig.contact.phoneHref}
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
-              >
-                <Phone className="size-4 text-primary" />
-                {siteConfig.contact.phone}
-              </Link>
               <Link
                 href={`mailto:${siteConfig.contact.email}`}
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ClipboardCheck, Mail, Phone, Sparkles, Truck } from "lucide-react";
+import { ClipboardCheck, Mail, Sparkles, Truck } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,15 +68,8 @@ export function QuoteSidebar() {
       <Reveal delay={0.08}>
         <Card>
           <CardContent className="flex flex-col gap-4">
-            <p className="text-lg font-medium">Prefer to talk it through?</p>
+            <p className="text-lg font-medium">Have a question first?</p>
             <div className="flex flex-col gap-3 text-base">
-              <Link
-                href={siteConfig.contact.phoneHref}
-                className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Phone className="size-5 text-primary" />
-                {siteConfig.contact.phone}
-              </Link>
               <Link
                 href={`mailto:${siteConfig.contact.email}`}
                 className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground"

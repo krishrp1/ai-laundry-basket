@@ -248,7 +248,7 @@ export function QuoteForm({
                       id="quote-phone"
                       type="tel"
                       autoComplete="tel"
-                      placeholder="+91 00000 00000"
+                      placeholder="10-digit mobile number"
                       className={inputClass}
                       value={values.phone}
                       onChange={(e) => updateField("phone", e.target.value)}

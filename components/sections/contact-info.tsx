@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Mail, MapPin } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
@@ -14,27 +14,7 @@ export function ContactInfo() {
         <h2 className="mt-3">Contact information</h2>
       </Reveal>
 
-      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <Reveal delay={0}>
-          <Card className="h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:ring-primary/30">
-            <CardContent className="flex h-full flex-col gap-3">
-              <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Phone className="size-5" />
-              </span>
-              <p className="font-medium">Call us</p>
-              <p className="text-sm text-muted-foreground">
-                Available during business hours. Tap to call on mobile.
-              </p>
-              <Link
-                href={siteConfig.contact.phoneHref}
-                className="mt-auto text-sm font-medium text-primary hover:underline"
-              >
-                {siteConfig.contact.phone}
-              </Link>
-            </CardContent>
-          </Card>
-        </Reveal>
-
+      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <Reveal delay={0.06}>
           <Card className="h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:ring-primary/30">
             <CardContent className="flex h-full flex-col gap-3">
@@ -120,29 +100,6 @@ export function ContactInfo() {
                   </Badge>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-        </Reveal>
-
-        <Reveal delay={0.3}>
-          <Card className="h-full border-primary/30 bg-primary/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
-            <CardContent className="flex h-full flex-col gap-3">
-              <span className="flex size-10 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                <MessageCircle className="size-5" />
-              </span>
-              <p className="font-medium">Chat on WhatsApp</p>
-              <p className="text-sm text-muted-foreground">
-                Prefer messaging? Reach us on WhatsApp for quick questions or
-                an order update.
-              </p>
-              <Link
-                href={siteConfig.contact.whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto text-sm font-medium text-primary hover:underline"
-              >
-                {siteConfig.contact.whatsapp}
-              </Link>
             </CardContent>
           </Card>
         </Reveal>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
@@ -7,17 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 
 const quickActions = [
-  {
-    icon: Phone,
-    label: siteConfig.contact.phone,
-    href: siteConfig.contact.phoneHref,
-  },
-  {
-    icon: MessageCircle,
-    label: "WhatsApp us",
-    href: siteConfig.contact.whatsappHref,
-    external: true,
-  },
   {
     icon: Mail,
     label: siteConfig.contact.email,
@@ -56,13 +45,7 @@ export function ContactHero() {
             <Button
               key={action.label}
               variant="outline"
-              render={
-                action.external ? (
-                  <Link href={action.href} target="_blank" rel="noopener noreferrer" />
-                ) : (
-                  <Link href={action.href} />
-                )
-              }
+              render={<Link href={action.href} />}
               className="gap-1.5"
             >
               <action.icon className="size-4" />

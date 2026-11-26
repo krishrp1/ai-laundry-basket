@@ -12,11 +12,6 @@ function initialsOf(name: string) {
 
 const team = [
   {
-    name: siteConfig.business.ownerName,
-    role: siteConfig.business.ownerRole,
-    bio: "Founded A&I Laundry Basket to bring convenient, reliable laundry service to Bengaluru.",
-  },
-  {
     name: siteConfig.business.opsName,
     role: siteConfig.business.opsRole,
     bio: "Manages day-to-day operations and customer support, so every order gets a prompt response.",
@@ -29,12 +24,12 @@ export function Team() {
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-semibold text-primary">
-            Leadership
+            Our team
           </span>
-          <h2 className="mt-3">The people behind A&I Laundry Basket</h2>
+          <h2 className="mt-3">Who you deal with</h2>
         </Reveal>
 
-        <div className="mt-14 mx-auto grid max-w-2xl gap-5 sm:grid-cols-2">
+        <div className="mt-14 mx-auto grid max-w-sm gap-5">
           {team.map((member, i) => (
             <Reveal key={member.name} delay={i * 0.08}>
               <Card className="h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:ring-primary/30">

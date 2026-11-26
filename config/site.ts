@@ -30,8 +30,6 @@ export const siteConfig = {
   // Contact page, footer, and structured data (JSON-LD) all pull from one
   // place instead of repeating names. Mention sparingly in the UI.
   business: {
-    ownerName: "Founder Name",
-    ownerRole: "Founder",
     opsName: "Krish Pareet",
     opsRole: "Operations & Customer Relations",
   },
@@ -42,10 +40,10 @@ export const siteConfig = {
     // Bump `policyVersion` and `lastUpdated` together whenever the Privacy
     // Policy, Terms, Cookie Policy or Refund Policy text changes. The version
     // is stored with each form submission as the version the visitor agreed to.
-    policyVersion: "2026-10-10",
-    lastUpdated: "10 October 2026",
+    policyVersion: "2026-11-26",
+    lastUpdated: "26 November 2026",
     // TODO: exact registered name of the proprietor/firm/company that runs the
-    // business (e.g. "A&I Laundry Basket (Proprietor: Founder Name)").
+    // business (e.g. "A&I Laundry Basket (Proprietor: <name>)").
     entityName: null as string | null,
     // TODO: registered business address (needed for consumer-law disclosures
     // and the Privacy Policy). Doorstep-only is fine as long as a postal
@@ -58,10 +56,6 @@ export const siteConfig = {
     grievanceOfficerName: null as string | null,
   },
   contact: {
-    phone: "+91 00000 00000",
-    phoneHref: "tel:+910000000000",
-    whatsapp: "+91 00000 00000",
-    whatsappHref: "https://wa.me/910000000000",
     email: "laundrybasketai@gmail.com",
     supportEmail: "supportlaundrybasketai@gmail.com",
     // No permanent storefront/office yet — do not invent a street address.

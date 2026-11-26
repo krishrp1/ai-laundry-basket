@@ -5,15 +5,12 @@ import { siteConfig } from "@/config/site";
  * configured in `siteConfig.legal` are omitted rather than invented.
  */
 export function BusinessDetails() {
-  const { legal, business, contact } = siteConfig;
+  const { legal, contact } = siteConfig;
 
   return (
     <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-[10rem_1fr]">
       <dt className="font-medium text-foreground">Business name</dt>
       <dd>{legal.entityName ?? siteConfig.name}</dd>
-
-      <dt className="font-medium text-foreground">Founder</dt>
-      <dd>{business.ownerName}</dd>
 
       {legal.registeredAddress && (
         <>
@@ -24,13 +21,6 @@ export function BusinessDetails() {
 
       <dt className="font-medium text-foreground">Service area</dt>
       <dd>{contact.addressLine} We do not operate a public storefront.</dd>
-
-      <dt className="font-medium text-foreground">Phone / WhatsApp</dt>
-      <dd>
-        <a href={contact.phoneHref} className="text-primary hover:underline">
-          {contact.phone}
-        </a>
-      </dd>
 
       <dt className="font-medium text-foreground">Email</dt>
       <dd>
