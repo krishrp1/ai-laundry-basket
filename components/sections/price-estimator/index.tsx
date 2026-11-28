@@ -129,9 +129,10 @@ export function PriceEstimator() {
   }, [bookDisabled, serviceKey, garmentCounts, loadMode, selectedPreset, estimate, location, pickupDate, pickupWindowLabel, express, delivery]);
 
   return (
-    <section id="price-estimator" className="scroll-mt-16 border-y bg-card">
+    <section id="price-estimator" aria-labelledby="price-estimator-title" className="scroll-mt-24 border-y border-border">
       <div className="container-page section-y">
-        <h2>Estimate your order</h2>
+        <p className="eyebrow">Calculator</p>
+        <h2 id="price-estimator-title" className="mt-4">Estimate your order</h2>
         <p className="mt-3 text-muted-foreground">
           Choose a service, your load and a pickup time to see the price and delivery estimate.
         </p>

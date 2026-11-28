@@ -24,7 +24,7 @@ export default function CookiePolicyPage() {
       </LegalSection>
 
       <LegalSection title="What your browser stores">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto outline-none focus-visible:ring-3 focus-visible:ring-ring/50" tabIndex={0} role="region" aria-label="Cookies this site uses">
           <table className="w-full min-w-[32rem] border-collapse text-left">
             <caption className="sr-only">
               Items this site stores in your browser

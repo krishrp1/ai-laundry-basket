@@ -1,93 +1,74 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-/** Cards that get the spotlight and tilt. */
-const CARD = '[data-slot="card"], .surface, .fx-card';
-/** Tilting something you type into or read a chart from gets in the way, so these only get the spotlight. */
-const NO_TILT = "input, select, textarea, table, canvas, svg.main-svg, .js-plotly-plot";
-const TILT_DEG = 4;
-const MAGNET = 0.18;
+import { usePathname } from "next/navigation";
 
 const motionAllowed = () =>
   typeof window !== "undefined" && !!window.matchMedia
   && window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
 
-/** Cursor-driven effects (ring, card spotlight and tilt, magnetic buttons), delegated from one listener. */
+/**
+ * Scroll-driven reveals for the marketing pages, from one observer and one scroll listener:
+ * - `[data-reveal="view"]` brushes and `[data-reveal-content]` blocks get `data-shown` once in view;
+ * - `[data-scroll-paint]` sections get `--p` (0-1, how far the visitor has scrolled through them),
+ *   which paints their scroll brushes, and their `[data-step]` children get `data-shown` as it passes.
+ * Re-scans on every navigation, because this layout persists between pages.
+ */
 export function Effects() {
-  const ring = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (!motionAllowed() || !window.matchMedia("(pointer: fine)").matches) return;
-    let card: HTMLElement | null = null;
-    let button: HTMLElement | null = null;
+    const revealables = document.querySelectorAll<HTMLElement>('[data-reveal="view"], [data-reveal-content]');
+    if (!motionAllowed()) {
+      revealables.forEach((el) => el.setAttribute("data-shown", ""));
+      document.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => el.setAttribute("data-shown", ""));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-shown", "");
+          io.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+    revealables.forEach((el) => io.observe(el));
+
+    const sections = [...document.querySelectorAll<HTMLElement>("[data-scroll-paint]")];
     let frame = 0;
-    let event: PointerEvent;
-
-    const release = () => {
-      if (card) card.style.transform = "";
-      if (button) button.style.translate = "";
-      card?.removeAttribute("data-fx-hover");
-      card = button = null;
-    };
-
     const paint = () => {
       frame = 0;
-      const target = event.target instanceof Element ? event.target : null;
-      if (ring.current) {
-        ring.current.style.opacity = "1";
-        ring.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
-        ring.current.toggleAttribute("data-active", !!target?.closest("a, button, summary, [role=button]"));
-      }
-      const nextCard = target?.closest<HTMLElement>(CARD) ?? null;
-      const nextButton = target?.closest<HTMLElement>('[data-slot="button"], .fx-magnetic') ?? null;
-      if (nextCard !== card || nextButton !== button) release();
-      card = nextCard;
-      button = nextButton;
-      if (card) {
-        const r = card.getBoundingClientRect();
-        const x = (event.clientX - r.left) / r.width;
-        const y = (event.clientY - r.top) / r.height;
-        card.setAttribute("data-fx-hover", "");
-        card.style.setProperty("--fx-x", `${x * 100}%`);
-        card.style.setProperty("--fx-y", `${y * 100}%`);
-        // Large panels tilt visibly at tiny angles, so only card-sized elements move.
-        if (r.width < 520 && r.height < 420 && !card.querySelector(NO_TILT)) {
-          card.style.transform = `perspective(800px) rotateX(${(0.5 - y) * TILT_DEG}deg) rotateY(${(x - 0.5) * TILT_DEG}deg)`;
-        }
-      }
-      if (button) {
-        const r = button.getBoundingClientRect();
-        button.style.translate =
-          `${(event.clientX - r.left - r.width / 2) * MAGNET}px ${(event.clientY - r.top - r.height / 2) * MAGNET}px`;
+      const vh = window.innerHeight;
+      for (const section of sections) {
+        const r = section.getBoundingClientRect();
+        // 0 when the section's top reaches 80% down the screen, 1 when its bottom reaches 70%
+        const p = Math.min(1, Math.max(0, (vh * 0.8 - r.top) / (r.height + vh * 0.1)));
+        section.style.setProperty("--p", p.toFixed(3));
+        section.querySelectorAll<HTMLElement>("[data-step]").forEach((step) => {
+          step.toggleAttribute("data-shown", p >= Number(step.dataset.step));
+        });
       }
     };
-
-    const move = (e: PointerEvent) => {
-      event = e;
+    const onScroll = () => {
       frame ||= requestAnimationFrame(paint);
     };
-    const leave = () => {
-      release();
-      if (ring.current) ring.current.style.opacity = "0";
-    };
-
-    window.addEventListener("pointermove", move, { passive: true });
-    document.documentElement.addEventListener("pointerleave", leave);
+    if (sections.length) {
+      paint();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+    }
     return () => {
-      window.removeEventListener("pointermove", move);
-      document.documentElement.removeEventListener("pointerleave", leave);
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(frame);
-      release();
     };
-  }, []);
+  }, [pathname]);
 
-  return (
-    <>
-      <div ref={ring} className="fx-cursor" aria-hidden="true" />
-      <div className="fx-grain" aria-hidden="true" />
-    </>
-  );
+  return null;
 }
 
 /**

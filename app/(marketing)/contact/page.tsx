@@ -16,16 +16,15 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader
+        eyebrow="Contact"
         title="Contact us"
         description="Ask about an order, a business account or a price. We reply to messages within one business day."
       />
-      <div className="container-page section-y grid gap-12 lg:grid-cols-[2fr_3fr]">
+      <div className="container-wide pb-20 grid gap-12 lg:grid-cols-[2fr_3fr] lg:pb-28">
         <ContactDetails />
         <ContactForm />
       </div>
-      <div className="border-t bg-card">
-        <ServiceAreas />
-      </div>
+      <ServiceAreas />
     </>
   );
 }

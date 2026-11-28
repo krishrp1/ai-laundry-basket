@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { AnimatedNumber } from "@/components/effects";
 import { formatINR } from "@/lib/format";
 import type { RecommendationTip } from "@/lib/pricing-engine";
 
@@ -52,12 +52,15 @@ export function LiveEstimateCard({
   ];
 
   return (
-    <Card className="border-t-4 border-t-primary dark:bg-popover">
-      <CardContent className="flex flex-col gap-5">
+    <div className="relative">
+      {/* Pearls give the glass something to refract. */}
+      <span aria-hidden="true" className="pearl -top-10 -left-8 size-40" />
+      <span aria-hidden="true" className="pearl top-[45%] -right-8 size-32" />
+    <div className="glass relative flex flex-col gap-5 rounded-[1.75rem] p-6">
         <div aria-live="polite">
-          <h3>Estimated price</h3>
-          <p className="font-heading text-5xl font-semibold text-primary tabular-nums">
-            {formatINR(price)}
+          <h3 className="eyebrow">Estimated price</h3>
+          <p className="mt-2 font-heading text-6xl font-medium tracking-[-0.04em] tabular-nums">
+            <AnimatedNumber value={formatINR(price)} locale="en-IN" />
           </p>
           {weighAtPickup && price > 0 && (
             <p className="mt-2 text-sm">
@@ -98,16 +101,16 @@ export function LiveEstimateCard({
           size="lg"
           disabled={bookDisabled}
           render={bookDisabled ? undefined : <Link href={bookHref} />}
-          className="w-full"
+          className="h-12 w-full"
         >
-          Request pickup
+          Request a pickup
         </Button>
         {bookDisabled && (
           <p className="-mt-2 text-center text-sm text-muted-foreground">
             Choose your laundry load and a pickup location, date, and time.
           </p>
         )}
-      </CardContent>
-    </Card>
+    </div>
+    </div>
   );
 }

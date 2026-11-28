@@ -146,12 +146,12 @@ export function QuoteForm({
             <div role="status" className="flex flex-col items-center gap-3 py-14 text-center">
               <CheckCircle2 className="size-10 text-success" />
               <p className="font-heading text-2xl font-semibold">
-                Quote request received
+                Pickup request received
               </p>
               <p className="max-w-sm text-base text-muted-foreground">
                 Thanks, {values.name.split(" ")[0] || "there"}. We will call
-                or message you within one business day with pricing and a
-                pickup time.
+                or message you within one business day to confirm the price
+                and your pickup time.
               </p>
               {requestId && (
                 <p className="font-semibold">Reference: {requestId}</p>
@@ -463,11 +463,11 @@ export function QuoteForm({
               {status === "submitting" || isPending ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
-                  Submitting
+                  Sending
                 </>
               ) : (
                 <>
-                  Request a Quote
+                  Send pickup request
                 </>
               )}
             </Button>

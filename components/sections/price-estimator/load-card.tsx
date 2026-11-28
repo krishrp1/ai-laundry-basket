@@ -3,6 +3,7 @@ import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { GarmentSelector } from "@/components/estimator/garment-selector";
+import { LoadStack } from "@/components/estimator/load-stack";
 import { loadPresets, type ServiceKey, type GarmentKey } from "@/config/pricing";
 import { cn } from "@/lib/utils";
 import type { GarmentCounts } from "@/lib/pricing-engine";
@@ -60,7 +61,7 @@ export function LoadCard({
           </div>
 
           {isPerKg && (
-            <div className="flex w-fit gap-1 rounded-lg border border-border bg-muted/40 p-1">
+            <div className="flex w-fit gap-1 rounded-full border border-border bg-muted/40 p-1">
               {(
                 [
                   ["load", "Load size"],
@@ -73,7 +74,7 @@ export function LoadCard({
                   aria-pressed={inputMode === mode}
                   onClick={() => setInputMode(mode)}
                   className={cn(
-                    "rounded-[calc(var(--radius-lg)-(--spacing(1)))] px-3 py-1.5 text-sm font-medium transition-colors",
+                    "min-h-9 rounded-full px-4 text-sm font-medium transition-colors",
                     inputMode === mode
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:text-foreground"
@@ -87,7 +88,7 @@ export function LoadCard({
 
           {loadMode ? (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {loadPresets.map((preset) => {
+              {loadPresets.map((preset, i) => {
                 const selected = presetKey === preset.key;
                 return (
                   <button
@@ -96,12 +97,13 @@ export function LoadCard({
                     aria-pressed={selected}
                     onClick={() => setPresetKey(selected ? null : preset.key)}
                     className={cn(
-                      "rounded-lg border px-3.5 py-3 text-left transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                      "flex items-center gap-4 rounded-2xl border px-4 py-3.5 text-left transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                       selected
-                        ? "border-primary bg-accent ring-1 ring-primary"
-                        : "bg-card hover:border-primary hover:bg-muted"
+                        ? "border-foreground bg-card"
+                        : "border-border bg-card hover:border-foreground/40"
                     )}
                   >
+                    <LoadStack level={i} active={selected} />
                     <span>
                       <span className="block text-sm font-medium">{preset.label}</span>
                       <span className="block text-xs text-muted-foreground">{preset.sublabel}</span>

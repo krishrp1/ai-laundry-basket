@@ -24,16 +24,16 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-card">
-      <div className="container-page flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-40 w-full px-3 pt-3 sm:px-4">
+      <div className="glass mx-auto flex h-14 [--glass-alpha:80%] max-w-6xl items-center justify-between rounded-full pr-2 pl-5">
         <Link
           href="/"
-          className="rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <Brand />
         </Link>
 
-        <nav className="hidden lg:flex lg:items-center lg:gap-1">
+        <nav aria-label="Main" className="hidden lg:flex lg:items-center lg:gap-1">
           {mainNav.map((item) => {
             const isActive =
               item.href === "/"
@@ -45,14 +45,11 @@ export function Navbar() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "relative rounded-lg px-3 py-2 font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                  "mx-3 py-1.5 text-[0.95rem] outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                   isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {item.title}
-                {isActive && (
-                  <span aria-hidden="true" className="absolute inset-x-3 -bottom-3.5 h-1 bg-highlight" />
-                )}
               </Link>
             );
           })}
@@ -62,9 +59,9 @@ export function Navbar() {
           <ModeToggle />
           <Button
             render={<Link href="/quote" />}
-            className="hidden lg:inline-flex"
+            className="hidden h-10 px-5 lg:inline-flex"
           >
-            Request a Quote
+            Request a pickup
           </Button>
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -122,7 +119,7 @@ export function Navbar() {
                     />
                   }
                 >
-                  Request a Quote
+                  Request a pickup
                 </Button>
               </div>
             </SheetContent>

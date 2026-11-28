@@ -1,19 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Anek_Latin, Hind } from "next/font/google";
+import { Hind, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
-// Both families come from Indian type foundries: Anek (Ek Type) for headings
-// and figures, Hind (Indian Type Foundry) for reading text. latin-ext carries ₹.
+// Instrument Sans sets the editorial headlines and figures; Hind (Indian Type
+// Foundry) sets reading text. latin-ext carries ₹, and headings fall back to Hind
+// for any glyph Instrument Sans lacks.
 const fontBody = Hind({
   variable: "--font-body",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
 });
 
-const fontDisplay = Anek_Latin({
+const fontDisplay = Instrument_Sans({
   variable: "--font-display",
   subsets: ["latin", "latin-ext"],
   axes: ["wdth"],
@@ -60,8 +61,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8fafd" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b101d" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#090909" },
   ],
 };
 

@@ -17,6 +17,7 @@ export default function FaqPage() {
     <>
       <FaqJsonLd categories={faqCategories} />
       <PageHeader
+        eyebrow="FAQ"
         title="Frequently asked questions"
         description="Pricing, pickup and delivery, garment care, cancellations and damaged items."
       />

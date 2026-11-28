@@ -8,7 +8,7 @@ import type { QuoteFormValues } from "@/components/sections/quote-form";
 import { formatINR } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Request a Quote",
+  title: "Request a Pickup",
   description:
     "Request a custom A&I Laundry Basket quote for residential or commercial laundry, dry cleaning, and pickup & delivery service.",
   alternates: { canonical: "/quote" },
@@ -90,8 +90,9 @@ export default async function QuotePage({
   return (
     <>
       <PageHeader
-        title="Request a quote"
-        description="Tell us what you need cleaned and when to collect it. We reply within one business day, and there is no obligation to book."
+        eyebrow="Pickup request"
+        title="Request a pickup"
+        description="Tell us what you need cleaned and when to collect it. We reply within one business day to confirm, and there is no obligation to book."
       />
 
       <section className="container-page section-y grid gap-10 lg:grid-cols-[1fr_20rem] lg:items-start">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AboutStory } from "@/components/sections/about-story";
+import { CareStory } from "@/components/sections/care-story";
 import { Cta } from "@/components/sections/cta";
 import { PageHeader } from "@/components/sections/page-header";
 
@@ -15,10 +16,12 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
+        eyebrow="About"
         title="A laundry service for South Bengaluru"
         description="A local team that collects your laundry, cleans it, and brings it back to your door."
       />
       <AboutStory />
+      <CareStory />
       <Cta />
     </>
   );

@@ -16,7 +16,8 @@ export default function PricingPage() {
   return (
     <>
       <PageHeader
-        title="Prices"
+        eyebrow="Pricing"
+        title="Prices, in full"
         description="Washing is charged by weight. Ironing on its own and dry cleaning are charged per garment."
       />
       <PricingPlans />
