@@ -28,12 +28,12 @@ export function Hero() {
           </div>
 
           <p className="mt-6 text-sm text-muted-foreground">
-            Or call{" "}
+            Or email{" "}
             <a
-              href={siteConfig.contact.phoneHref}
+              href={`mailto:${siteConfig.contact.email}`}
               className="font-semibold text-foreground underline underline-offset-4 hover:text-primary"
             >
-              {siteConfig.contact.phone}
+              {siteConfig.contact.email}
             </a>
             , {siteConfig.contact.hours[0].time}, every day.
           </p>

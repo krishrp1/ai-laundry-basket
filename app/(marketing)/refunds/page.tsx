@@ -32,7 +32,7 @@ export default function RefundPolicyPage() {
         <ul className="list-disc pl-5">
           <li>
             Before we collect your items, you can cancel or reschedule free of
-            charge. Call, WhatsApp, or email us.
+            charge. Email us.
           </li>
           <li>
             After we have collected your items and started cleaning, we may
@@ -91,7 +91,7 @@ export default function RefundPolicyPage() {
           >
             {contact.supportEmail}
           </a>{" "}
-          or call or WhatsApp {contact.phone} with your order ID and a short
+          with your order ID and a short
           description. Your statutory consumer rights are not affected by this
           policy.
         </p>

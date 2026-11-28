@@ -1,4 +1,5 @@
 import "server-only";
+import { requireSuperAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 import type { ListParams } from "@/lib/data/list-params";
 import { orderWhere } from "@/lib/data/orders";
@@ -10,7 +11,7 @@ export const EXPORT_LIMIT = 5000;
 
 type Table = { header: string[]; rows: unknown[][] };
 
-export const exporters: Record<string, (params: ListParams) => Promise<Table>> = {
+const exporters: Record<string, (params: ListParams) => Promise<Table>> = {
   orders: async (params) => {
     const items = await db.laundryOrder.findMany({
       where: orderWhere(params), orderBy: { createdAt: params.sort }, take: EXPORT_LIMIT,
@@ -45,3 +46,9 @@ export const exporters: Record<string, (params: ListParams) => Promise<Table>> =
     };
   },
 };
+
+/** One CSV table, or null for an unknown resource. Bulk customer data, so super admins only. */
+export async function exportTable(resource: string, params: ListParams): Promise<Table | null> {
+  await requireSuperAdmin();
+  return Object.hasOwn(exporters, resource) ? exporters[resource]!(params) : null;
+}

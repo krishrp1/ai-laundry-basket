@@ -8,7 +8,7 @@ import { ServiceAreas } from "@/components/sections/service-areas";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with A&I Laundry Basket. Call, email, or send a message about pricing, an existing order, or a commercial account.",
+    "Get in touch with A&I Laundry Basket. Email us or send a message about pricing, an existing order, or a commercial account.",
   alternates: { canonical: "/contact" },
 };
 

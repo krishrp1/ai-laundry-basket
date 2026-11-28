@@ -77,7 +77,7 @@ export default function CookiePolicyPage() {
         <p>
           Fonts and images are served from this site itself. Your browser does
           not contact Google or other font or content networks when you view
-          our pages. Links to WhatsApp or social media only leave this site if
+          our pages. Links to social media only leave this site if
           you click them.
         </p>
       </LegalSection>

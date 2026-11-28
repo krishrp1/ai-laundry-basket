@@ -44,13 +44,8 @@ export function QuoteSidebar() {
       </div>
 
       <div>
-        <h2 className="text-xl sm:text-xl">Prefer to talk?</h2>
+        <h2 className="text-xl sm:text-xl">Have a question first?</h2>
         <p className="mt-2">
-          <a href={siteConfig.contact.phoneHref} className={linkClass}>
-            {siteConfig.contact.phone}
-          </a>
-        </p>
-        <p>
           <a href={`mailto:${siteConfig.contact.email}`} className={linkClass}>
             {siteConfig.contact.email}
           </a>

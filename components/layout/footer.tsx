@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { footerNav, siteConfig } from "@/config/site";
 import { socialLinks } from "@/config/social";
@@ -26,13 +26,6 @@ export function Footer() {
             </p>
 
             <div className="mt-3 flex flex-col items-start text-sm">
-              <Link
-                href={siteConfig.contact.phoneHref}
-                className="inline-flex min-h-9 items-center gap-2 text-muted-foreground hover:text-foreground"
-              >
-                <Phone className="size-4 text-primary" />
-                {siteConfig.contact.phone}
-              </Link>
               <Link
                 href={`mailto:${siteConfig.contact.email}`}
                 className="inline-flex min-h-9 items-center gap-2 text-muted-foreground hover:text-foreground"

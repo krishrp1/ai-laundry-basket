@@ -1,4 +1,5 @@
 import "server-only";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 import { OrderStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
@@ -36,6 +37,7 @@ export function orderWhere({ search, status }: Pick<ListParams, "search" | "stat
 }
 
 export async function listOrders({ search, status, sort, page }: ListParams) {
+  await getCurrentAdmin();
   const where = orderWhere({ search, status });
 
   const [total, items] = await Promise.all([
@@ -59,6 +61,7 @@ export async function listOrders({ search, status, sort, page }: ListParams) {
 }
 
 export async function getOrderById(id: string) {
+  await getCurrentAdmin();
   if (!isValidUuid(id)) return null;
   return db.laundryOrder.findUnique({
     where: { id },

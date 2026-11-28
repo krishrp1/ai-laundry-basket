@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 
 import { requireSuperAdmin } from "@/lib/auth/dal";
 import { toCsv } from "@/lib/csv";
-import { exporters } from "@/lib/data/export";
+import { exportTable } from "@/lib/data/export";
 import { parseListParams } from "@/lib/data/list-params";
 import { todayIST } from "@/lib/format";
 
@@ -11,10 +11,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   await requireSuperAdmin();
 
   const { resource } = await params;
-  if (!Object.hasOwn(exporters, resource)) return new Response("Not found", { status: 404 });
-
-  const filters = parseListParams(Object.fromEntries(request.nextUrl.searchParams));
-  const { header, rows } = await exporters[resource]!(filters);
+  const table = await exportTable(resource, parseListParams(Object.fromEntries(request.nextUrl.searchParams)));
+  if (!table) return new Response("Not found", { status: 404 });
+  const { header, rows } = table;
 
   return new Response(toCsv(header, rows), {
     headers: {

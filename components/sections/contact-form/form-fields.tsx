@@ -81,7 +81,7 @@ export function ContactFormFields({
             name="phone"
             type="tel"
             autoComplete="tel"
-            placeholder="+91 00000 00000"
+            placeholder="10-digit mobile number"
             value={values.phone}
             onChange={(event) => updateField("phone", event.target.value)}
           />

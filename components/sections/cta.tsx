@@ -34,10 +34,10 @@ export function Cta({
           <Button
             size="lg"
             variant="outline"
-            render={<a href={siteConfig.contact.phoneHref} />}
+            render={<a href={`mailto:${siteConfig.contact.email}`} />}
             className="border-band-foreground/60 bg-transparent text-band-foreground hover:border-band-foreground hover:bg-band-foreground hover:text-band"
           >
-            Call {siteConfig.contact.phone}
+            Email us
           </Button>
         </div>
       </div>

@@ -11,7 +11,6 @@ export function OrganizationJsonLd() {
     name: siteConfig.name,
     url: siteConfig.url,
     description: siteConfig.description,
-    telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     // TODO: Add a `address: { "@type": "PostalAddress", streetAddress, addressLocality,
     // addressRegion, postalCode }` once a permanent business address is finalized.
@@ -25,10 +24,6 @@ export function OrganizationJsonLd() {
       dayOfWeek: entry.day,
       description: entry.time,
     })),
-    founder: {
-      "@type": "Person",
-      name: siteConfig.business.ownerName,
-    },
     employee: {
       "@type": "Person",
       name: siteConfig.business.opsName,

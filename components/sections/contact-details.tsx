@@ -14,22 +14,6 @@ export function ContactDetails() {
       <h2>Reach us directly</h2>
       <dl className="mt-6 divide-y border-y">
         <div className="py-4">
-          <dt className="text-sm text-muted-foreground">Phone</dt>
-          <dd>
-            <a href={contact.phoneHref} className={linkClass}>
-              {contact.phone}
-            </a>
-          </dd>
-        </div>
-        <div className="py-4">
-          <dt className="text-sm text-muted-foreground">WhatsApp, for quick questions and order updates</dt>
-          <dd>
-            <a href={contact.whatsappHref} target="_blank" rel="noopener noreferrer" className={linkClass}>
-              Message {contact.whatsapp}
-            </a>
-          </dd>
-        </div>
-        <div className="py-4">
           <dt className="text-sm text-muted-foreground">Email</dt>
           <dd>
             <a href={`mailto:${contact.email}`} className={linkClass}>

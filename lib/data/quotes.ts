@@ -1,4 +1,5 @@
 import "server-only";
+import { getCurrentAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/prisma";
 import { QuoteStatus, Prisma } from "@/generated/prisma/client";
 import { skipTake, buildPageMeta, type ListParams } from "@/lib/data/list-params";
@@ -25,6 +26,7 @@ export function quoteWhere({ search, status }: Pick<ListParams, "search" | "stat
 }
 
 export async function listQuoteRequests({ search, status, sort, page }: ListParams) {
+  await getCurrentAdmin();
   const where = quoteWhere({ search, status });
 
   const [total, items] = await Promise.all([
@@ -51,6 +53,7 @@ export async function listQuoteRequests({ search, status, sort, page }: ListPara
 }
 
 export async function getQuoteRequestById(id: string) {
+  await getCurrentAdmin();
   if (!isValidUuid(id)) return null;
   return db.quoteRequest.findUnique({
     where: { id },
